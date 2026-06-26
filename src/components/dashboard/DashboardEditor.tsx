@@ -92,6 +92,15 @@ export function DashboardEditor({
 
   const [slug, setSlug] = useState(portfolio?.slug ?? "");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [cancelling, setCancelling] = useState(false);
+
+  const cancelPro = async () => {
+    if (!window.confirm("정말 Pro 구독을 해지할까요?")) return;
+    setCancelling(true);
+    const res = await fetch("/api/billing/cancel", { method: "POST" });
+    setCancelling(false);
+    if (res.ok) router.refresh();
+  };
 
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
@@ -288,9 +297,19 @@ export function DashboardEditor({
             </p>
           </div>
           {plan === "pro" ? (
-            <span className="rounded-full border border-violet/40 bg-violet/10 px-4 py-2 text-sm font-medium text-violet">
-              Pro 이용 중 🎉
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="rounded-full border border-violet/40 bg-violet/10 px-4 py-2 text-sm font-medium text-violet">
+                Pro 이용 중 🎉
+              </span>
+              <button
+                onClick={cancelPro}
+                disabled={cancelling}
+                data-cursor="hover"
+                className="text-sm text-muted transition-colors hover:text-magenta disabled:opacity-50"
+              >
+                {cancelling ? "처리 중…" : "해지"}
+              </button>
+            </div>
           ) : (
             <Link
               href="/pricing"
