@@ -19,7 +19,7 @@ export function About() {
     <section
       ref={ref}
       id="about"
-      className="relative isolate mx-auto max-w-7xl scroll-mt-24 px-6 py-28 sm:px-8 sm:py-40"
+      className="relative isolate mx-auto max-w-7xl scroll-mt-24 px-6 py-24 sm:px-8 sm:py-32"
     >
       {/* Scroll-parallax decorative accents */}
       <motion.div

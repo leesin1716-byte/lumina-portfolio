@@ -5,6 +5,7 @@ import { useSpring } from "framer-motion";
 import { projects } from "@/lib/content";
 import { useIsTouch } from "@/lib/hooks";
 import { AnimatedText } from "@/components/ui/AnimatedText";
+import { Parallax } from "@/components/ui/Parallax";
 import { WorksGLPreview } from "@/components/canvas/WorksGLPreview";
 
 export function Works() {
@@ -38,7 +39,7 @@ export function Works() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative scroll-mt-24 px-6 py-28 sm:px-8 sm:py-40"
+      className="relative scroll-mt-24 px-6 py-24 sm:px-8 sm:py-32"
       onPointerMove={onMove}
       onPointerLeave={() => setActive(null)}
     >
@@ -50,11 +51,13 @@ export function Works() {
                 Selected Work
               </span>
             </div>
-            <AnimatedText
-              as="h2"
-              text={"Projects that\nblur the line."}
-              className="font-display text-4xl font-semibold leading-[1] tracking-tight sm:text-6xl"
-            />
+            <Parallax speed={0.08}>
+              <AnimatedText
+                as="h2"
+                text={"Projects that\nblur the line."}
+                className="font-display text-4xl font-semibold leading-[1] tracking-tight sm:text-6xl"
+              />
+            </Parallax>
           </div>
           <p className="max-w-xs text-sm text-muted sm:text-right">
             A selection of immersive builds — each one an experiment in motion,

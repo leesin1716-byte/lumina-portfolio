@@ -21,7 +21,7 @@ export function Contact() {
     <section
       id="contact"
       onPointerMove={onMove}
-      className="relative scroll-mt-24 overflow-hidden px-6 py-28 sm:px-8 sm:py-40"
+      className="relative scroll-mt-24 overflow-hidden px-6 py-24 sm:px-8 sm:py-32"
     >
       {/* Cursor-reactive glow */}
       <motion.div

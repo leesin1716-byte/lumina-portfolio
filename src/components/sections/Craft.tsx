@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { craft } from "@/lib/content";
 import { AnimatedText } from "@/components/ui/AnimatedText";
+import { Parallax } from "@/components/ui/Parallax";
 import { TiltCard } from "@/components/ui/TiltCard";
 
 const marqueeWords = [
@@ -22,7 +23,7 @@ export function Craft() {
   return (
     <section
       id="craft"
-      className="relative scroll-mt-24 overflow-hidden py-28 sm:py-40"
+      className="relative scroll-mt-24 overflow-hidden py-24 sm:py-32"
     >
       {/* Tech marquee */}
       <div className="mask-x-fade flex select-none overflow-hidden border-y border-line py-6">
@@ -47,11 +48,13 @@ export function Craft() {
                 {craft.overline}
               </span>
             </div>
-            <AnimatedText
-              as="h2"
-              text={craft.heading}
-              className="font-display text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl"
-            />
+            <Parallax speed={0.08}>
+              <AnimatedText
+                as="h2"
+                text={craft.heading}
+                className="font-display text-4xl font-semibold leading-[1.02] tracking-tight sm:text-6xl"
+              />
+            </Parallax>
           </div>
         </div>
 
