@@ -36,6 +36,14 @@ export const socials = [
 export const hero = {
   /** Rendered as kinetic, staggered lines. */
   lines: ["CREATIVE", "FRONTEND", "DEVELOPER"],
+  /** Cycled under the headline. */
+  specialties: [
+    "WebGL & Shaders",
+    "Motion Design",
+    "Interaction",
+    "Design Systems",
+    "Real-time 3D",
+  ],
   intro:
     "Designing and engineering the web's most expressive moments — one frame, one shader, one interaction at a time.",
   scrollCue: "Scroll to explore",

@@ -6,6 +6,7 @@ import { hero, site } from "@/lib/content";
 import { useAppReady, useMousePosition } from "@/lib/hooks";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { RotatingText } from "@/components/ui/RotatingText";
 import { AuroraBackdrop } from "@/components/sections/AuroraBackdrop";
 import { RobotCompanion } from "@/components/canvas/RobotCompanion";
 
@@ -96,8 +97,24 @@ export function Hero() {
           ))}
         </motion.h1>
 
+        {/* Rotating specialty line */}
+        <motion.div
+          variants={fade}
+          initial="hidden"
+          animate={ready ? "visible" : "hidden"}
+          transition={{ delay: 0.42 }}
+          className="mt-7 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] lg:max-w-[58%]"
+        >
+          <span className="text-faint">Focused on</span>
+          <span className="h-px w-8 bg-line-strong" />
+          <RotatingText
+            items={hero.specialties}
+            className="font-medium text-fg"
+          />
+        </motion.div>
+
         {/* Intro + CTAs */}
-        <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[1.2fr_1fr] md:items-end lg:max-w-[58%]">
+        <div className="mt-10 grid gap-8 sm:mt-12 md:grid-cols-[1.2fr_1fr] md:items-end lg:max-w-[58%]">
           <motion.p
             variants={fade}
             initial="hidden"
