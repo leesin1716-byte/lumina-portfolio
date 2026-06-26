@@ -45,6 +45,12 @@ export function PortfolioView({
 
   return (
     <ContentProvider value={content}>
+      <a
+        href="#home"
+        className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-full focus:bg-fg focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-bg"
+      >
+        본문으로 건너뛰기
+      </a>
       <SmoothScroll>
         <Navbar portfolio />
         <SideNav />
