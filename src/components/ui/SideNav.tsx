@@ -10,6 +10,14 @@ export function SideNav() {
   const { scrollTo } = useSmoothScroll();
   const [active, setActive] = useState("home");
 
+  const go = (href: string) => {
+    if (typeof document !== "undefined" && document.querySelector(href)) {
+      scrollTo(href, -10);
+    } else {
+      window.location.href = `/${href}`;
+    }
+  };
+
   useEffect(() => {
     const sections = nav
       .map((n) => document.getElementById(n.href.slice(1)))
@@ -36,7 +44,7 @@ export function SideNav() {
         return (
           <button
             key={item.href}
-            onClick={() => scrollTo(item.href, -10)}
+            onClick={() => go(item.href)}
             data-cursor="hover"
             aria-label={item.label}
             aria-current={isActive ? "true" : undefined}

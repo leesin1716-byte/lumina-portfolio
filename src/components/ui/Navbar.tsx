@@ -49,7 +49,12 @@ export function Navbar({ portfolio = false }: { portfolio?: boolean }) {
 
   const go = (href: string) => {
     setOpen(false);
-    scrollTo(href, -10);
+    if (typeof document !== "undefined" && document.querySelector(href)) {
+      scrollTo(href, -10);
+    } else {
+      // Section isn't on this page (e.g. /pricing) → go to the landing anchor.
+      window.location.href = `/${href}`;
+    }
   };
 
   return (
