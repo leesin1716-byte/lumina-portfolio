@@ -3,16 +3,9 @@ import { Bricolage_Grotesque, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/content";
 import { ThemeProvider } from "@/components/providers/ThemeProvider";
-import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { CustomCursor } from "@/components/ui/CustomCursor";
-import { Preloader } from "@/components/ui/Preloader";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ConsoleGreeting } from "@/components/ui/ConsoleGreeting";
-import { Navbar } from "@/components/ui/Navbar";
-import { SideNav } from "@/components/ui/SideNav";
-import { BackToTop } from "@/components/ui/BackToTop";
-import { Footer } from "@/components/sections/Footer";
 
 const display = Bricolage_Grotesque({
   subsets: ["latin"],
@@ -90,23 +83,9 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-variable.min.css"
         />
-        <a
-          href="#home"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-full focus:bg-fg focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-bg"
-        >
-          본문으로 건너뛰기
-        </a>
         <ThemeProvider>
-          <Preloader />
-        <CustomCursor />
-        <ScrollProgress />
-        <SmoothScroll>
-          <Navbar />
-          <SideNav />
-          <main id="home">{children}</main>
-          <Footer />
-          <BackToTop />
-        </SmoothScroll>
+          <CustomCursor />
+          {children}
           <GrainOverlay />
           <ConsoleGreeting />
         </ThemeProvider>
