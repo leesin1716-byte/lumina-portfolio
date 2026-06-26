@@ -4,6 +4,7 @@ import { motion, useSpring, useTransform } from "framer-motion";
 import { contact, site } from "@/lib/content";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { CopyEmail } from "@/components/ui/CopyEmail";
 
 export function Contact() {
   const gx = useSpring(0.5, { stiffness: 50, damping: 20 });
@@ -76,13 +77,12 @@ export function Contact() {
           </MagneticButton>
         </motion.div>
 
-        <a
-          href={`mailto:${site.email}`}
-          data-cursor="hover"
-          className="mt-8 font-mono text-sm text-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
-        >
-          {site.email}
-        </a>
+        <div className="mt-8">
+          <CopyEmail
+            email={site.email}
+            className="font-mono text-sm text-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
+          />
+        </div>
       </div>
     </section>
   );
