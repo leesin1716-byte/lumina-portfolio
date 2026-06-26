@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -13,6 +13,13 @@ type CopyEmailProps = {
 export function CopyEmail({ email, className }: CopyEmailProps) {
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | null>(null);
+
+  useEffect(
+    () => () => {
+      if (timer.current) window.clearTimeout(timer.current);
+    },
+    [],
+  );
 
   const copy = async () => {
     try {

@@ -23,12 +23,15 @@ export function CountUp({ value, className, duration = 1.6 }: CountUpProps) {
   );
 
   useEffect(() => {
-    if (!match) {
+    // Parse inside the effect so a fresh regex result each render doesn't
+    // restart the animation (keeps deps stable).
+    const m = value.match(/^(\d+)(.*)$/);
+    if (!m) {
       setDisplay(value);
       return;
     }
-    const target = parseInt(match[1], 10);
-    const suffix = match[2] ?? "";
+    const target = parseInt(m[1], 10);
+    const suffix = m[2] ?? "";
     if (reduced) {
       setDisplay(value);
       return;
@@ -40,7 +43,7 @@ export function CountUp({ value, className, duration = 1.6 }: CountUpProps) {
       onUpdate: (v) => setDisplay(`${Math.round(v)}${suffix}`),
     });
     return () => controls.stop();
-  }, [inView, reduced, value, duration, match]);
+  }, [inView, reduced, value, duration]);
 
   return (
     <span ref={ref} className={className}>
