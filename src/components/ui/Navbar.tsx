@@ -1,0 +1,150 @@
+"use client";
+
+import { useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
+import { nav, site } from "@/lib/content";
+import { useSmoothScroll } from "@/components/providers/SmoothScroll";
+import { MagneticButton } from "@/components/ui/MagneticButton";
+import { cn } from "@/lib/utils";
+
+const EASE = [0.16, 1, 0.3, 1] as const;
+
+export function Navbar() {
+  const { scrollTo } = useSmoothScroll();
+  const { scrollY } = useScroll();
+  const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [prev, setPrev] = useState(0);
+
+  useMotionValueEvent(scrollY, "change", (y) => {
+    setScrolled(y > 24);
+    if (!open) setHidden(y > prev && y > 320);
+    setPrev(y);
+  });
+
+  const go = (href: string) => {
+    setOpen(false);
+    scrollTo(href, -10);
+  };
+
+  return (
+    <>
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: hidden ? -120 : 0 }}
+        transition={{ duration: 0.5, ease: EASE }}
+        className="fixed inset-x-0 top-0 z-[80] px-5 pt-4 sm:px-8"
+      >
+        <nav
+          className={cn(
+            "mx-auto flex max-w-7xl items-center justify-between rounded-full px-5 py-3 transition-all duration-500",
+            scrolled
+              ? "glass shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6)]"
+              : "border border-transparent",
+          )}
+        >
+          <button
+            onClick={() => go("#home")}
+            data-cursor="hover"
+            className="group flex items-center gap-2.5"
+            aria-label={`${site.name} — home`}
+          >
+            <span className="relative grid h-7 w-7 place-items-center">
+              <span className="absolute inset-0 rounded-full bg-gradient-to-br from-iris via-violet to-magenta opacity-90 transition-transform duration-500 group-hover:rotate-180" />
+              <span className="relative h-2 w-2 rounded-full bg-bg" />
+            </span>
+            <span className="font-display text-lg font-bold tracking-tight">
+              {site.name}
+            </span>
+          </button>
+
+          {/* Desktop links */}
+          <ul className="hidden items-center gap-1 md:flex">
+            {nav.map((item) => (
+              <li key={item.href}>
+                <button
+                  onClick={() => go(item.href)}
+                  data-cursor="hover"
+                  className="group relative rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
+                >
+                  <span className="mr-1 font-mono text-[10px] text-faint">
+                    {item.index}
+                  </span>
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+
+          <div className="hidden md:block">
+            <MagneticButton
+              href={`mailto:${site.email}`}
+              className="items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
+            >
+              Let&apos;s talk
+            </MagneticButton>
+          </div>
+
+          {/* Mobile toggle */}
+          <button
+            onClick={() => setOpen((o) => !o)}
+            data-cursor="hover"
+            aria-label="Toggle menu"
+            aria-expanded={open}
+            className="relative grid h-9 w-9 place-items-center md:hidden"
+          >
+            <span
+              className={cn(
+                "absolute h-0.5 w-5 bg-fg transition-all duration-300",
+                open ? "rotate-45" : "-translate-y-1.5",
+              )}
+            />
+            <span
+              className={cn(
+                "absolute h-0.5 w-5 bg-fg transition-all duration-300",
+                open ? "-rotate-45" : "translate-y-1.5",
+              )}
+            />
+          </button>
+        </nav>
+      </motion.header>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
+            animate={{ opacity: 1, clipPath: "circle(150% at 100% 0%)" }}
+            exit={{ opacity: 0, clipPath: "circle(0% at 100% 0%)" }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="fixed inset-0 z-[79] flex flex-col justify-center gap-2 bg-bg-soft px-8 md:hidden"
+          >
+            {nav.map((item, i) => (
+              <motion.button
+                key={item.href}
+                onClick={() => go(item.href)}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 + i * 0.06, ease: EASE }}
+                className="flex items-baseline gap-4 py-2 text-left"
+              >
+                <span className="font-mono text-sm text-faint">
+                  {item.index}
+                </span>
+                <span className="font-display text-4xl font-semibold">
+                  {item.label}
+                </span>
+              </motion.button>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
+}

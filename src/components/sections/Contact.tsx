@@ -1,0 +1,75 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { contact, site } from "@/lib/content";
+import { AnimatedText } from "@/components/ui/AnimatedText";
+import { MagneticButton } from "@/components/ui/MagneticButton";
+
+export function Contact() {
+  return (
+    <section
+      id="contact"
+      className="relative scroll-mt-24 overflow-hidden px-6 py-28 sm:px-8 sm:py-40"
+    >
+      {/* glow */}
+      <div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 -z-0 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[120px]"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(109,92,255,0.25), rgba(255,95,162,0.12) 50%, transparent 70%)",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto flex max-w-5xl flex-col items-center text-center">
+        <span className="mb-8 font-mono text-xs uppercase tracking-[0.25em] text-violet">
+          {contact.overline}
+        </span>
+
+        <AnimatedText
+          as="h2"
+          text={contact.heading}
+          stagger={0.06}
+          className="font-display text-5xl font-bold leading-[0.95] tracking-tight sm:text-7xl md:text-8xl"
+        />
+
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-8 max-w-md text-pretty text-base leading-relaxed text-muted sm:text-lg"
+        >
+          {contact.body}
+        </motion.p>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.6 }}
+          transition={{ duration: 0.7, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+          className="mt-12"
+        >
+          <MagneticButton
+            href={`mailto:${site.email}`}
+            strength={0.5}
+            className="group items-center gap-3 rounded-full bg-fg px-9 py-5 text-base font-semibold text-bg"
+          >
+            <span>{contact.cta}</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-1.5">
+              →
+            </span>
+          </MagneticButton>
+        </motion.div>
+
+        <a
+          href={`mailto:${site.email}`}
+          data-cursor="hover"
+          className="mt-8 font-mono text-sm text-muted underline-offset-4 transition-colors hover:text-fg hover:underline"
+        >
+          {site.email}
+        </a>
+      </div>
+    </section>
+  );
+}
