@@ -89,9 +89,22 @@ export function DashboardEditor({
     setSocials((ss) => ss.filter((_, idx) => idx !== i));
 
   const [slug, setSlug] = useState(portfolio?.slug ?? "");
+  const [linkCopied, setLinkCopied] = useState(false);
 
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+
+  const copyLink = async () => {
+    const s = slug || portfolio?.slug;
+    if (!s) return;
+    try {
+      await navigator.clipboard.writeText(`${window.location.origin}/p/${s}`);
+      setLinkCopied(true);
+      window.setTimeout(() => setLinkCopied(false), 1800);
+    } catch {
+      /* clipboard blocked */
+    }
+  };
 
   const onSave = async () => {
     if (!portfolio) return;
@@ -196,14 +209,33 @@ export function DashboardEditor({
           <p className="mt-1 text-sm text-muted">{email}</p>
         </div>
         {portfolio && (
-          <Link
-            href={`/p/${portfolio.slug}`}
-            target="_blank"
-            data-cursor="hover"
-            className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
-          >
-            내 사이트 보기 ↗
-          </Link>
+          <div className="flex flex-wrap items-center gap-2">
+            {published ? (
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-lime/30 bg-lime/10 px-3 py-1.5 text-xs font-medium text-lime">
+                <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+                공개 중
+              </span>
+            ) : (
+              <span className="rounded-full border border-line px-3 py-1.5 text-xs text-muted">
+                비공개
+              </span>
+            )}
+            <button
+              onClick={copyLink}
+              data-cursor="hover"
+              className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
+            >
+              {linkCopied ? "복사됨 ✓" : "링크 복사"}
+            </button>
+            <Link
+              href={`/p/${slug || portfolio.slug}`}
+              target="_blank"
+              data-cursor="hover"
+              className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
+            >
+              내 사이트 보기 ↗
+            </Link>
+          </div>
         )}
       </div>
 
