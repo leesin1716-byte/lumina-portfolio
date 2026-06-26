@@ -9,6 +9,7 @@ import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ConsoleGreeting } from "@/components/ui/ConsoleGreeting";
 import { Navbar } from "@/components/ui/Navbar";
+import { SideNav } from "@/components/ui/SideNav";
 import { Footer } from "@/components/sections/Footer";
 
 const display = Bricolage_Grotesque({
@@ -98,6 +99,7 @@ export default function RootLayout({
         <ScrollProgress />
         <SmoothScroll>
           <Navbar />
+          <SideNav />
           <main id="home">{children}</main>
           <Footer />
         </SmoothScroll>
