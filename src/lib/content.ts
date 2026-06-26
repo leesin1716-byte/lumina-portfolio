@@ -1,8 +1,15 @@
-/**
- * Single source of truth for all editable copy & data.
- * Swap these values to make the portfolio your own — nothing in the
- * components hard-codes identity, so changing this file changes the site.
- */
+/* ============================================================================
+ * MAKE IT YOURS — edit this file only.
+ * ----------------------------------------------------------------------------
+ * This is the single source of truth for ALL copy & data. Nothing in the
+ * components hard-codes identity, so editing the values below updates the
+ * whole site. Quick checklist to personalise:
+ *   1. site.owner / role / tagline / email / location / url / timezone
+ *   2. socials[] — your real links + handles
+ *   3. projects[] — replace with your real work (title, gradient, case study)
+ *   4. about / craft / contact — your story, skills, and call to action
+ * Tip: keep `url` in sync with where you deploy (used for SEO/OG/canonical).
+ * ========================================================================== */
 
 export const site = {
   name: "LUMINA",
@@ -12,6 +19,8 @@ export const site = {
   /** Short hero statement. */
   tagline: "I craft immersive interfaces where motion, light, and code meet.",
   location: "Seoul, KR",
+  /** IANA timezone for the live "local time" in the footer. */
+  timezone: "Asia/Seoul",
   email: "hello@lumina.dev",
   url: "https://lumina-portfolio.vercel.app",
   description:

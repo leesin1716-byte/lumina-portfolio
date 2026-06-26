@@ -1,11 +1,26 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { site, socials } from "@/lib/content";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 
 export function Footer() {
   const { scrollTo } = useSmoothScroll();
   const year = new Date().getFullYear();
+  const [localTime, setLocalTime] = useState("");
+
+  useEffect(() => {
+    const fmt = () =>
+      new Intl.DateTimeFormat("en-US", {
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+        timeZone: site.timezone,
+      }).format(new Date());
+    setLocalTime(fmt());
+    const id = window.setInterval(() => setLocalTime(fmt()), 15000);
+    return () => window.clearInterval(id);
+  }, []);
 
   return (
     <footer className="relative overflow-hidden border-t border-line bg-bg-soft">
@@ -59,8 +74,19 @@ export function Footer() {
           <p>
             © {year} {site.owner}. Crafted with light & code.
           </p>
-          <p className="font-mono uppercase tracking-widest">
-            {site.location} · Available for work
+          <p className="flex items-center gap-2 font-mono uppercase tracking-widest">
+            {site.location}
+            {localTime && (
+              <>
+                <span className="text-line-strong">·</span>
+                <span className="tabular-nums text-muted">{localTime} local</span>
+              </>
+            )}
+            <span className="text-line-strong">·</span>
+            <span className="inline-flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-lime" />
+              Available
+            </span>
           </p>
         </div>
       </div>
