@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Bricolage_Grotesque, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/content";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { CustomCursor } from "@/components/ui/CustomCursor";
 import { Preloader } from "@/components/ui/Preloader";
@@ -95,7 +96,8 @@ export default function RootLayout({
         >
           본문으로 건너뛰기
         </a>
-        <Preloader />
+        <ThemeProvider>
+          <Preloader />
         <CustomCursor />
         <ScrollProgress />
         <SmoothScroll>
@@ -105,8 +107,9 @@ export default function RootLayout({
           <Footer />
           <BackToTop />
         </SmoothScroll>
-        <GrainOverlay />
-        <ConsoleGreeting />
+          <GrainOverlay />
+          <ConsoleGreeting />
+        </ThemeProvider>
       </body>
     </html>
   );

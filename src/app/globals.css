@@ -94,6 +94,34 @@
 }
 
 /* ------------------------------------------------------------------ *
+ * Light theme overrides (next-themes adds .light on <html>)
+ * ------------------------------------------------------------------ */
+html.light {
+  color-scheme: light;
+  --color-bg: #f3f4fb;
+  --color-bg-soft: #ffffff;
+  --color-surface: #ffffff;
+  --color-elevated: #ffffff;
+  --color-line: rgba(12, 14, 22, 0.1);
+  --color-line-strong: rgba(12, 14, 22, 0.18);
+  --color-fg: #0c0e16;
+  --color-muted: #4a4e66;
+  --color-faint: #888da6;
+  --color-iris: #5b4bff;
+  --color-violet: #6b59f7;
+  --color-cyan: #14a8bd;
+  --color-magenta: #e23b82;
+  --color-amber: #e0742f;
+}
+html.light .aurora-layer {
+  opacity: 0.5;
+}
+html.light .grain-layer {
+  mix-blend-mode: multiply;
+  opacity: 0.025;
+}
+
+/* ------------------------------------------------------------------ *
  * Base
  * ------------------------------------------------------------------ */
 @layer base {

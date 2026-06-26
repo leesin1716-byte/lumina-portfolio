@@ -10,6 +10,7 @@ import {
 import { nav, site, socials } from "@/lib/content";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { MagneticButton } from "@/components/ui/MagneticButton";
+import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -69,8 +70,8 @@ export function Navbar() {
           <button
             onClick={() => go("#home")}
             data-cursor="hover"
-            className="group flex items-center gap-2.5"
-            aria-label={`${site.name} — home`}
+            className="group flex items-center gap-2.5 rounded-full border border-line bg-surface/40 py-1.5 pl-1.5 pr-4 transition-colors hover:border-line-strong"
+            aria-label={`${site.name} — 홈`}
           >
             <span className="relative grid h-7 w-7 place-items-center">
               <span className="absolute inset-0 rounded-full bg-gradient-to-br from-iris via-violet to-magenta opacity-90 transition-transform duration-500 group-hover:rotate-180" />
@@ -119,7 +120,8 @@ export function Navbar() {
             })}
           </ul>
 
-          <div className="hidden md:block">
+          <div className="hidden items-center gap-3 md:flex">
+            <ThemeToggle />
             <MagneticButton
               href={`mailto:${site.email}`}
               className="btn-sheen items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
@@ -128,14 +130,16 @@ export function Navbar() {
             </MagneticButton>
           </div>
 
-          {/* Mobile toggle */}
-          <button
-            onClick={() => setOpen((o) => !o)}
-            data-cursor="hover"
-            aria-label="Toggle menu"
-            aria-expanded={open}
-            className="relative grid h-9 w-9 place-items-center md:hidden"
-          >
+          {/* Mobile: theme toggle + menu */}
+          <div className="flex items-center gap-2 md:hidden">
+            <ThemeToggle />
+            <button
+              onClick={() => setOpen((o) => !o)}
+              data-cursor="hover"
+              aria-label="메뉴 열기/닫기"
+              aria-expanded={open}
+              className="relative grid h-9 w-9 place-items-center"
+            >
             <span
               className={cn(
                 "absolute h-0.5 w-5 bg-fg transition-all duration-300",
@@ -148,7 +152,8 @@ export function Navbar() {
                 open ? "-rotate-45" : "translate-y-1.5",
               )}
             />
-          </button>
+            </button>
+          </div>
         </nav>
       </motion.header>
 

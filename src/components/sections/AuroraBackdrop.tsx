@@ -4,7 +4,7 @@
  */
 export function AuroraBackdrop() {
   return (
-    <div aria-hidden className="absolute inset-0 z-0 overflow-hidden">
+    <div aria-hidden className="aurora-layer absolute inset-0 z-0 overflow-hidden">
       {/* Aurora blobs */}
       <div className="absolute -left-[10%] top-[6%] h-[42vmax] w-[42vmax] animate-aurora rounded-full bg-[radial-gradient(circle,rgba(109,92,255,0.45),transparent_60%)] blur-[90px]" />
       <div className="absolute right-[-8%] top-[18%] h-[36vmax] w-[36vmax] animate-aurora rounded-full bg-[radial-gradient(circle,rgba(77,226,226,0.32),transparent_60%)] blur-[100px] [animation-delay:-6s]" />
