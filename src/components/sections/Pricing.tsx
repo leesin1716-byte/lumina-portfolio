@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { UpgradeButton } from "@/components/billing/UpgradeButton";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -108,18 +109,21 @@ export function Pricing() {
                 <span className="mb-1 text-sm text-muted">{t.period}</span>
               </div>
 
-              <a
-                href={t.href}
-                data-cursor="hover"
-                className={cn(
-                  "btn-sheen mt-6 block rounded-full px-5 py-3 text-center text-sm font-semibold transition-colors",
-                  t.highlight
-                    ? "bg-fg text-bg hover:bg-violet"
-                    : "border border-line-strong hover:border-violet",
-                )}
-              >
-                {t.cta}
-              </a>
+              {t.highlight ? (
+                <div className="mt-6">
+                  <UpgradeButton className="btn-sheen block w-full rounded-full bg-fg px-5 py-3 text-center text-sm font-semibold text-bg transition-colors hover:bg-violet">
+                    {t.cta}
+                  </UpgradeButton>
+                </div>
+              ) : (
+                <a
+                  href={t.href}
+                  data-cursor="hover"
+                  className="btn-sheen mt-6 block rounded-full border border-line-strong px-5 py-3 text-center text-sm font-semibold transition-colors hover:border-violet"
+                >
+                  {t.cta}
+                </a>
+              )}
 
               <ul className="mt-7 flex flex-col gap-3">
                 {t.features.map((f) => (
