@@ -1,78 +1,99 @@
-# LUMINA — Creative Frontend Portfolio
+# LUMINA — 몰입형 포트폴리오 빌더 (SaaS)
 
-An immersive, interactive portfolio experience built to showcase creative
-frontend engineering: real-time WebGL, motion design, and interaction
-craft. Dark, cinematic, aurora-lit.
+코드 한 줄 없이, 가입 → 내용 입력만으로 **몰입형 3D 포트폴리오**를 만들고
+`lumina.app/p/내이름` 주소로 공개·공유하는 한국어 SaaS. 랜딩 자체가 제품의
+라이브 데모입니다.
 
-## Highlights
+## 핵심 기능
 
-- **3D cursor-following robot companion** — a stylized robot head built
-  entirely from Three.js primitives (no external model). Its gaze tracks the
-  cursor, with glowing visor eyes, a blink, a pulsing antenna, side pods, a
-  halo ring, bloom postprocessing, and camera parallax. Reduced-motion and
-  mobile gracefully fall back to a pure-CSS aurora.
-- **WebGL liquid-distortion gallery** — hovering a project reveals a
-  shader-driven (GLSL fbm domain-warp) gradient card that follows the cursor
-  and morphs colors per project.
-- **Signature interactions** — custom cursor with magnetic states, magnetic
-  buttons, Lenis smooth scrolling, masked kinetic typography, a counting
-  preloader, scroll progress, film grain, and a scroll-spy navbar.
-- **Accessible & performant** — `prefers-reduced-motion` aware throughout
-  (via `MotionConfig`, Lenis/WebGL opt-out), keyboard navigable with a skip
-  link and focus-visible states, WebGL contexts gated to the viewport, fully
-  responsive.
+- **데이터 주도 몰입형 디자인** — 커서 추종 3D 로봇(R3F), WebGL 리퀴드
+  디스토션 갤러리, 키네틱 타이포, 패럴랙스, 다크/라이트 토글. 사용자 데이터로
+  그대로 렌더 (`/p/[slug]`).
+- **인증** — Supabase Auth (이메일/비밀번호 + Google OAuth).
+- **대시보드** (`/dashboard`) — 이름·소개·프로젝트·소셜·공개 주소(slug) 편집,
+  공개 토글, 링크 복사, 계정/플랜.
+- **구독 결제** — TossPayments 빌링으로 Pro 월 구독 (`/pricing` → 빌링 인증
+  → `/billing/success`에서 빌링키 발급·결제·plan=pro).
+- **공유 최적화** — `/p/[slug]` 사용자별 OG/SEO 메타데이터.
+- **접근성·성능** — 폼 라벨, 포커스, `prefers-reduced-motion`, WebGL 뷰포트
+  게이팅, 반응형(390/768/1440/1920).
 
-## Tech stack
+## 기술 스택
 
-- [Next.js 16](https://nextjs.org) (App Router) · React 19 · TypeScript
-- [Tailwind CSS v4](https://tailwindcss.com) — CSS-first design tokens
-- [Framer Motion](https://www.framer.com/motion/) — animation & orchestration
-- [React Three Fiber](https://r3f.docs.pmnd.rs/) · drei · postprocessing —
-  WebGL/3D
-- [Lenis](https://lenis.darkroom.engineering/) — smooth scrolling
+- [Next.js 16](https://nextjs.org) (App Router) · React 19 · TypeScript ·
+  [Tailwind v4](https://tailwindcss.com)
+- [Supabase](https://supabase.com) (Auth + Postgres) · `@supabase/ssr`
+- [TossPayments](https://www.tosspayments.com) `@tosspayments/payment-sdk`
+- [Framer Motion](https://www.framer.com/motion/) · [R3F](https://r3f.docs.pmnd.rs/)
+  · drei · postprocessing · [Lenis](https://lenis.darkroom.engineering/) ·
+  Pretendard
 
-## Getting started
+## 설치 & 실행
 
 ```bash
 npm install
 npm run dev      # http://localhost:3000
-npm run build    # production build
-npm run start    # serve the production build
+npm run build && npm run start
 ```
 
-## Make it yours
+> 키가 없어도 사이트는 정상 동작합니다(인증/결제는 비활성). 키를 넣으면 켜집니다.
 
-All copy and data live in [`src/lib/content.ts`](./src/lib/content.ts) —
-identity, navigation, projects, skills, and contact. Edit that one file and
-the whole site updates. Swap `site.owner`, `site.email`, `site.url`,
-`site.timezone`, the `projects` array, and the social links.
+## 백엔드 설정 (인증·DB·결제 켜기)
 
-## Deploy (GitHub → Vercel)
+1. **Supabase** — [supabase.com](https://supabase.com)에서 프로젝트 생성 →
+   SQL Editor에서 `supabase/schema.sql` 실행 → (결제용) `supabase/billing.sql`
+   실행. Settings → API에서 키 복사.
+2. **TossPayments** — 가입 후 테스트 클라이언트/시크릿 키 발급.
+3. 프로젝트 루트에 **`.env.local`** 생성 (`.env.example` 참고):
+
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+NEXT_PUBLIC_TOSS_CLIENT_KEY=...
+TOSS_SECRET_KEY=...
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+```
+
+4. 서버 재시작. (Google 로그인은 Supabase → Authentication → Providers에서
+   Google 활성화.)
+
+## 배포 (GitHub → Vercel)
 
 ```bash
-# 1. create the repo on github.com, then:
-git remote add origin git@github.com:<you>/<repo>.git
-git push -u origin master
+git push origin master   # 연결된 Vercel이 자동 재배포
 ```
 
-2. Go to [vercel.com/new](https://vercel.com/new), **Import** the repo.
-   Vercel auto-detects Next.js — no config needed. Click **Deploy**.
-3. After the first deploy, set `site.url` in `src/lib/content.ts` to your
-   production URL (used for SEO, canonical, and the OG image), commit, push.
+프로덕션에서 인증/결제가 동작하려면 **Vercel 프로젝트 Settings → Environment
+Variables**에 위 `.env.local` 값들을 동일하게 등록하고, Supabase에서
+`schema.sql` + `billing.sql`을 실행해야 합니다.
 
-> The `opengraph-image` route renders on demand; everything else is static.
+## 라우트
 
-## Structure
+| 경로 | 설명 |
+|---|---|
+| `/` | 랜딩 (몰입형 데모 + 제품 소개·요금제 CTA) |
+| `/pricing` | 요금제 (무료 / Pro) |
+| `/login`, `/signup` | 인증 |
+| `/dashboard` | 포트폴리오 편집 (보호됨) |
+| `/p/[slug]` | 공개 포트폴리오 |
+| `/billing/success`, `/billing/fail` | 결제 결과 |
+
+## 구조
 
 ```
 src/
-├─ app/                 # routes, layout, metadata (robots, sitemap, OG image)
-├─ components/
-│  ├─ canvas/           # R3F scenes: robot companion, works shader preview
-│  ├─ providers/        # smooth scroll + motion config
-│  ├─ sections/         # Hero, About, Works, Craft, Contact, Footer
-│  └─ ui/               # cursor, magnetic button, preloader, kinetic text…
-└─ lib/                 # content, hooks, utils
+├─ app/
+│  ├─ (site)/        # 랜딩 + 마케팅 chrome (nav/footer)
+│  ├─ (auth)/        # 로그인 / 회원가입
+│  ├─ dashboard/     # 편집기 (보호됨)
+│  ├─ p/[slug]/      # 공개 포트폴리오
+│  └─ billing/       # 결제 결과
+├─ components/       # canvas(R3F) · sections · ui · auth · dashboard · billing
+├─ lib/              # content(+merge) · supabase · toss · hooks · utils
+├─ proxy.ts          # 인증 미들웨어(세션 갱신 + /dashboard 보호)
+└─ ...
+supabase/            # schema.sql, billing.sql
 ```
 
-Crafted with light & code.
+빛과 코드로 만들었습니다.
