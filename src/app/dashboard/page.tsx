@@ -5,7 +5,10 @@ import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { DashboardEditor } from "@/components/dashboard/DashboardEditor";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "대시보드" };
+export const metadata: Metadata = {
+  title: "대시보드",
+  robots: { index: false, follow: false },
+};
 
 export default async function DashboardPage() {
   if (!isSupabaseConfigured) {

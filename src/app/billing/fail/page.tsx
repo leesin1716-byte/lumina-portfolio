@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "결제 실패" };
+export const metadata: Metadata = {
+  title: "결제 실패",
+  robots: { index: false, follow: false },
+};
 
 export default async function BillingFail({
   searchParams,

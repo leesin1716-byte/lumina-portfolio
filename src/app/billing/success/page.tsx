@@ -10,7 +10,10 @@ import {
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 
 export const dynamic = "force-dynamic";
-export const metadata: Metadata = { title: "결제 완료" };
+export const metadata: Metadata = {
+  title: "결제 완료",
+  robots: { index: false, follow: false },
+};
 
 export default async function BillingSuccess({
   searchParams,
