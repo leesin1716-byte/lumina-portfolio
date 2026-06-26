@@ -7,15 +7,16 @@ import {
   useMotionValueEvent,
   useScroll,
 } from "framer-motion";
-import { nav, site, socials } from "@/lib/content";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
+import { useContent } from "@/components/providers/ContentProvider";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
-export function Navbar() {
+export function Navbar({ portfolio = false }: { portfolio?: boolean }) {
+  const { nav, site, socials } = useContent();
   const { scrollTo } = useSmoothScroll();
   const { scrollY } = useScroll();
   const [scrolled, setScrolled] = useState(false);
@@ -122,19 +123,23 @@ export function Navbar() {
 
           <div className="hidden items-center gap-2 md:flex">
             <ThemeToggle />
-            <a
-              href="/login"
-              data-cursor="hover"
-              className="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
-            >
-              로그인
-            </a>
-            <MagneticButton
-              href="/signup"
-              className="btn-sheen items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
-            >
-              무료로 시작
-            </MagneticButton>
+            {!portfolio && (
+              <>
+                <a
+                  href="/login"
+                  data-cursor="hover"
+                  className="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
+                >
+                  로그인
+                </a>
+                <MagneticButton
+                  href="/signup"
+                  className="btn-sheen items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
+                >
+                  무료로 시작
+                </MagneticButton>
+              </>
+            )}
           </div>
 
           {/* Mobile: theme toggle + menu */}
@@ -200,20 +205,22 @@ export function Navbar() {
               transition={{ delay: 0.42, ease: EASE }}
               className="flex flex-col gap-4 border-t border-line pt-6"
             >
-              <div className="flex gap-3">
-                <a
-                  href="/login"
-                  className="flex-1 rounded-full border border-line-strong py-3 text-center text-sm font-medium"
-                >
-                  로그인
-                </a>
-                <a
-                  href="/signup"
-                  className="flex-1 rounded-full bg-fg py-3 text-center text-sm font-semibold text-bg"
-                >
-                  무료로 시작
-                </a>
-              </div>
+              {!portfolio && (
+                <div className="flex gap-3">
+                  <a
+                    href="/login"
+                    className="flex-1 rounded-full border border-line-strong py-3 text-center text-sm font-medium"
+                  >
+                    로그인
+                  </a>
+                  <a
+                    href="/signup"
+                    className="flex-1 rounded-full bg-fg py-3 text-center text-sm font-semibold text-bg"
+                  >
+                    무료로 시작
+                  </a>
+                </div>
+              )}
               <a
                 href={`mailto:${site.email}`}
                 className="font-mono text-sm text-muted transition-colors hover:text-fg"

@@ -216,3 +216,72 @@ export const contact = {
   body: "마음에 둔 프로젝트가 있거나, 그냥 셰이더와 모션에 대해 이야기 나누고 싶으신가요? 제 메일함은 언제나 열려 있습니다.",
   cta: "대화 시작하기",
 } as const;
+
+/* ============================================================================
+ * Bundled content + per-user merge — powers the SaaS portfolio builder.
+ * The default values above are the "demo"; each user stores partial overrides
+ * (jsonb) that get merged on top to render their own immersive portfolio.
+ * ========================================================================== */
+
+export const defaultContent = {
+  site,
+  nav,
+  socials,
+  hero,
+  about,
+  projects,
+  craft,
+  contact,
+};
+
+export type Content = typeof defaultContent;
+
+export type PortfolioData = Partial<{
+  site: Partial<{
+    name: string;
+    owner: string;
+    role: string;
+    tagline: string;
+    location: string;
+    timezone: string;
+    email: string;
+    url: string;
+    description: string;
+  }>;
+  hero: Partial<{
+    lines: string[];
+    specialties: string[];
+    intro: string;
+    scrollCue: string;
+  }>;
+  about: Partial<{
+    overline: string;
+    heading: string;
+    body: string[];
+    stats: { value: string; label: string }[];
+  }>;
+  contact: Partial<{
+    overline: string;
+    heading: string;
+    body: string;
+    cta: string;
+  }>;
+  craft: Partial<{ overline: string; heading: string; groups: SkillGroup[] }>;
+  projects: Project[];
+  socials: { label: string; href: string; handle?: string }[];
+}>;
+
+/** Merge a user's partial overrides over the defaults into a full Content. */
+export function mergeContent(d?: PortfolioData | null): Content {
+  if (!d) return defaultContent;
+  return {
+    ...defaultContent,
+    site: { ...defaultContent.site, ...d.site },
+    hero: { ...defaultContent.hero, ...d.hero },
+    about: { ...defaultContent.about, ...d.about },
+    contact: { ...defaultContent.contact, ...d.contact },
+    craft: { ...defaultContent.craft, ...d.craft },
+    projects: d.projects ?? defaultContent.projects,
+    socials: d.socials ?? defaultContent.socials,
+  } as Content;
+}

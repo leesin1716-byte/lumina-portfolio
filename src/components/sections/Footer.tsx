@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { site, socials } from "@/lib/content";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
+import { useContent } from "@/components/providers/ContentProvider";
 
 export function Footer() {
+  const { site, socials } = useContent();
   const { scrollTo } = useSmoothScroll();
   const year = new Date().getFullYear();
   const [localTime, setLocalTime] = useState("");

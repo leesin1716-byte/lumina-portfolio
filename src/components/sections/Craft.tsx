@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { craft } from "@/lib/content";
+import { useContent } from "@/components/providers/ContentProvider";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { Parallax } from "@/components/ui/Parallax";
 import { TiltCard } from "@/components/ui/TiltCard";
@@ -20,6 +20,7 @@ const marqueeWords = [
 ];
 
 export function Craft() {
+  const { craft } = useContent();
   return (
     <section
       id="craft"

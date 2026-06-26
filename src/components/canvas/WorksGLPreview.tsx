@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { motion, type MotionValue } from "framer-motion";
 import * as THREE from "three";
-import { projects } from "@/lib/content";
+import type { Project } from "@/lib/content";
 import { lerp } from "@/lib/utils";
 
 const vertexShader = /* glsl */ `
@@ -78,7 +78,13 @@ const fragmentShader = /* glsl */ `
   }
 `;
 
-function Plane({ active }: { active: number | null }) {
+function Plane({
+  active,
+  projects,
+}: {
+  active: number | null;
+  projects: Project[];
+}) {
   const { viewport } = useThree();
   const targetA = useRef(new THREE.Color("#6d5cff"));
   const targetB = useRef(new THREE.Color("#4de2e2"));
@@ -129,12 +135,13 @@ function Plane({ active }: { active: number | null }) {
 
 type Props = {
   active: number | null;
+  projects: Project[];
   px: MotionValue<number>;
   py: MotionValue<number>;
 };
 
 /** A shader-driven liquid gradient preview that follows the cursor. */
-export function WorksGLPreview({ active, px, py }: Props) {
+export function WorksGLPreview({ active, projects, px, py }: Props) {
   return (
     <motion.div
       className="pointer-events-none fixed left-0 top-0 z-[60] hidden h-64 w-80 overflow-hidden rounded-2xl shadow-2xl shadow-black/50 ring-1 ring-white/10 md:block"
@@ -151,7 +158,7 @@ export function WorksGLPreview({ active, px, py }: Props) {
         gl={{ alpha: true, antialias: true }}
         style={{ width: "100%", height: "100%" }}
       >
-        <Plane active={active} />
+        <Plane active={active} projects={projects} />
       </Canvas>
 
       <div className="pointer-events-none absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">

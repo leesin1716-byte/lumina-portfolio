@@ -1,12 +1,13 @@
 "use client";
 
 import { motion, useSpring, useTransform } from "framer-motion";
-import { contact, site } from "@/lib/content";
+import { useContent } from "@/components/providers/ContentProvider";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { CopyEmail } from "@/components/ui/CopyEmail";
 
 export function Contact() {
+  const { contact, site } = useContent();
   const gx = useSpring(0.5, { stiffness: 50, damping: 20 });
   const gy = useSpring(0.5, { stiffness: 50, damping: 20 });
   const left = useTransform(gx, (v) => `${v * 100}%`);

@@ -2,14 +2,15 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useSpring } from "framer-motion";
-import { projects } from "@/lib/content";
 import { useIsTouch } from "@/lib/hooks";
+import { useContent } from "@/components/providers/ContentProvider";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { Parallax } from "@/components/ui/Parallax";
 import { WorksGLPreview } from "@/components/canvas/WorksGLPreview";
 import { ProjectModal } from "@/components/sections/ProjectModal";
 
 export function Works() {
+  const { projects } = useContent();
   const isTouch = useIsTouch();
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
@@ -120,7 +121,7 @@ export function Works() {
 
       {/* Floating shader preview (desktop, only while in view) */}
       {!isTouch && inView && (
-        <WorksGLPreview active={active} px={px} py={py} />
+        <WorksGLPreview active={active} projects={projects} px={px} py={py} />
       )}
 
       <ProjectModal

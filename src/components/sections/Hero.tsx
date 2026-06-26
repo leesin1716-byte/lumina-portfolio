@@ -2,8 +2,8 @@
 
 import { motion, useSpring, type Variants } from "framer-motion";
 import { useEffect } from "react";
-import { hero, site } from "@/lib/content";
 import { useAppReady } from "@/lib/hooks";
+import { useContent } from "@/components/providers/ContentProvider";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { RotatingText } from "@/components/ui/RotatingText";
@@ -26,6 +26,7 @@ const fade: Variants = {
 };
 
 export function Hero() {
+  const { hero, site } = useContent();
   const ready = useAppReady();
   const { scrollTo } = useSmoothScroll();
   const glowX = useSpring(0, { stiffness: 60, damping: 20 });

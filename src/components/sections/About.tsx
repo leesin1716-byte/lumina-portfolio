@@ -2,12 +2,13 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { about } from "@/lib/content";
+import { useContent } from "@/components/providers/ContentProvider";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { CountUp } from "@/components/ui/CountUp";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function About() {
+  const { about } = useContent();
   const ref = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: ref,
