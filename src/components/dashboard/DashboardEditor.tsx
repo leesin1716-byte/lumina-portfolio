@@ -5,6 +5,16 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { defaultContent, type PortfolioData } from "@/lib/content";
+
+type EditProject = {
+  title: string;
+  category: string;
+  year: string;
+  description: string;
+  tags: string;
+  g0: string;
+  g1: string;
+};
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 type PortfolioRow = {
@@ -38,6 +48,35 @@ export function DashboardEditor({
     (d.about?.body ?? []).join("\n\n"),
   );
   const [published, setPublished] = useState(portfolio?.published ?? false);
+  const [projects, setProjects] = useState<EditProject[]>(
+    (d.projects ?? dft.projects).map((p) => ({
+      title: p.title,
+      category: p.category,
+      year: p.year,
+      description: p.description,
+      tags: p.tags.join(", "),
+      g0: p.gradient[0],
+      g1: p.gradient[1],
+    })),
+  );
+
+  const setProject = (i: number, patch: Partial<EditProject>) =>
+    setProjects((ps) => ps.map((p, idx) => (idx === i ? { ...p, ...patch } : p)));
+  const addProject = () =>
+    setProjects((ps) => [
+      ...ps,
+      {
+        title: "새 프로젝트",
+        category: "카테고리",
+        year: "2025",
+        description: "",
+        tags: "",
+        g0: "#6d5cff",
+        g1: "#4de2e2",
+      },
+    ]);
+  const removeProject = (i: number) =>
+    setProjects((ps) => ps.filter((_, idx) => idx !== i));
 
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
@@ -60,6 +99,18 @@ export function DashboardEditor({
           body: aboutBody.split(/\n\n+/).map((s) => s.trim()).filter(Boolean),
         }),
       },
+      projects: projects.map((p, i) => ({
+        id: `${p.title.toLowerCase().replace(/\s+/g, "-")}-${i}`,
+        title: p.title,
+        category: p.category,
+        year: p.year,
+        description: p.description,
+        tags: p.tags.split(",").map((t) => t.trim()).filter(Boolean),
+        gradient: [p.g0, p.g1] as [string, string],
+        role: p.category,
+        overview: p.description,
+        highlights: [],
+      })),
     };
     const supabase = createClient();
     const { error } = await supabase
@@ -161,6 +212,60 @@ export function DashboardEditor({
             <label className={label}>본문 (빈 줄로 문단 구분)</label>
             <textarea className={`${field} min-h-32 resize-y`} value={aboutBody} onChange={(e) => setAboutBody(e.target.value)} placeholder={dft.about.body.join("\n\n")} />
           </div>
+        </div>
+      </section>
+
+      {/* Projects */}
+      <section className="glass mt-6 rounded-2xl p-6">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="font-display text-lg font-semibold">프로젝트</h2>
+          <button
+            onClick={addProject}
+            data-cursor="hover"
+            className="rounded-full border border-line-strong px-3 py-1.5 text-xs transition-colors hover:border-violet"
+          >
+            + 추가
+          </button>
+        </div>
+        <div className="flex flex-col gap-5">
+          {projects.map((p, i) => (
+            <div key={i} className="rounded-xl border border-line p-4">
+              <div className="mb-3 flex items-center justify-between">
+                <span className="font-mono text-xs text-faint">
+                  0{i + 1}
+                </span>
+                <button
+                  onClick={() => removeProject(i)}
+                  data-cursor="hover"
+                  className="text-xs text-muted transition-colors hover:text-magenta"
+                >
+                  삭제
+                </button>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <input className={field} value={p.title} onChange={(e) => setProject(i, { title: e.target.value })} placeholder="제목" />
+                <input className={field} value={p.category} onChange={(e) => setProject(i, { category: e.target.value })} placeholder="카테고리 (예: 제품 · WebGL)" />
+                <input className={field} value={p.year} onChange={(e) => setProject(i, { year: e.target.value })} placeholder="연도" />
+                <input className={field} value={p.tags} onChange={(e) => setProject(i, { tags: e.target.value })} placeholder="태그 (쉼표로 구분)" />
+                <textarea className={`${field} min-h-20 resize-y sm:col-span-2`} value={p.description} onChange={(e) => setProject(i, { description: e.target.value })} placeholder="설명" />
+                <div className="flex items-center gap-3 sm:col-span-2">
+                  <span className="text-xs text-muted">커버 색상</span>
+                  <input type="color" value={p.g0} onChange={(e) => setProject(i, { g0: e.target.value })} className="h-8 w-12 cursor-pointer rounded border border-line bg-transparent" />
+                  <input type="color" value={p.g1} onChange={(e) => setProject(i, { g1: e.target.value })} className="h-8 w-12 cursor-pointer rounded border border-line bg-transparent" />
+                  <span
+                    aria-hidden
+                    className="ml-auto h-8 w-24 rounded-lg"
+                    style={{ background: `linear-gradient(90deg, ${p.g0}, ${p.g1})` }}
+                  />
+                </div>
+              </div>
+            </div>
+          ))}
+          {projects.length === 0 && (
+            <p className="text-sm text-muted">
+              아직 프로젝트가 없어요. &quot;추가&quot;를 눌러 시작하세요.
+            </p>
+          )}
         </div>
       </section>
 
