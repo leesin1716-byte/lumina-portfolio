@@ -7,6 +7,7 @@ import { useAppReady, useMousePosition } from "@/lib/hooks";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { AuroraBackdrop } from "@/components/sections/AuroraBackdrop";
+import { RobotCompanion } from "@/components/canvas/RobotCompanion";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 
@@ -39,6 +40,9 @@ export function Hero() {
     <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-6 pb-20 pt-28 sm:px-8">
       <AuroraBackdrop />
 
+      {/* WebGL robot companion (desktop) */}
+      <RobotCompanion className="pointer-events-none absolute right-[-3%] top-0 z-[2] hidden h-full w-[52%] lg:block" />
+
       {/* Cursor-tracking glow */}
       <motion.div
         aria-hidden
@@ -52,7 +56,7 @@ export function Hero() {
           variants={fade}
           initial="hidden"
           animate={ready ? "visible" : "hidden"}
-          className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-muted"
+          className="mb-8 flex flex-wrap items-center gap-x-4 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-muted lg:max-w-[58%]"
         >
           <span className="flex items-center gap-2">
             <span className="relative flex h-2 w-2">
@@ -72,8 +76,8 @@ export function Hero() {
           variants={lineWrap}
           initial="hidden"
           animate={ready ? "visible" : "hidden"}
-          className="font-display font-bold leading-[0.86] tracking-[-0.03em]"
-          style={{ fontSize: "clamp(2.75rem, 11vw, 11rem)" }}
+          className="font-display font-bold leading-[0.86] tracking-[-0.03em] lg:max-w-[60%]"
+          style={{ fontSize: "clamp(2.75rem, 8.6vw, 8.5rem)" }}
           aria-label={hero.lines.join(" ")}
         >
           {hero.lines.map((line, i) => (
@@ -93,7 +97,7 @@ export function Hero() {
         </motion.h1>
 
         {/* Intro + CTAs */}
-        <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[1.2fr_1fr] md:items-end">
+        <div className="mt-10 grid gap-8 sm:mt-14 md:grid-cols-[1.2fr_1fr] md:items-end lg:max-w-[58%]">
           <motion.p
             variants={fade}
             initial="hidden"

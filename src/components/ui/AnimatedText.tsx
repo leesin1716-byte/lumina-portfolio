@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import type { ElementType } from "react";
 import { cn } from "@/lib/utils";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -29,7 +28,7 @@ export function AnimatedText({
   as = "span",
 }: AnimatedTextProps) {
   const lines = text.split("\n");
-  const Tag = motion[as] as ElementType;
+  const Tag = motion[as] as typeof motion.span;
 
   const container: Variants = {
     hidden: {},
