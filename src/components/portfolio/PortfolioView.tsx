@@ -26,6 +26,13 @@ export function PortfolioView({
   branding?: boolean;
 }) {
   useEffect(() => {
+    // The hero waits for a "ready" signal (normally from the preloader, which
+    // public portfolios don't render). Signal immediately so it appears at once.
+    window.__luminaReady = true;
+    window.dispatchEvent(new Event("lumina:ready"));
+  }, []);
+
+  useEffect(() => {
     if (!slug) return;
     // Fire-and-forget view tracking.
     fetch("/api/track", {
