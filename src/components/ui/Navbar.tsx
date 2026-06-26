@@ -126,6 +126,13 @@ export function Navbar({ portfolio = false }: { portfolio?: boolean }) {
             {!portfolio && (
               <>
                 <a
+                  href="/pricing"
+                  data-cursor="hover"
+                  className="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
+                >
+                  요금제
+                </a>
+                <a
                   href="/login"
                   data-cursor="hover"
                   className="rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
