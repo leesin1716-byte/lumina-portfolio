@@ -9,6 +9,8 @@ import { lerp } from "@/lib/utils";
 type RobotProps = {
   /** Pointer in normalized device coords (-1..1), already smoothed. */
   pointer: React.MutableRefObject<{ x: number; y: number }>;
+  /** Decaying 0..1 impulse, spikes to 1 on click. */
+  pulse?: React.MutableRefObject<number>;
   reducedMotion?: boolean;
 };
 
@@ -17,14 +19,19 @@ const CYAN = "#4de2e2";
 const VIOLET = "#8b7cff";
 const MAGENTA = "#ff5fa2";
 
+const _cyan = new THREE.Color(CYAN);
+const _magenta = new THREE.Color(MAGENTA);
+const _tmp = new THREE.Color();
+
 /**
  * A stylized robot companion built entirely from primitives — a floating
  * helmet head whose gaze follows the cursor, with glowing visor eyes,
  * a pulsing antenna, and side pods. No external model required.
  */
-export function Robot({ pointer, reducedMotion = false }: RobotProps) {
+export function Robot({ pointer, pulse, reducedMotion = false }: RobotProps) {
   const head = useRef<THREE.Group>(null!);
   const eyes = useRef<THREE.Group>(null!);
+  const eyeMats = useRef<THREE.MeshStandardMaterial[]>([]);
   const antennaTip = useRef<THREE.Mesh>(null!);
   const ring = useRef<THREE.Mesh>(null!);
   const blink = useRef(0);
@@ -33,12 +40,24 @@ export function Robot({ pointer, reducedMotion = false }: RobotProps) {
   useFrame((state, delta) => {
     const t = state.clock.elapsedTime;
     const { x, y } = pointer.current;
+    const p = pulse?.current ?? 0;
 
     if (head.current) {
       const targetRotY = x * 0.7;
       const targetRotX = -y * 0.45;
       head.current.rotation.y = lerp(head.current.rotation.y, targetRotY, 0.08);
       head.current.rotation.x = lerp(head.current.rotation.x, targetRotX, 0.08);
+      head.current.scale.setScalar(1 + p * 0.1);
+      head.current.position.y = p * 0.16;
+    }
+
+    // Click pulse: eyes flash toward magenta and brighten.
+    _tmp.copy(_cyan).lerp(_magenta, Math.min(p, 1));
+    for (const m of eyeMats.current) {
+      if (m) {
+        m.emissive.copy(_tmp);
+        m.emissiveIntensity = 3.2 + p * 4;
+      }
     }
 
     // Eyes drift a touch further than the head for a lively gaze.
@@ -60,7 +79,7 @@ export function Robot({ pointer, reducedMotion = false }: RobotProps) {
 
     if (antennaTip.current) {
       const m = antennaTip.current.material as THREE.MeshStandardMaterial;
-      m.emissiveIntensity = 2 + Math.sin(t * 4) * 1.2;
+      m.emissiveIntensity = 2 + Math.sin(t * 4) * 1.2 + p * 5;
     }
     if (ring.current) {
       ring.current.rotation.z = t * 0.3;
@@ -111,10 +130,13 @@ export function Robot({ pointer, reducedMotion = false }: RobotProps) {
 
         {/* Eyes */}
         <group ref={eyes} position={[0, 0.04, 0.85]}>
-          {[-0.3, 0.3].map((ex) => (
+          {[-0.3, 0.3].map((ex, idx) => (
             <mesh key={ex} position={[ex, 0, 0]}>
               <capsuleGeometry args={[0.1, 0.16, 8, 16]} />
               <meshStandardMaterial
+                ref={(m) => {
+                  if (m) eyeMats.current[idx] = m as THREE.MeshStandardMaterial;
+                }}
                 color={CYAN}
                 emissive={CYAN}
                 emissiveIntensity={3.2}

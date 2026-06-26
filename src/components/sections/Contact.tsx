@@ -1,21 +1,35 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useSpring, useTransform } from "framer-motion";
 import { contact, site } from "@/lib/content";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 
 export function Contact() {
+  const gx = useSpring(0.5, { stiffness: 50, damping: 20 });
+  const gy = useSpring(0.5, { stiffness: 50, damping: 20 });
+  const left = useTransform(gx, (v) => `${v * 100}%`);
+  const top = useTransform(gy, (v) => `${v * 100}%`);
+
+  const onMove = (e: React.PointerEvent) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    gx.set((e.clientX - r.left) / r.width);
+    gy.set((e.clientY - r.top) / r.height);
+  };
+
   return (
     <section
       id="contact"
+      onPointerMove={onMove}
       className="relative scroll-mt-24 overflow-hidden px-6 py-28 sm:px-8 sm:py-40"
     >
-      {/* glow */}
-      <div
+      {/* Cursor-reactive glow */}
+      <motion.div
         aria-hidden
-        className="absolute left-1/2 top-1/2 -z-0 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[120px]"
+        className="pointer-events-none absolute -z-0 h-[60vmax] w-[60vmax] -translate-x-1/2 -translate-y-1/2 rounded-full opacity-60 blur-[120px]"
         style={{
+          left,
+          top,
           background:
             "radial-gradient(circle, rgba(109,92,255,0.25), rgba(255,95,162,0.12) 50%, transparent 70%)",
         }}

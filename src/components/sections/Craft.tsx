@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { craft } from "@/lib/content";
 import { AnimatedText } from "@/components/ui/AnimatedText";
+import { TiltCard } from "@/components/ui/TiltCard";
 
 const marqueeWords = [
   "WebGL",
@@ -66,23 +67,25 @@ export function Craft() {
                 delay: gi * 0.08,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative overflow-hidden rounded-2xl border border-line bg-bg-soft p-6 transition-colors hover:border-line-strong"
+              className="h-full"
             >
-              <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-violet/10 blur-2xl transition-opacity duration-500 group-hover:opacity-100 sm:opacity-0" />
-              <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.2em] text-faint">
-                {group.title}
-              </h3>
-              <ul className="flex flex-col gap-2.5">
-                {group.items.map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-center gap-3 text-sm text-muted transition-colors hover:text-fg"
-                  >
-                    <span className="h-1 w-1 rounded-full bg-violet" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+              <TiltCard className="group relative h-full overflow-hidden rounded-2xl border border-line bg-bg-soft p-6 transition-colors hover:border-line-strong">
+                <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-violet/10 blur-2xl transition-opacity duration-500 group-hover:opacity-100 sm:opacity-0" />
+                <h3 className="mb-5 font-mono text-xs uppercase tracking-[0.2em] text-faint">
+                  {group.title}
+                </h3>
+                <ul className="flex flex-col gap-2.5">
+                  {group.items.map((item) => (
+                    <li
+                      key={item}
+                      className="flex items-center gap-3 text-sm text-muted transition-colors hover:text-fg"
+                    >
+                      <span className="h-1 w-1 rounded-full bg-violet" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </TiltCard>
             </motion.div>
           ))}
         </div>

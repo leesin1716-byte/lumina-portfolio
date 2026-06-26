@@ -13,6 +13,7 @@ const VIOLET = "#8b7cff";
 function Rig({ reducedMotion }: { reducedMotion: boolean }) {
   const pointer = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
+  const pulse = useRef(0);
   const { camera } = useThree();
 
   useEffect(() => {
@@ -20,14 +21,22 @@ function Rig({ reducedMotion }: { reducedMotion: boolean }) {
       target.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       target.current.y = (e.clientY / window.innerHeight) * 2 - 1;
     };
+    const onDown = () => {
+      pulse.current = 1;
+    };
     window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
+    window.addEventListener("pointerdown", onDown);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerdown", onDown);
+    };
   }, []);
 
   useFrame(() => {
     // Smooth the pointer the robot reads.
     pointer.current.x = lerp(pointer.current.x, target.current.x, 0.06);
     pointer.current.y = lerp(pointer.current.y, target.current.y, 0.06);
+    pulse.current = lerp(pulse.current, 0, 0.08);
 
     // Subtle camera parallax for depth.
     if (!reducedMotion) {
@@ -41,7 +50,9 @@ function Rig({ reducedMotion }: { reducedMotion: boolean }) {
     }
   });
 
-  return <Robot pointer={pointer} reducedMotion={reducedMotion} />;
+  return (
+    <Robot pointer={pointer} pulse={pulse} reducedMotion={reducedMotion} />
+  );
 }
 
 export function RobotScene({
