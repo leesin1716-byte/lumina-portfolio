@@ -207,6 +207,34 @@ export function DashboardEditor({
         )}
       </div>
 
+      {/* Account & billing */}
+      <section className="glass mb-6 rounded-2xl p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div>
+            <h2 className="font-display text-lg font-semibold">계정 & 결제</h2>
+            <p className="mt-1 text-sm text-muted">
+              현재 플랜:{" "}
+              <span className="font-medium text-fg">
+                {plan === "pro" ? "Pro" : "무료"}
+              </span>
+            </p>
+          </div>
+          {plan === "pro" ? (
+            <span className="rounded-full border border-violet/40 bg-violet/10 px-4 py-2 text-sm font-medium text-violet">
+              Pro 이용 중 🎉
+            </span>
+          ) : (
+            <Link
+              href="/pricing"
+              data-cursor="hover"
+              className="btn-sheen rounded-full bg-fg px-5 py-2.5 text-sm font-semibold text-bg transition-colors hover:bg-violet"
+            >
+              Pro 업그레이드
+            </Link>
+          )}
+        </div>
+      </section>
+
       {/* Public address */}
       <section className="glass mb-6 rounded-2xl p-6">
         <h2 className="font-display text-lg font-semibold">공개 주소</h2>
