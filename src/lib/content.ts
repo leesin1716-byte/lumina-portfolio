@@ -11,6 +11,15 @@
  * 참고: 배포 주소가 정해지면 `url`을 실제 주소로 맞추세요 (SEO/OG/canonical용).
  * ========================================================================== */
 
+/**
+ * 배포 주소. Vercel 등에 NEXT_PUBLIC_SITE_URL을 설정하면 canonical·OG·sitemap·
+ * manifest가 실제 도메인을 따릅니다. 없으면 아래 기본값을 사용합니다.
+ * (NEXT_PUBLIC_ 변수는 빌드 시 인라인되므로 빌드 전에 설정하세요.)
+ */
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://lumina-portfolio.vercel.app";
+
 export const site = {
   name: "LUMINA",
   /** 실제 이름으로 교체하세요. */
@@ -22,7 +31,7 @@ export const site = {
   /** 푸터의 실시간 현지 시각에 쓰이는 IANA 타임존. */
   timezone: "Asia/Seoul",
   email: "hello@lumina.dev",
-  url: "https://lumina-portfolio.vercel.app",
+  url: SITE_URL,
   description:
     "크리에이티브 프론트엔드 개발자의 포트폴리오 — 몰입형 WebGL, 모션 디자인, 인터랙션 엔지니어링.",
 } as const;

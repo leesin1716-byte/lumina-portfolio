@@ -64,9 +64,10 @@ NEXT_PUBLIC_SITE_URL=http://localhost:3000
 git push origin master   # 연결된 Vercel이 자동 재배포
 ```
 
-프로덕션에서 인증/결제가 동작하려면 **Vercel 프로젝트 Settings → Environment
-Variables**에 위 `.env.local` 값들을 동일하게 등록하고, Supabase에서
-`schema.sql` + `billing.sql`을 실행해야 합니다.
+프로덕션에서 인증/결제/분석이 동작하려면 **Vercel 프로젝트 Settings → Environment
+Variables**에 위 `.env.local` 값들을 동일하게 등록하되 `NEXT_PUBLIC_SITE_URL`은
+실제 배포 도메인으로 설정하고, Supabase SQL 에디터에서 `supabase/schema.sql` +
+`supabase/billing.sql` + `supabase/analytics.sql` 세 파일을 모두 실행해야 합니다.
 
 ## 라우트
 
