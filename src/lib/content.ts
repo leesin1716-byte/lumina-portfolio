@@ -1,38 +1,38 @@
 /* ============================================================================
- * MAKE IT YOURS — edit this file only.
+ * 내 것으로 만들기 — 이 파일만 수정하세요.
  * ----------------------------------------------------------------------------
- * This is the single source of truth for ALL copy & data. Nothing in the
- * components hard-codes identity, so editing the values below updates the
- * whole site. Quick checklist to personalise:
+ * 사이트의 모든 텍스트·데이터가 여기 한 곳에 있습니다. 컴포넌트에는 개인 정보가
+ * 하드코딩되어 있지 않으므로, 아래 값만 바꾸면 사이트 전체가 갱신됩니다.
+ * 개인화 체크리스트:
  *   1. site.owner / role / tagline / email / location / url / timezone
- *   2. socials[] — your real links + handles
- *   3. projects[] — replace with your real work (title, gradient, case study)
- *   4. about / craft / contact — your story, skills, and call to action
- * Tip: keep `url` in sync with where you deploy (used for SEO/OG/canonical).
+ *   2. socials[] — 실제 링크 + 핸들
+ *   3. projects[] — 본인 작업으로 교체 (제목, gradient, 케이스 스터디)
+ *   4. about / craft / contact — 본인 이야기, 역량, CTA
+ * 참고: 배포 주소가 정해지면 `url`을 실제 주소로 맞추세요 (SEO/OG/canonical용).
  * ========================================================================== */
 
 export const site = {
   name: "LUMINA",
-  /** Replace with your real name. */
-  owner: "Your Name",
-  role: "Creative Frontend Developer",
-  /** Short hero statement. */
-  tagline: "I craft immersive interfaces where motion, light, and code meet.",
+  /** 실제 이름으로 교체하세요. */
+  owner: "당신 이름",
+  role: "크리에이티브 프론트엔드 개발자",
+  /** 히어로 한 줄 소개. */
+  tagline: "모션과 빛, 그리고 코드가 만나는 몰입형 인터페이스를 만듭니다.",
   location: "Seoul, KR",
-  /** IANA timezone for the live "local time" in the footer. */
+  /** 푸터의 실시간 현지 시각에 쓰이는 IANA 타임존. */
   timezone: "Asia/Seoul",
   email: "hello@lumina.dev",
   url: "https://lumina-portfolio.vercel.app",
   description:
-    "Portfolio of a creative frontend developer — immersive WebGL, motion design, and interaction engineering.",
+    "크리에이티브 프론트엔드 개발자의 포트폴리오 — 몰입형 WebGL, 모션 디자인, 인터랙션 엔지니어링.",
 } as const;
 
 export const nav = [
-  { label: "Home", href: "#home", index: "01" },
-  { label: "About", href: "#about", index: "02" },
-  { label: "Work", href: "#work", index: "03" },
-  { label: "Craft", href: "#craft", index: "04" },
-  { label: "Contact", href: "#contact", index: "05" },
+  { label: "홈", href: "#home", index: "01" },
+  { label: "소개", href: "#about", index: "02" },
+  { label: "작업", href: "#work", index: "03" },
+  { label: "역량", href: "#craft", index: "04" },
+  { label: "연락", href: "#contact", index: "05" },
 ] as const;
 
 export const socials = [
@@ -43,9 +43,9 @@ export const socials = [
 ] as const;
 
 export const hero = {
-  /** Rendered as kinetic, staggered lines. */
-  lines: ["CREATIVE", "FRONTEND", "DEVELOPER"],
-  /** Cycled under the headline. */
+  /** 키네틱하게 한 줄씩 등장. */
+  lines: ["크리에이티브", "프론트엔드", "개발자"],
+  /** 헤드라인 아래에서 순환 (기술 용어라 영문 유지). */
   specialties: [
     "WebGL & Shaders",
     "Motion Design",
@@ -54,23 +54,22 @@ export const hero = {
     "Real-time 3D",
   ],
   intro:
-    "Designing and engineering the web's most expressive moments — one frame, one shader, one interaction at a time.",
+    "웹에서 가장 표현력 있는 순간을 디자인하고 엔지니어링합니다 — 한 프레임, 한 셰이더, 하나의 인터랙션까지.",
   scrollCue: "Scroll to explore",
 } as const;
 
 export const about = {
   overline: "About",
-  heading:
-    "I turn ambitious ideas into interfaces people remember.",
+  heading: "야심 찬 아이디어를, 사람들이 기억하는 인터페이스로.",
   body: [
-    "I'm a creative developer working at the intersection of design and engineering. I build experiences that feel alive — fluid motion, real-time 3D, and details tuned to the millisecond.",
-    "My craft spans the full stack of the front end: design systems, WebGL and shaders, motion choreography, and the performance work that makes it all run at 60fps on a phone.",
+    "저는 디자인과 엔지니어링의 경계에서 일하는 크리에이티브 개발자입니다. 살아 숨 쉬는 듯한 경험 — 유려한 모션, 실시간 3D, 밀리초 단위로 다듬은 디테일을 만듭니다.",
+    "프론트엔드의 모든 영역을 아우릅니다: 디자인 시스템, WebGL과 셰이더, 모션 연출, 그리고 그 모든 것을 모바일에서도 60fps로 돌아가게 하는 성능 작업까지.",
   ],
   stats: [
-    { value: "5+", label: "Years crafting" },
-    { value: "40+", label: "Projects shipped" },
-    { value: "12", label: "Awards & features" },
-    { value: "∞", label: "Pixels obsessed over" },
+    { value: "5+", label: "년간의 제작" },
+    { value: "40+", label: "출시한 프로젝트" },
+    { value: "12", label: "수상 & 소개" },
+    { value: "∞", label: "집착한 픽셀" },
   ],
 } as const;
 
@@ -81,10 +80,10 @@ export type Project = {
   year: string;
   description: string;
   tags: string[];
-  /** Two-stop gradient used for the procedural cover art. */
+  /** 절차적 커버 아트에 쓰이는 2색 그라디언트. */
   gradient: [string, string];
   href?: string;
-  /** Case-study detail (shown in the project modal). */
+  /** 케이스 스터디 상세 (프로젝트 모달에 표시). */
   role: string;
   overview: string;
   highlights: string[];
@@ -94,91 +93,91 @@ export const projects: Project[] = [
   {
     id: "aurora-os",
     title: "Aurora OS",
-    category: "Product · WebGL",
+    category: "제품 · WebGL",
     year: "2025",
     description:
-      "A spatial operating-system concept with a real-time fluid background and gesture-driven windows.",
+      "실시간 유체 배경과 제스처 기반 윈도우를 갖춘 공간형 운영체제 컨셉.",
     tags: ["React", "Three.js", "GLSL", "Motion"],
     gradient: ["#6d5cff", "#4de2e2"],
-    role: "Creative Direction · Engineering",
+    role: "크리에이티브 디렉션 · 엔지니어링",
     overview:
-      "Aurora OS reimagines the desktop as a living, spatial surface. A GPU-driven fluid simulation reacts to every interaction while windows respond to gestures with springy, physically-grounded motion.",
+      "Aurora OS는 데스크톱을 살아있는 공간형 표면으로 재해석합니다. GPU 기반 유체 시뮬레이션이 모든 인터랙션에 반응하고, 윈도우는 물리 기반의 탄력적인 모션으로 제스처에 응답합니다.",
     highlights: [
-      "Custom GLSL fluid simulation running at 120fps",
-      "Gesture system with momentum and inertia",
-      "Design tokens shared across 40+ components",
+      "120fps로 동작하는 커스텀 GLSL 유체 시뮬레이션",
+      "관성과 모멘텀을 가진 제스처 시스템",
+      "40개 이상의 컴포넌트가 공유하는 디자인 토큰",
     ],
   },
   {
     id: "synesthesia",
     title: "Synesthesia",
-    category: "Experiment · Audio-reactive",
+    category: "실험 · 오디오 반응형",
     year: "2025",
     description:
-      "An audio-reactive instrument that paints generative light fields from sound in the browser.",
+      "브라우저에서 소리로부터 생성적 빛의 장을 그려내는 오디오 반응형 악기.",
     tags: ["Web Audio", "Shaders", "Canvas"],
     gradient: ["#ff5fa2", "#8b7cff"],
-    role: "Concept · Engineering",
+    role: "컨셉 · 엔지니어링",
     overview:
-      "Synesthesia turns sound into light. The Web Audio analyser feeds an FFT into a fragment shader, sculpting generative aurora fields that pulse, bloom, and bend with the music in real time.",
+      "Synesthesia는 소리를 빛으로 바꿉니다. Web Audio 분석기의 FFT를 프래그먼트 셰이더로 흘려보내, 음악에 맞춰 맥동하고 피어나며 휘어지는 생성적 오로라를 실시간으로 조각합니다.",
     highlights: [
-      "Real-time FFT → shader uniform pipeline",
-      "Generative color grading from frequency bands",
-      "Zero-latency interaction on mobile GPUs",
+      "실시간 FFT → 셰이더 유니폼 파이프라인",
+      "주파수 대역 기반의 생성적 컬러 그레이딩",
+      "모바일 GPU에서도 지연 없는 인터랙션",
     ],
   },
   {
     id: "monolith",
     title: "Monolith",
-    category: "Brand · Immersive Site",
+    category: "브랜드 · 몰입형 사이트",
     year: "2024",
     description:
-      "Award-winning launch site for a hardware studio — scroll-driven 3D and cinematic transitions.",
+      "하드웨어 스튜디오를 위한 수상작 런칭 사이트 — 스크롤 기반 3D와 시네마틱 전환.",
     tags: ["Next.js", "R3F", "Lenis"],
     gradient: ["#4de2e2", "#c2ff5e"],
-    role: "Lead Frontend · Motion",
+    role: "리드 프론트엔드 · 모션",
     overview:
-      "A cinematic launch experience for a hardware studio. Scroll choreographs a 3D product reveal, with section transitions cut like a film and type that breathes as you move.",
+      "하드웨어 스튜디오를 위한 시네마틱 런칭 경험. 스크롤이 3D 제품 공개를 연출하고, 섹션 전환은 영화처럼 편집되며, 타이포그래피는 움직임에 따라 호흡합니다.",
     highlights: [
-      "Scroll-driven 3D product reveal (R3F)",
-      "Featured on Awwwards & FWA",
-      "Sub-second LCP with progressive WebGL",
+      "스크롤 기반 3D 제품 공개 (R3F)",
+      "Awwwards & FWA 선정",
+      "점진적 WebGL 로딩으로 1초 미만 LCP",
     ],
   },
   {
     id: "atlas",
     title: "Atlas",
-    category: "Data · Visualization",
+    category: "데이터 · 시각화",
     year: "2024",
     description:
-      "A living data atlas turning global datasets into an explorable, animated cartography.",
+      "글로벌 데이터셋을 탐색 가능한 애니메이션 지도로 바꾸는 살아있는 데이터 아틀라스.",
     tags: ["D3", "WebGL", "TypeScript"],
     gradient: ["#c2ff5e", "#6d5cff"],
-    role: "Engineering · Data Viz",
+    role: "엔지니어링 · 데이터 시각화",
     overview:
-      "Atlas makes global data tangible. Millions of points render on a WebGL globe with smooth level-of-detail, animated transitions between datasets, and an accessible, keyboard-driven explorer.",
+      "Atlas는 글로벌 데이터를 손에 잡히게 만듭니다. 수백만 개의 점이 WebGL 지구본 위에 부드러운 LOD로 렌더링되고, 데이터셋 간 애니메이션 전환과 키보드 기반 탐색기를 제공합니다.",
     highlights: [
-      "WebGL globe rendering 2M+ points",
-      "Animated transitions between datasets",
-      "Fully keyboard-navigable explorer",
+      "200만+ 개의 점을 렌더링하는 WebGL 지구본",
+      "데이터셋 간 매끄러운 애니메이션 전환",
+      "완전한 키보드 탐색 지원",
     ],
   },
   {
     id: "halcyon",
     title: "Halcyon",
-    category: "Commerce · Motion",
+    category: "커머스 · 모션",
     year: "2023",
     description:
-      "A boutique commerce experience where every product reveal is choreographed like a film.",
+      "모든 제품 공개가 영화처럼 연출되는 부티크 커머스 경험.",
     tags: ["Next.js", "Motion", "Design System"],
     gradient: ["#ff8a4d", "#ff5fa2"],
-    role: "Frontend · Design System",
+    role: "프론트엔드 · 디자인 시스템",
     overview:
-      "A boutique commerce experience where shopping feels like a gallery. Product reveals are choreographed, the cart animates with intention, and a tokenized design system keeps it all consistent.",
+      "쇼핑이 갤러리처럼 느껴지는 부티크 커머스 경험. 제품 공개가 안무처럼 연출되고, 장바구니는 의도를 가지고 움직이며, 토큰화된 디자인 시스템이 일관성을 유지합니다.",
     highlights: [
-      "Choreographed product reveals",
-      "Tokenized, themeable design system",
-      "+18% conversion vs. the previous build",
+      "안무처럼 연출된 제품 공개",
+      "토큰화된 테마형 디자인 시스템",
+      "이전 빌드 대비 전환율 +18%",
     ],
   },
 ];
@@ -190,7 +189,7 @@ export type SkillGroup = {
 
 export const craft = {
   overline: "Craft",
-  heading: "A toolkit tuned for expressive engineering.",
+  heading: "표현적 엔지니어링을 위해 다듬은 도구함.",
   groups: [
     {
       title: "Engineering",
@@ -213,7 +212,7 @@ export const craft = {
 
 export const contact = {
   overline: "Contact",
-  heading: "Let's build something\nunforgettable.",
-  body: "Have a project in mind, or just want to talk shaders and motion? My inbox is always open.",
-  cta: "Start a conversation",
+  heading: "잊지 못할 무언가를\n함께 만들어요.",
+  body: "마음에 둔 프로젝트가 있거나, 그냥 셰이더와 모션에 대해 이야기 나누고 싶으신가요? 제 메일함은 언제나 열려 있습니다.",
+  cta: "대화 시작하기",
 } as const;

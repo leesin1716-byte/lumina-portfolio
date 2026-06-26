@@ -77,8 +77,8 @@ export function Hero() {
           variants={lineWrap}
           initial="hidden"
           animate={ready ? "visible" : "hidden"}
-          className="font-display font-bold leading-[0.86] tracking-[-0.03em] lg:max-w-[60%]"
-          style={{ fontSize: "clamp(2.75rem, 8.6vw, 8.5rem)" }}
+          className="font-display font-bold leading-[1.02] tracking-[-0.01em] lg:max-w-[62%]"
+          style={{ fontSize: "clamp(2.5rem, 8vw, 7.5rem)" }}
           aria-label={hero.lines.join(" ")}
         >
           {hero.lines.map((line, i) => (
@@ -136,7 +136,7 @@ export function Hero() {
               onClick={() => scrollTo("#work", -10)}
               className="group items-center gap-3 overflow-hidden rounded-full bg-fg px-7 py-4 text-sm font-medium text-bg"
             >
-              <span className="relative z-10">View selected work</span>
+              <span className="relative z-10">작업 보기</span>
               <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">
                 →
               </span>
@@ -145,7 +145,7 @@ export function Hero() {
               href={`mailto:${site.email}`}
               className="items-center gap-2 rounded-full border border-line-strong px-7 py-4 text-sm font-medium text-fg transition-colors hover:border-violet"
             >
-              Get in touch
+              연락하기
             </MagneticButton>
           </motion.div>
         </div>

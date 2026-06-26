@@ -25,9 +25,9 @@
   --color-lime: #c2ff5e;
   --color-amber: #ff8a4d;
 
-  /* Fonts (wired up in layout.tsx) */
-  --font-display: var(--font-bricolage), "Inter", system-ui, sans-serif;
-  --font-sans: var(--font-inter), system-ui, sans-serif;
+  /* Fonts — Pretendard covers Korean + Latin; Latin display as fallback. */
+  --font-display: "Pretendard Variable", var(--font-bricolage), system-ui, sans-serif;
+  --font-sans: "Pretendard Variable", var(--font-inter), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 
   /* Easing */
@@ -136,10 +136,11 @@
 
   h1, h2, h3, h4 {
     font-family: var(--font-display);
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
     text-wrap: balance;
+    word-break: keep-all;
   }
 
   /* Custom scrollbar */
@@ -161,16 +162,7 @@
     border-radius: 4px;
   }
 
-  /* Hide the system cursor where the custom cursor is active (desktop). */
-  @media (pointer: fine) {
-    body[data-cursor="custom"] {
-      cursor: none;
-    }
-    body[data-cursor="custom"] a,
-    body[data-cursor="custom"] button {
-      cursor: none;
-    }
-  }
+  /* The native cursor stays visible — the custom ring is purely additive. */
 }
 
 /* ------------------------------------------------------------------ *

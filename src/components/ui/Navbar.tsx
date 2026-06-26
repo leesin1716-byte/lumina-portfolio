@@ -124,7 +124,7 @@ export function Navbar() {
               href={`mailto:${site.email}`}
               className="items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
             >
-              Let&apos;s talk
+              연락하기
             </MagneticButton>
           </div>
 

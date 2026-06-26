@@ -56,10 +56,10 @@ export default function OpengraphImage() {
               letterSpacing: "-0.03em",
             }}
           >
-            {site.role}
+            Creative Frontend Developer
           </div>
           <div style={{ fontSize: 34, color: "#9aa0b9", maxWidth: 820 }}>
-            {site.tagline}
+            Immersive interfaces where motion, light & code meet.
           </div>
         </div>
 
@@ -71,7 +71,7 @@ export default function OpengraphImage() {
             color: "#5b6079",
           }}
         >
-          <div style={{ display: "flex" }}>{site.owner}</div>
+          <div style={{ display: "flex" }}>Portfolio</div>
           <div style={{ display: "flex" }}>{site.location}</div>
         </div>
       </div>

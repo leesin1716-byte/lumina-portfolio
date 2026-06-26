@@ -63,7 +63,7 @@ export function Footer() {
             data-cursor="hover"
             className="group flex items-center gap-2 self-start text-sm text-muted transition-colors hover:text-fg sm:self-end"
           >
-            Back to top
+            맨 위로
             <span className="transition-transform group-hover:-translate-y-1">
               ↑
             </span>
@@ -72,7 +72,7 @@ export function Footer() {
 
         <div className="flex flex-col gap-2 border-t border-line pt-6 text-xs text-faint sm:flex-row sm:items-center sm:justify-between">
           <p>
-            © {year} {site.owner}. Crafted with light & code.
+            © {year} {site.owner}. 빛과 코드로 빚었습니다.
           </p>
           <p className="flex items-center gap-2 font-mono uppercase tracking-widest">
             {site.location}

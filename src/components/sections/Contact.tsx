@@ -44,7 +44,7 @@ export function Contact() {
           as="h2"
           text={contact.heading}
           stagger={0.06}
-          className="font-display text-5xl font-bold leading-[0.95] tracking-tight sm:text-7xl md:text-8xl"
+          className="font-display text-5xl font-bold leading-[1.08] sm:text-7xl md:text-8xl"
         />
 
         <motion.p

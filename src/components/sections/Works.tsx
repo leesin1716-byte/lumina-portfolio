@@ -56,14 +56,14 @@ export function Works() {
             <Parallax speed={0.08}>
               <AnimatedText
                 as="h2"
-                text={"Projects that\nblur the line."}
-                className="font-display text-4xl font-semibold leading-[1] tracking-tight sm:text-6xl"
+                text={"경계를 허무는\n프로젝트."}
+                className="font-display text-4xl font-semibold leading-[1.08] sm:text-6xl"
               />
             </Parallax>
           </div>
           <p className="max-w-xs text-sm text-muted sm:text-right">
-            A selection of immersive builds — each one an experiment in motion,
-            depth, and detail.
+            몰입형으로 빚어낸 작업들 — 각각이 모션과 깊이, 디테일에 대한 하나의
+            실험입니다.
           </p>
         </div>
 

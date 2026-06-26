@@ -13,15 +13,14 @@ export default function NotFound() {
           404
         </h1>
         <p className="mt-6 max-w-sm text-pretty text-muted">
-          This page drifted out of orbit. Let&apos;s get you back to familiar
-          light.
+          이 페이지는 궤도를 벗어났습니다. 익숙한 빛으로 다시 모셔다 드릴게요.
         </p>
         <Link
           href="/"
           data-cursor="hover"
           className="mt-10 rounded-full bg-fg px-7 py-4 text-sm font-medium text-bg transition-colors hover:bg-violet"
         >
-          Back home
+          홈으로
         </Link>
       </div>
     </section>

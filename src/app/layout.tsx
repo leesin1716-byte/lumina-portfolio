@@ -52,7 +52,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
-    locale: "en_US",
+    locale: "ko_KR",
     url: site.url,
     title: `${site.owner} — ${site.role}`,
     description: site.description,
@@ -78,16 +78,20 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
-      lang="en"
+      lang="ko"
       className={`${display.variable} ${sans.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <body>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendard-variable.min.css"
+        />
         <a
           href="#home"
           className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-full focus:bg-fg focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-bg"
         >
-          Skip to content
+          본문으로 건너뛰기
         </a>
         <Preloader />
         <CustomCursor />

@@ -114,14 +114,14 @@ export function ProjectModal({ project, onClose }: Props) {
               <div className="grid gap-8 sm:grid-cols-[1.6fr_1fr]">
                 <div>
                   <h4 className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-violet">
-                    Overview
+                    개요
                   </h4>
                   <p className="text-pretty leading-relaxed text-muted">
                     {project.overview}
                   </p>
 
                   <h4 className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-violet">
-                    Highlights
+                    주요 성과
                   </h4>
                   <ul className="flex flex-col gap-2.5">
                     {project.highlights.map((h) => (
@@ -139,13 +139,13 @@ export function ProjectModal({ project, onClose }: Props) {
                 <div className="flex flex-col gap-6">
                   <div>
                     <h4 className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-faint">
-                      Role
+                      역할
                     </h4>
                     <p className="text-sm text-fg">{project.role}</p>
                   </div>
                   <div>
                     <h4 className="mb-2 font-mono text-xs uppercase tracking-[0.2em] text-faint">
-                      Stack
+                      기술 스택
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {project.tags.map((t) => (
@@ -163,7 +163,7 @@ export function ProjectModal({ project, onClose }: Props) {
                     data-cursor="hover"
                     className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-fg px-5 py-3 text-sm font-medium text-bg transition-colors hover:bg-violet"
                   >
-                    Visit project
+                    프로젝트 보기
                     <span aria-hidden>→</span>
                   </a>
                 </div>
