@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import Link from "next/link";
 import type { Content } from "@/lib/content";
 import { ContentProvider } from "@/components/providers/ContentProvider";
@@ -17,11 +18,24 @@ import { Footer } from "@/components/sections/Footer";
 /** Renders a user's portfolio with the immersive design, fed by their data. */
 export function PortfolioView({
   content,
+  slug,
   branding = true,
 }: {
   content: Content;
+  slug?: string;
   branding?: boolean;
 }) {
+  useEffect(() => {
+    if (!slug) return;
+    // Fire-and-forget view tracking.
+    fetch("/api/track", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug }),
+      keepalive: true,
+    }).catch(() => {});
+  }, [slug]);
+
   return (
     <ContentProvider value={content}>
       <SmoothScroll>

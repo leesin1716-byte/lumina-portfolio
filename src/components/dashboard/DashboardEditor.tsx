@@ -30,10 +30,12 @@ export function DashboardEditor({
   email,
   plan,
   portfolio,
+  views,
 }: {
   email: string;
   plan: string;
   portfolio: PortfolioRow | null;
+  views: number;
 }) {
   const router = useRouter();
   const d = portfolio?.data ?? {};
@@ -248,6 +250,11 @@ export function DashboardEditor({
               현재 플랜:{" "}
               <span className="font-medium text-fg">
                 {plan === "pro" ? "Pro" : "무료"}
+              </span>
+              <span className="mx-2 text-faint">·</span>
+              방문수{" "}
+              <span className="font-medium text-fg tabular-nums">
+                {views.toLocaleString()}
               </span>
             </p>
           </div>

@@ -42,7 +42,7 @@ npm run build && npm run start
 
 1. **Supabase** — [supabase.com](https://supabase.com)에서 프로젝트 생성 →
    SQL Editor에서 `supabase/schema.sql` 실행 → (결제용) `supabase/billing.sql`
-   실행. Settings → API에서 키 복사.
+   → (방문 분석용) `supabase/analytics.sql` 실행. Settings → API에서 키 복사.
 2. **TossPayments** — 가입 후 테스트 클라이언트/시크릿 키 발급.
 3. 프로젝트 루트에 **`.env.local`** 생성 (`.env.example` 참고):
 

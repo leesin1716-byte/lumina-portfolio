@@ -42,7 +42,7 @@ export default async function DashboardPage() {
 
   const { data: portfolio } = await supabase
     .from("portfolios")
-    .select("id, slug, data, published")
+    .select("*")
     .eq("user_id", user.id)
     .order("created_at", { ascending: true })
     .limit(1)
@@ -59,6 +59,7 @@ export default async function DashboardPage() {
       email={user.email ?? ""}
       plan={profile?.plan ?? "free"}
       portfolio={portfolio}
+      views={(portfolio as { views?: number } | null)?.views ?? 0}
     />
   );
 }
