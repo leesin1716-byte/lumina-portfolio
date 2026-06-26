@@ -71,7 +71,7 @@ export default async function BillingSuccess({
         </h1>
         <p className="mt-3 text-pretty text-muted">
           {ok
-            ? "이제 커스텀 도메인, 프리미엄 테마 등 모든 Pro 기능을 사용할 수 있어요."
+            ? "이제 LUMINA 배지 제거, 방문자 분석 등 모든 Pro 기능을 사용할 수 있어요."
             : message}
         </p>
         <Link
