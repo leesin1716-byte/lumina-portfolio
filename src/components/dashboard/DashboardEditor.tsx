@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
 import { defaultContent, type PortfolioData } from "@/lib/content";
+import { SaveStatus, type SaveState } from "@/components/dashboard/SaveStatus";
 
 type EditProject = {
   title: string;
@@ -104,7 +105,7 @@ export function DashboardEditor({
   };
 
   const [saving, setSaving] = useState(false);
-  const [status, setStatus] = useState<string | null>(null);
+  const [status, setStatus] = useState<SaveState | null>(null);
 
   const [showOnboard, setShowOnboard] = useState(false);
   useEffect(() => {
@@ -179,14 +180,15 @@ export function DashboardEditor({
     setSaving(false);
     if (error) {
       const dup = /duplicate|unique/i.test(error.message);
-      setStatus(
-        dup
+      setStatus({
+        kind: "err",
+        text: dup
           ? "이미 사용 중인 주소예요. 다른 주소를 입력해주세요."
           : `저장 실패: ${error.message}`,
-      );
+      });
     } else {
       if (cleanSlug && cleanSlug !== slug) setSlug(cleanSlug);
-      setStatus("저장되었습니다 ✓");
+      setStatus({ kind: "ok", text: "저장되었습니다" });
     }
   };
 
@@ -520,7 +522,7 @@ export function DashboardEditor({
           공개 (체크하면 누구나 내 사이트를 볼 수 있어요)
         </label>
         <div className="flex items-center gap-4">
-          {status && <span className="text-sm text-muted">{status}</span>}
+          {status && <SaveStatus kind={status.kind} text={status.text} />}
           <button
             onClick={onSave}
             disabled={saving || !portfolio}
