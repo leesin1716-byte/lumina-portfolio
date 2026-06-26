@@ -7,6 +7,7 @@ import { CustomCursor } from "@/components/ui/CustomCursor";
 import { Preloader } from "@/components/ui/Preloader";
 import { ScrollProgress } from "@/components/ui/ScrollProgress";
 import { GrainOverlay } from "@/components/ui/GrainOverlay";
+import { ConsoleGreeting } from "@/components/ui/ConsoleGreeting";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/sections/Footer";
 
@@ -97,6 +98,7 @@ export default function RootLayout({
           <Footer />
         </SmoothScroll>
         <GrainOverlay />
+        <ConsoleGreeting />
       </body>
     </html>
   );
