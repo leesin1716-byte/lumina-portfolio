@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# LUMINA — Creative Frontend Portfolio
 
-## Getting Started
+An immersive, interactive portfolio experience built to showcase creative
+frontend engineering: real-time WebGL, motion design, and interaction
+craft. Dark, cinematic, aurora-lit.
 
-First, run the development server:
+## Highlights
+
+- **3D cursor-following robot companion** — a stylized robot head built
+  entirely from Three.js primitives (no external model). Its gaze tracks the
+  cursor, with glowing visor eyes, a blink, a pulsing antenna, side pods, a
+  halo ring, bloom postprocessing, and camera parallax. Reduced-motion and
+  mobile gracefully fall back to a pure-CSS aurora.
+- **WebGL liquid-distortion gallery** — hovering a project reveals a
+  shader-driven (GLSL fbm domain-warp) gradient card that follows the cursor
+  and morphs colors per project.
+- **Signature interactions** — custom cursor with magnetic states, magnetic
+  buttons, Lenis smooth scrolling, masked kinetic typography, a counting
+  preloader, scroll progress, film grain, and a scroll-spy navbar.
+- **Accessible & performant** — `prefers-reduced-motion` aware throughout
+  (via `MotionConfig`, Lenis/WebGL opt-out), keyboard navigable with a skip
+  link and focus-visible states, WebGL contexts gated to the viewport, fully
+  responsive.
+
+## Tech stack
+
+- [Next.js 16](https://nextjs.org) (App Router) · React 19 · TypeScript
+- [Tailwind CSS v4](https://tailwindcss.com) — CSS-first design tokens
+- [Framer Motion](https://www.framer.com/motion/) — animation & orchestration
+- [React Three Fiber](https://r3f.docs.pmnd.rs/) · drei · postprocessing —
+  WebGL/3D
+- [Lenis](https://lenis.darkroom.engineering/) — smooth scrolling
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
+npm run start    # serve the production build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Make it yours
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+All copy and data live in [`src/lib/content.ts`](./src/lib/content.ts) —
+identity, navigation, projects, skills, and contact. Edit that one file and
+the whole site updates. Swap `site.owner`, `site.email`, the `projects`
+array, and the social links.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure
 
-## Learn More
+```
+src/
+├─ app/                 # routes, layout, metadata (robots, sitemap, OG image)
+├─ components/
+│  ├─ canvas/           # R3F scenes: robot companion, works shader preview
+│  ├─ providers/        # smooth scroll + motion config
+│  ├─ sections/         # Hero, About, Works, Craft, Contact, Footer
+│  └─ ui/               # cursor, magnetic button, preloader, kinetic text…
+└─ lib/                 # content, hooks, utils
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Crafted with light & code.

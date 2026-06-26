@@ -1,6 +1,7 @@
 "use client";
 
 import Lenis from "lenis";
+import { MotionConfig } from "framer-motion";
 import {
   createContext,
   useContext,
@@ -75,7 +76,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
 
   return (
     <LenisContext.Provider value={{ lenis, scrollTo }}>
-      {children}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </LenisContext.Provider>
   );
 }

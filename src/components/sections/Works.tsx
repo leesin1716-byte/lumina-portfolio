@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSpring } from "framer-motion";
 import { projects } from "@/lib/content";
 import { useIsTouch } from "@/lib/hooks";
@@ -9,9 +9,22 @@ import { WorksGLPreview } from "@/components/canvas/WorksGLPreview";
 
 export function Works() {
   const isTouch = useIsTouch();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
   const [active, setActive] = useState<number | null>(null);
   const px = useSpring(0, { stiffness: 140, damping: 18, mass: 0.5 });
   const py = useSpring(0, { stiffness: 140, damping: 18, mass: 0.5 });
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin: "200px 0px" },
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, []);
 
   const onMove = (e: React.PointerEvent) => {
     px.set(e.clientX);
@@ -23,6 +36,7 @@ export function Works() {
 
   return (
     <section
+      ref={sectionRef}
       id="work"
       className="relative scroll-mt-24 px-6 py-28 sm:px-8 sm:py-40"
       onPointerMove={onMove}
@@ -94,8 +108,10 @@ export function Works() {
         </ul>
       </div>
 
-      {/* Floating shader preview (desktop) */}
-      {!isTouch && <WorksGLPreview active={active} px={px} py={py} />}
+      {/* Floating shader preview (desktop, only while in view) */}
+      {!isTouch && inView && (
+        <WorksGLPreview active={active} px={px} py={py} />
+      )}
     </section>
   );
 }

@@ -1,24 +1,46 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { about } from "@/lib/content";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function About() {
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+  const orbY = useTransform(scrollYProgress, [0, 1], [120, -120]);
+  const ringY = useTransform(scrollYProgress, [0, 1], [-80, 80]);
+
   return (
     <section
+      ref={ref}
       id="about"
-      className="relative mx-auto max-w-7xl scroll-mt-24 px-6 py-28 sm:px-8 sm:py-40"
+      className="relative isolate mx-auto max-w-7xl scroll-mt-24 px-6 py-28 sm:px-8 sm:py-40"
     >
-      <div className="mb-14 flex items-center gap-4">
+      {/* Scroll-parallax decorative accents */}
+      <motion.div
+        aria-hidden
+        style={{ y: orbY }}
+        className="pointer-events-none absolute right-[6%] top-[18%] z-0 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(109,92,255,0.22),transparent_65%)] blur-2xl sm:h-96 sm:w-96"
+      />
+      <motion.div
+        aria-hidden
+        style={{ y: ringY }}
+        className="pointer-events-none absolute bottom-[10%] left-[2%] z-0 hidden h-64 w-64 animate-spin-slow rounded-full border border-line-strong [mask-image:linear-gradient(transparent,#000)] md:block"
+      />
+
+      <div className="relative z-10 mb-14 flex items-center gap-4">
         <span className="font-mono text-xs uppercase tracking-[0.25em] text-violet">
           {about.overline}
         </span>
         <span className="h-px flex-1 bg-line" />
       </div>
 
-      <div className="grid gap-14 md:grid-cols-[1.4fr_1fr]">
+      <div className="relative z-10 grid gap-14 md:grid-cols-[1.4fr_1fr]">
         <AnimatedText
           as="h2"
           text={about.heading}
@@ -37,7 +59,7 @@ export function About() {
       </div>
 
       {/* Stats */}
-      <div className="mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
+      <div className="relative z-10 mt-20 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
         {about.stats.map((s, i) => (
           <motion.div
             key={s.label}

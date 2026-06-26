@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -21,6 +21,23 @@ export function Navbar() {
   const [hidden, setHidden] = useState(false);
   const [open, setOpen] = useState(false);
   const [prev, setPrev] = useState(0);
+  const [activeId, setActiveId] = useState("home");
+
+  useEffect(() => {
+    const sections = nav
+      .map((n) => document.getElementById(n.href.slice(1)))
+      .filter((el): el is HTMLElement => el !== null);
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) setActiveId(e.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+    );
+    sections.forEach((s) => obs.observe(s));
+    return () => obs.disconnect();
+  }, []);
 
   useMotionValueEvent(scrollY, "change", (y) => {
     setScrolled(y > 24);
@@ -66,20 +83,40 @@ export function Navbar() {
 
           {/* Desktop links */}
           <ul className="hidden items-center gap-1 md:flex">
-            {nav.map((item) => (
-              <li key={item.href}>
-                <button
-                  onClick={() => go(item.href)}
-                  data-cursor="hover"
-                  className="group relative rounded-full px-4 py-2 text-sm text-muted transition-colors hover:text-fg"
-                >
-                  <span className="mr-1 font-mono text-[10px] text-faint">
-                    {item.index}
-                  </span>
-                  {item.label}
-                </button>
-              </li>
-            ))}
+            {nav.map((item) => {
+              const isActive = item.href === `#${activeId}`;
+              return (
+                <li key={item.href}>
+                  <button
+                    onClick={() => go(item.href)}
+                    data-cursor="hover"
+                    aria-current={isActive ? "true" : undefined}
+                    className={cn(
+                      "group relative rounded-full px-4 py-2 text-sm transition-colors hover:text-fg",
+                      isActive ? "text-fg" : "text-muted",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "mr-1 font-mono text-[10px] transition-colors",
+                        isActive ? "text-violet" : "text-faint",
+                      )}
+                    >
+                      {item.index}
+                    </span>
+                    {item.label}
+                    <span
+                      className={cn(
+                        "absolute inset-x-4 bottom-1 h-px origin-left bg-gradient-to-r from-violet to-cyan transition-transform duration-300",
+                        isActive
+                          ? "scale-x-100"
+                          : "scale-x-0 group-hover:scale-x-100",
+                      )}
+                    />
+                  </button>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="hidden md:block">
