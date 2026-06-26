@@ -10,6 +10,7 @@ import { GrainOverlay } from "@/components/ui/GrainOverlay";
 import { ConsoleGreeting } from "@/components/ui/ConsoleGreeting";
 import { Navbar } from "@/components/ui/Navbar";
 import { SideNav } from "@/components/ui/SideNav";
+import { BackToTop } from "@/components/ui/BackToTop";
 import { Footer } from "@/components/sections/Footer";
 
 const display = Bricolage_Grotesque({
@@ -102,6 +103,7 @@ export default function RootLayout({
           <SideNav />
           <main id="home">{children}</main>
           <Footer />
+          <BackToTop />
         </SmoothScroll>
         <GrainOverlay />
         <ConsoleGreeting />
