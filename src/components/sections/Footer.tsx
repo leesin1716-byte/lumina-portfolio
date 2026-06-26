@@ -54,7 +54,7 @@ export function Footer() {
                 className="group flex items-center gap-2 text-sm text-muted transition-colors hover:text-fg"
               >
                 <span className="h-1 w-1 rounded-full bg-violet transition-transform group-hover:scale-150" />
-                {s.label}
+                <span className="link-underline">{s.label}</span>
               </a>
             ))}
           </div>
@@ -63,7 +63,7 @@ export function Footer() {
             data-cursor="hover"
             className="group flex items-center gap-2 self-start text-sm text-muted transition-colors hover:text-fg sm:self-end"
           >
-            맨 위로
+            <span className="link-underline">맨 위로</span>
             <span className="transition-transform group-hover:-translate-y-1">
               ↑
             </span>
