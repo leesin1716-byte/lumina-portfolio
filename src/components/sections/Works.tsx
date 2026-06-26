@@ -1,29 +1,32 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useSpring } from "framer-motion";
+import { useSpring } from "framer-motion";
 import { projects } from "@/lib/content";
 import { useIsTouch } from "@/lib/hooks";
 import { AnimatedText } from "@/components/ui/AnimatedText";
-
-const EASE = [0.16, 1, 0.3, 1] as const;
+import { WorksGLPreview } from "@/components/canvas/WorksGLPreview";
 
 export function Works() {
   const isTouch = useIsTouch();
   const [active, setActive] = useState<number | null>(null);
-  const px = useSpring(0, { stiffness: 150, damping: 20, mass: 0.5 });
-  const py = useSpring(0, { stiffness: 150, damping: 20, mass: 0.5 });
+  const px = useSpring(0, { stiffness: 140, damping: 18, mass: 0.5 });
+  const py = useSpring(0, { stiffness: 140, damping: 18, mass: 0.5 });
 
-  const onMove = (e: React.MouseEvent) => {
+  const onMove = (e: React.PointerEvent) => {
     px.set(e.clientX);
     py.set(e.clientY);
+    const row = (e.target as HTMLElement).closest<HTMLElement>("a[data-index]");
+    const idx = row ? Number(row.dataset.index) : null;
+    setActive((prev) => (prev === idx ? prev : idx));
   };
 
   return (
     <section
       id="work"
       className="relative scroll-mt-24 px-6 py-28 sm:px-8 sm:py-40"
-      onMouseMove={onMove}
+      onPointerMove={onMove}
+      onPointerLeave={() => setActive(null)}
     >
       <div className="mx-auto max-w-7xl">
         <div className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
@@ -51,10 +54,11 @@ export function Works() {
             <li key={p.id}>
               <a
                 href={p.href ?? "#"}
+                data-index={i}
                 data-cursor="view"
                 data-cursor-label="View"
-                onMouseEnter={() => setActive(i)}
-                onMouseLeave={() => setActive(null)}
+                onFocus={() => setActive(i)}
+                onBlur={() => setActive(null)}
                 className="group relative flex flex-col gap-3 border-b border-line py-7 transition-colors sm:flex-row sm:items-center sm:justify-between sm:py-9"
               >
                 {/* hover fill */}
@@ -90,40 +94,8 @@ export function Works() {
         </ul>
       </div>
 
-      {/* Floating cursor preview (desktop) */}
-      {!isTouch && (
-        <AnimatePresence>
-          {active !== null && (
-            <motion.div
-              className="pointer-events-none fixed left-0 top-0 z-[60] hidden h-64 w-80 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-2xl md:block"
-              style={{ x: px, y: py }}
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.85 }}
-              transition={{ duration: 0.4, ease: EASE }}
-            >
-              <div
-                className="relative h-full w-full"
-                style={{
-                  background: `linear-gradient(135deg, ${projects[active].gradient[0]}, ${projects[active].gradient[1]})`,
-                }}
-              >
-                <div className="absolute inset-0 opacity-30 mix-blend-overlay [background:radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.8),transparent_50%)]" />
-                <div className="absolute bottom-4 left-4 right-4 flex flex-wrap gap-2">
-                  {projects[active].tags.map((t) => (
-                    <span
-                      key={t}
-                      className="rounded-full bg-black/30 px-2.5 py-1 text-[11px] font-medium text-white backdrop-blur"
-                    >
-                      {t}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      )}
+      {/* Floating shader preview (desktop) */}
+      {!isTouch && <WorksGLPreview active={active} px={px} py={py} />}
     </section>
   );
 }
