@@ -93,6 +93,7 @@ export function DashboardEditor({
   const [slug, setSlug] = useState(portfolio?.slug ?? "");
   const [linkCopied, setLinkCopied] = useState(false);
   const [cancelling, setCancelling] = useState(false);
+  const [hideBadge, setHideBadge] = useState<boolean>(d.hideBadge ?? false);
 
   const cancelPro = async () => {
     if (!window.confirm("정말 Pro 구독을 해지할까요?")) return;
@@ -157,6 +158,7 @@ export function DashboardEditor({
         highlights: [],
       })),
       socials: socials.filter((s) => s.label && s.href),
+      hideBadge,
     };
     const cleanSlug = slug
       .toLowerCase()
@@ -320,6 +322,35 @@ export function DashboardEditor({
             </Link>
           )}
         </div>
+
+        {/* White-label — Pro perk */}
+        <label
+          className={`mt-5 flex items-center justify-between gap-4 rounded-xl border border-line bg-bg/30 px-4 py-3 ${
+            plan === "pro" ? "" : "opacity-70"
+          }`}
+        >
+          <span>
+            <span className="flex items-center gap-2 text-sm font-medium">
+              &lsquo;LUMINA로 제작&rsquo; 배지 숨기기
+              {plan !== "pro" && (
+                <span className="rounded-full border border-violet/40 bg-violet/10 px-2 py-0.5 text-[11px] font-semibold text-violet">
+                  Pro 전용
+                </span>
+              )}
+            </span>
+            <span className="mt-0.5 block text-xs text-muted">
+              공개 포트폴리오 좌측 하단의 배지를 제거해 온전히 내 브랜드로 보여줘요.
+            </span>
+          </span>
+          <input
+            type="checkbox"
+            checked={hideBadge}
+            disabled={plan !== "pro"}
+            onChange={(e) => setHideBadge(e.target.checked)}
+            aria-label="LUMINA 배지 숨기기 (Pro 전용)"
+            className="h-4 w-4 shrink-0 accent-violet disabled:cursor-not-allowed"
+          />
+        </label>
       </section>
 
       {/* Public address */}

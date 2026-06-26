@@ -269,6 +269,8 @@ export type PortfolioData = Partial<{
   craft: Partial<{ overline: string; heading: string; groups: SkillGroup[] }>;
   projects: Project[];
   socials: { label: string; href: string; handle?: string }[];
+  /** Pro 전용: 공개 포트폴리오의 "LUMINA로 제작" 배지를 숨깁니다. */
+  hideBadge: boolean;
 }>;
 
 /** Merge a user's partial overrides over the defaults into a full Content. */
