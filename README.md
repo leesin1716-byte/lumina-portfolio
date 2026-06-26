@@ -76,6 +76,7 @@ Variables**에 위 `.env.local` 값들을 동일하게 등록하되 `NEXT_PUBLIC
 | `/` | 랜딩 (몰입형 데모 + 제품 소개·요금제 CTA) |
 | `/pricing` | 요금제 (무료 / Pro) |
 | `/login`, `/signup` | 인증 |
+| `/forgot-password`, `/reset-password` | 비밀번호 재설정 |
 | `/dashboard` | 포트폴리오 편집 (보호됨) |
 | `/p/[slug]` | 공개 포트폴리오 |
 | `/billing/success`, `/billing/fail` | 결제 결과 |
@@ -86,7 +87,7 @@ Variables**에 위 `.env.local` 값들을 동일하게 등록하되 `NEXT_PUBLIC
 src/
 ├─ app/
 │  ├─ (site)/        # 랜딩 + 마케팅 chrome (nav/footer)
-│  ├─ (auth)/        # 로그인 / 회원가입
+│  ├─ (auth)/        # 로그인 / 회원가입 / 비밀번호 재설정
 │  ├─ dashboard/     # 편집기 (보호됨)
 │  ├─ p/[slug]/      # 공개 포트폴리오
 │  └─ billing/       # 결제 결과
@@ -94,7 +95,7 @@ src/
 ├─ lib/              # content(+merge) · supabase · toss · hooks · utils
 ├─ proxy.ts          # 인증 미들웨어(세션 갱신 + /dashboard 보호)
 └─ ...
-supabase/            # schema.sql, billing.sql
+supabase/            # schema.sql, billing.sql, analytics.sql
 ```
 
 빛과 코드로 만들었습니다.
