@@ -27,9 +27,21 @@ export async function generateMetadata({
   const { slug } = await params;
   const data = await getPortfolio(slug);
   const content = mergeContent(data);
+  const title = `${content.site.owner} — ${content.site.role}`;
+  const description = content.site.tagline;
+  const url = `/p/${slug}`;
   return {
-    title: `${content.site.owner} — ${content.site.role}`,
-    description: content.site.tagline,
+    title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "profile",
+      title,
+      description,
+      url,
+      siteName: "LUMINA",
+    },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
