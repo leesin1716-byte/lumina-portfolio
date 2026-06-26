@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     template: `%s — ${site.name}`,
   },
   description: site.description,
+  applicationName: site.name,
   keywords: [
     "creative developer",
     "frontend developer",
@@ -47,6 +48,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: site.owner }],
   creator: site.owner,
+  alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
