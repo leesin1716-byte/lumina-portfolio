@@ -78,6 +78,23 @@ export function ProductPitch() {
           </div>
         </div>
 
+        {/* Honest stats */}
+        <div className="mx-auto mt-16 grid max-w-3xl grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-4">
+          {[
+            { v: "0줄", l: "필요한 코드" },
+            { v: "5분", l: "완성까지" },
+            { v: "60fps", l: "부드러운 성능" },
+            { v: "₩0", l: "시작 비용" },
+          ].map((s) => (
+            <div key={s.l} className="bg-bg-soft p-6 text-center">
+              <div className="font-display text-3xl font-bold text-gradient sm:text-4xl">
+                {s.v}
+              </div>
+              <div className="mt-1.5 text-sm text-muted">{s.l}</div>
+            </div>
+          ))}
+        </div>
+
         {/* Features */}
         <div className="mt-20 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {features.map((f, i) => (
@@ -119,6 +136,34 @@ export function ProductPitch() {
                 <h4 className="mt-4 font-medium">{s.t}</h4>
                 <p className="mt-1.5 text-sm text-muted">{s.d}</p>
               </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* FAQ */}
+        <div className="mx-auto mt-24 max-w-2xl">
+          <h3 className="mb-8 text-center font-display text-2xl font-bold tracking-tight sm:text-3xl">
+            자주 묻는 질문
+          </h3>
+          <div className="flex flex-col divide-y divide-line">
+            {[
+              {
+                q: "코딩을 몰라도 되나요?",
+                a: "네. 대시보드에 내용만 입력하면 디자인·3D·애니메이션은 모두 자동으로 적용돼요.",
+              },
+              {
+                q: "내 주소로 바로 공유되나요?",
+                a: "공개 버튼을 누르면 lumina.app/p/내이름 링크가 생기고, 어디든 공유할 수 있어요.",
+              },
+              {
+                q: "나중에 Pro로 올릴 수 있나요?",
+                a: "물론이죠. 무료로 시작하고, 필요할 때 언제든 업그레이드할 수 있어요.",
+              },
+            ].map((f) => (
+              <div key={f.q} className="py-5">
+                <h4 className="font-medium">{f.q}</h4>
+                <p className="mt-2 text-pretty text-sm text-muted">{f.a}</p>
+              </div>
             ))}
           </div>
         </div>
