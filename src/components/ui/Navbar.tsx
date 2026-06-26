@@ -89,7 +89,7 @@ export function Navbar({ portfolio = false }: { portfolio?: boolean }) {
           </button>
 
           {/* Desktop links */}
-          <ul className="hidden items-center gap-1 md:flex">
+          <ul className="hidden items-center gap-1 lg:flex">
             {nav.map((item) => {
               const isActive = item.href === `#${activeId}`;
               return (
@@ -126,7 +126,7 @@ export function Navbar({ portfolio = false }: { portfolio?: boolean }) {
             })}
           </ul>
 
-          <div className="hidden items-center gap-2 md:flex">
+          <div className="hidden items-center gap-2 lg:flex">
             <ThemeToggle />
             {!portfolio && (
               <>
@@ -154,8 +154,8 @@ export function Navbar({ portfolio = false }: { portfolio?: boolean }) {
             )}
           </div>
 
-          {/* Mobile: theme toggle + menu */}
-          <div className="flex items-center gap-2 md:hidden">
+          {/* Mobile/tablet: theme toggle + menu */}
+          <div className="flex items-center gap-2 lg:hidden">
             <ThemeToggle />
             <button
               onClick={() => setOpen((o) => !o)}
