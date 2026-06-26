@@ -146,6 +146,17 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
         </button>
       </form>
 
+      {mode === "login" && (
+        <p className="mt-3 text-center text-xs text-muted">
+          <Link
+            href="/forgot-password"
+            className="underline-offset-4 hover:text-fg hover:underline"
+          >
+            비밀번호를 잊으셨나요?
+          </Link>
+        </p>
+      )}
+
       <p className="mt-5 text-center text-sm text-muted">
         {mode === "login" ? (
           <>
