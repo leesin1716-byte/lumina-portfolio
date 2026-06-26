@@ -280,6 +280,7 @@ export function DashboardEditor({
             value={slug}
             onChange={(e) => setSlug(e.target.value)}
             placeholder="내이름"
+            aria-label="공개 주소 (slug)"
           />
         </div>
       </section>
@@ -354,11 +355,11 @@ export function DashboardEditor({
                 </button>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
-                <input className={field} value={p.title} onChange={(e) => setProject(i, { title: e.target.value })} placeholder="제목" />
-                <input className={field} value={p.category} onChange={(e) => setProject(i, { category: e.target.value })} placeholder="카테고리 (예: 제품 · WebGL)" />
-                <input className={field} value={p.year} onChange={(e) => setProject(i, { year: e.target.value })} placeholder="연도" />
-                <input className={field} value={p.tags} onChange={(e) => setProject(i, { tags: e.target.value })} placeholder="태그 (쉼표로 구분)" />
-                <textarea className={`${field} min-h-20 resize-y sm:col-span-2`} value={p.description} onChange={(e) => setProject(i, { description: e.target.value })} placeholder="설명" />
+                <input aria-label="프로젝트 제목" className={field} value={p.title} onChange={(e) => setProject(i, { title: e.target.value })} placeholder="제목" />
+                <input aria-label="프로젝트 카테고리" className={field} value={p.category} onChange={(e) => setProject(i, { category: e.target.value })} placeholder="카테고리 (예: 제품 · WebGL)" />
+                <input aria-label="프로젝트 연도" className={field} value={p.year} onChange={(e) => setProject(i, { year: e.target.value })} placeholder="연도" />
+                <input aria-label="프로젝트 태그" className={field} value={p.tags} onChange={(e) => setProject(i, { tags: e.target.value })} placeholder="태그 (쉼표로 구분)" />
+                <textarea aria-label="프로젝트 설명" className={`${field} min-h-20 resize-y sm:col-span-2`} value={p.description} onChange={(e) => setProject(i, { description: e.target.value })} placeholder="설명" />
                 <div className="flex items-center gap-3 sm:col-span-2">
                   <span className="text-xs text-muted">커버 색상</span>
                   <input type="color" value={p.g0} onChange={(e) => setProject(i, { g0: e.target.value })} className="h-8 w-12 cursor-pointer rounded border border-line bg-transparent" />
@@ -399,12 +400,14 @@ export function DashboardEditor({
                 className={`${field} w-32 shrink-0`}
                 value={s.label}
                 onChange={(e) => setSocial(i, { label: e.target.value })}
+                aria-label="소셜 이름"
                 placeholder="GitHub"
               />
               <input
                 className={field}
                 value={s.href}
                 onChange={(e) => setSocial(i, { href: e.target.value })}
+                aria-label="소셜 링크 URL"
                 placeholder="https://github.com/내아이디"
               />
               <button

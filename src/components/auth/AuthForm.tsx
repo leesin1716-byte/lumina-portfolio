@@ -99,16 +99,25 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
       </div>
 
       <form onSubmit={onSubmit} className="flex flex-col gap-3">
+        <label htmlFor="auth-email" className="sr-only">
+          이메일
+        </label>
         <input
+          id="auth-email"
           type="email"
           required
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="이메일"
           autoComplete="email"
+          aria-label="이메일"
           className="rounded-xl border border-line bg-bg/40 px-4 py-3 text-sm outline-none transition-colors focus:border-violet"
         />
+        <label htmlFor="auth-password" className="sr-only">
+          비밀번호
+        </label>
         <input
+          id="auth-password"
           type="password"
           required
           minLength={6}
@@ -116,6 +125,7 @@ export function AuthForm({ mode }: { mode: "login" | "signup" }) {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="비밀번호 (6자 이상)"
           autoComplete={mode === "login" ? "current-password" : "new-password"}
+          aria-label="비밀번호"
           className="rounded-xl border border-line bg-bg/40 px-4 py-3 text-sm outline-none transition-colors focus:border-violet"
         />
 
