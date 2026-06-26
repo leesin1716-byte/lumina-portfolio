@@ -67,6 +67,10 @@ export type Project = {
   /** Two-stop gradient used for the procedural cover art. */
   gradient: [string, string];
   href?: string;
+  /** Case-study detail (shown in the project modal). */
+  role: string;
+  overview: string;
+  highlights: string[];
 };
 
 export const projects: Project[] = [
@@ -79,6 +83,14 @@ export const projects: Project[] = [
       "A spatial operating-system concept with a real-time fluid background and gesture-driven windows.",
     tags: ["React", "Three.js", "GLSL", "Motion"],
     gradient: ["#6d5cff", "#4de2e2"],
+    role: "Creative Direction · Engineering",
+    overview:
+      "Aurora OS reimagines the desktop as a living, spatial surface. A GPU-driven fluid simulation reacts to every interaction while windows respond to gestures with springy, physically-grounded motion.",
+    highlights: [
+      "Custom GLSL fluid simulation running at 120fps",
+      "Gesture system with momentum and inertia",
+      "Design tokens shared across 40+ components",
+    ],
   },
   {
     id: "synesthesia",
@@ -89,6 +101,14 @@ export const projects: Project[] = [
       "An audio-reactive instrument that paints generative light fields from sound in the browser.",
     tags: ["Web Audio", "Shaders", "Canvas"],
     gradient: ["#ff5fa2", "#8b7cff"],
+    role: "Concept · Engineering",
+    overview:
+      "Synesthesia turns sound into light. The Web Audio analyser feeds an FFT into a fragment shader, sculpting generative aurora fields that pulse, bloom, and bend with the music in real time.",
+    highlights: [
+      "Real-time FFT → shader uniform pipeline",
+      "Generative color grading from frequency bands",
+      "Zero-latency interaction on mobile GPUs",
+    ],
   },
   {
     id: "monolith",
@@ -99,6 +119,14 @@ export const projects: Project[] = [
       "Award-winning launch site for a hardware studio — scroll-driven 3D and cinematic transitions.",
     tags: ["Next.js", "R3F", "Lenis"],
     gradient: ["#4de2e2", "#c2ff5e"],
+    role: "Lead Frontend · Motion",
+    overview:
+      "A cinematic launch experience for a hardware studio. Scroll choreographs a 3D product reveal, with section transitions cut like a film and type that breathes as you move.",
+    highlights: [
+      "Scroll-driven 3D product reveal (R3F)",
+      "Featured on Awwwards & FWA",
+      "Sub-second LCP with progressive WebGL",
+    ],
   },
   {
     id: "atlas",
@@ -109,6 +137,14 @@ export const projects: Project[] = [
       "A living data atlas turning global datasets into an explorable, animated cartography.",
     tags: ["D3", "WebGL", "TypeScript"],
     gradient: ["#c2ff5e", "#6d5cff"],
+    role: "Engineering · Data Viz",
+    overview:
+      "Atlas makes global data tangible. Millions of points render on a WebGL globe with smooth level-of-detail, animated transitions between datasets, and an accessible, keyboard-driven explorer.",
+    highlights: [
+      "WebGL globe rendering 2M+ points",
+      "Animated transitions between datasets",
+      "Fully keyboard-navigable explorer",
+    ],
   },
   {
     id: "halcyon",
@@ -119,6 +155,14 @@ export const projects: Project[] = [
       "A boutique commerce experience where every product reveal is choreographed like a film.",
     tags: ["Next.js", "Motion", "Design System"],
     gradient: ["#ff8a4d", "#ff5fa2"],
+    role: "Frontend · Design System",
+    overview:
+      "A boutique commerce experience where shopping feels like a gallery. Product reveals are choreographed, the cart animates with intention, and a tokenized design system keeps it all consistent.",
+    highlights: [
+      "Choreographed product reveals",
+      "Tokenized, themeable design system",
+      "+18% conversion vs. the previous build",
+    ],
   },
 ];
 

@@ -7,12 +7,14 @@ import { useIsTouch } from "@/lib/hooks";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { Parallax } from "@/components/ui/Parallax";
 import { WorksGLPreview } from "@/components/canvas/WorksGLPreview";
+import { ProjectModal } from "@/components/sections/ProjectModal";
 
 export function Works() {
   const isTouch = useIsTouch();
   const sectionRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
   const [active, setActive] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(null);
   const px = useSpring(0, { stiffness: 140, damping: 18, mass: 0.5 });
   const py = useSpring(0, { stiffness: 140, damping: 18, mass: 0.5 });
 
@@ -30,7 +32,7 @@ export function Works() {
   const onMove = (e: React.PointerEvent) => {
     px.set(e.clientX);
     py.set(e.clientY);
-    const row = (e.target as HTMLElement).closest<HTMLElement>("a[data-index]");
+    const row = (e.target as HTMLElement).closest<HTMLElement>("[data-index]");
     const idx = row ? Number(row.dataset.index) : null;
     setActive((prev) => (prev === idx ? prev : idx));
   };
@@ -69,14 +71,19 @@ export function Works() {
         <ul className="border-t border-line">
           {projects.map((p, i) => (
             <li key={p.id}>
-              <a
-                href={p.href ?? "#"}
+              <button
+                type="button"
                 data-index={i}
                 data-cursor="view"
-                data-cursor-label="View"
+                data-cursor-label="Open"
+                onClick={() => {
+                  setSelected(i);
+                  setActive(null);
+                }}
                 onFocus={() => setActive(i)}
                 onBlur={() => setActive(null)}
-                className="group relative flex flex-col gap-3 border-b border-line py-7 transition-colors sm:flex-row sm:items-center sm:justify-between sm:py-9"
+                aria-label={`${p.title} — view case study`}
+                className="group relative flex w-full flex-col gap-3 border-b border-line py-7 text-left transition-colors sm:flex-row sm:items-center sm:justify-between sm:py-9"
               >
                 {/* hover fill */}
                 <span className="pointer-events-none absolute inset-0 -z-0 origin-bottom scale-y-0 bg-surface/40 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-y-100" />
@@ -105,7 +112,7 @@ export function Works() {
                     background: `linear-gradient(90deg, ${p.gradient[0]}, ${p.gradient[1]})`,
                   }}
                 />
-              </a>
+              </button>
             </li>
           ))}
         </ul>
@@ -115,6 +122,11 @@ export function Works() {
       {!isTouch && inView && (
         <WorksGLPreview active={active} px={px} py={py} />
       )}
+
+      <ProjectModal
+        project={selected !== null ? projects[selected] : null}
+        onClose={() => setSelected(null)}
+      />
     </section>
   );
 }
