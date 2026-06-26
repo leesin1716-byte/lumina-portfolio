@@ -3,7 +3,7 @@
 import { motion, useSpring, type Variants } from "framer-motion";
 import { useEffect } from "react";
 import { hero, site } from "@/lib/content";
-import { useAppReady, useMousePosition } from "@/lib/hooks";
+import { useAppReady } from "@/lib/hooks";
 import { useSmoothScroll } from "@/components/providers/SmoothScroll";
 import { MagneticButton } from "@/components/ui/MagneticButton";
 import { RotatingText } from "@/components/ui/RotatingText";
@@ -28,14 +28,19 @@ const fade: Variants = {
 export function Hero() {
   const ready = useAppReady();
   const { scrollTo } = useSmoothScroll();
-  const mouse = useMousePosition();
   const glowX = useSpring(0, { stiffness: 60, damping: 20 });
   const glowY = useSpring(0, { stiffness: 60, damping: 20 });
 
   useEffect(() => {
-    glowX.set(mouse.x);
-    glowY.set(mouse.y);
-  }, [mouse.x, mouse.y, glowX, glowY]);
+    // Drive the glow via the motion values directly so Hero never re-renders
+    // on pointer move.
+    const onMove = (e: PointerEvent) => {
+      glowX.set(e.clientX);
+      glowY.set(e.clientY);
+    };
+    window.addEventListener("pointermove", onMove, { passive: true });
+    return () => window.removeEventListener("pointermove", onMove);
+  }, [glowX, glowY]);
 
   return (
     <section className="relative flex min-h-[100svh] flex-col justify-center overflow-hidden px-6 pb-20 pt-28 sm:px-8">
