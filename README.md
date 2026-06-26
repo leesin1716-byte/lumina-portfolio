@@ -44,8 +44,23 @@ npm run start    # serve the production build
 
 All copy and data live in [`src/lib/content.ts`](./src/lib/content.ts) —
 identity, navigation, projects, skills, and contact. Edit that one file and
-the whole site updates. Swap `site.owner`, `site.email`, the `projects`
-array, and the social links.
+the whole site updates. Swap `site.owner`, `site.email`, `site.url`,
+`site.timezone`, the `projects` array, and the social links.
+
+## Deploy (GitHub → Vercel)
+
+```bash
+# 1. create the repo on github.com, then:
+git remote add origin git@github.com:<you>/<repo>.git
+git push -u origin master
+```
+
+2. Go to [vercel.com/new](https://vercel.com/new), **Import** the repo.
+   Vercel auto-detects Next.js — no config needed. Click **Deploy**.
+3. After the first deploy, set `site.url` in `src/lib/content.ts` to your
+   production URL (used for SEO, canonical, and the OG image), commit, push.
+
+> The `opengraph-image` route renders on demand; everything else is static.
 
 ## Structure
 
