@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { about } from "@/lib/content";
 import { AnimatedText } from "@/components/ui/AnimatedText";
+import { CountUp } from "@/components/ui/CountUp";
 import { Reveal } from "@/components/ui/Reveal";
 
 export function About() {
@@ -69,9 +70,10 @@ export function About() {
             transition={{ duration: 0.6, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] }}
             className="group relative bg-bg-soft p-7 transition-colors hover:bg-surface sm:p-9"
           >
-            <div className="font-display text-4xl font-bold text-gradient sm:text-5xl">
-              {s.value}
-            </div>
+            <CountUp
+              value={s.value}
+              className="block font-display text-4xl font-bold text-gradient sm:text-5xl"
+            />
             <div className="mt-2 text-sm text-muted">{s.label}</div>
             <span className="absolute bottom-0 left-0 h-px w-0 bg-gradient-to-r from-violet to-cyan transition-all duration-500 group-hover:w-full" />
           </motion.div>
