@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -95,6 +95,15 @@ export function DashboardEditor({
 
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
+
+  const [showOnboard, setShowOnboard] = useState(false);
+  useEffect(() => {
+    if (!localStorage.getItem("lumina:onboarded")) setShowOnboard(true);
+  }, []);
+  const dismissOnboard = () => {
+    localStorage.setItem("lumina:onboarded", "1");
+    setShowOnboard(false);
+  };
 
   const copyLink = async () => {
     const s = slug || portfolio?.slug;
@@ -240,6 +249,26 @@ export function DashboardEditor({
           </div>
         )}
       </div>
+
+      {showOnboard && (
+        <div className="mb-6 flex items-start justify-between gap-4 rounded-2xl border border-violet/30 bg-violet/5 p-5">
+          <div>
+            <p className="font-medium">환영해요! 👋</p>
+            <p className="mt-1 text-pretty text-sm text-muted">
+              아래 정보를 채우고 저장한 뒤, &lsquo;공개&rsquo;를 켜면 나만의
+              포트폴리오가 lumina.app/p/내이름 주소로 완성돼요.
+            </p>
+          </div>
+          <button
+            onClick={dismissOnboard}
+            aria-label="안내 닫기"
+            data-cursor="hover"
+            className="shrink-0 text-muted transition-colors hover:text-fg"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Account & billing */}
       <section className="glass mb-6 rounded-2xl p-6">
