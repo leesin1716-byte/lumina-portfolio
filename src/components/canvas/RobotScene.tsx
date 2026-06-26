@@ -14,15 +14,18 @@ function Rig({ reducedMotion }: { reducedMotion: boolean }) {
   const pointer = useRef({ x: 0, y: 0 });
   const target = useRef({ x: 0, y: 0 });
   const pulse = useRef(0);
+  const lastMove = useRef(0);
   const { camera } = useThree();
 
   useEffect(() => {
     const onMove = (e: PointerEvent) => {
       target.current.x = (e.clientX / window.innerWidth) * 2 - 1;
       target.current.y = (e.clientY / window.innerHeight) * 2 - 1;
+      lastMove.current = performance.now();
     };
     const onDown = () => {
       pulse.current = 1;
+      lastMove.current = performance.now();
     };
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener("pointerdown", onDown);
@@ -32,10 +35,20 @@ function Rig({ reducedMotion }: { reducedMotion: boolean }) {
     };
   }, []);
 
-  useFrame(() => {
-    // Smooth the pointer the robot reads.
-    pointer.current.x = lerp(pointer.current.x, target.current.x, 0.06);
-    pointer.current.y = lerp(pointer.current.y, target.current.y, 0.06);
+  useFrame((state) => {
+    // When the cursor has been still for a while, the robot looks around
+    // on its own; it snaps back to tracking the moment you move.
+    const idle = !reducedMotion && performance.now() - lastMove.current > 2600;
+    if (idle) {
+      const t = state.clock.elapsedTime;
+      const ix = Math.sin(t * 0.5) * 0.45;
+      const iy = Math.cos(t * 0.35) * 0.26;
+      pointer.current.x = lerp(pointer.current.x, ix, 0.02);
+      pointer.current.y = lerp(pointer.current.y, iy, 0.02);
+    } else {
+      pointer.current.x = lerp(pointer.current.x, target.current.x, 0.06);
+      pointer.current.y = lerp(pointer.current.y, target.current.y, 0.06);
+    }
     pulse.current = lerp(pulse.current, 0, 0.08);
 
     // Subtle camera parallax for depth.
