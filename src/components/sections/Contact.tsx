@@ -68,7 +68,7 @@ export function Contact() {
           <MagneticButton
             href={`mailto:${site.email}`}
             strength={0.5}
-            className="group items-center gap-3 rounded-full bg-fg px-9 py-5 text-base font-semibold text-bg"
+            className="btn-sheen group items-center gap-3 rounded-full bg-fg px-9 py-5 text-base font-semibold text-bg"
           >
             <span>{contact.cta}</span>
             <span className="transition-transform duration-300 group-hover:translate-x-1.5">

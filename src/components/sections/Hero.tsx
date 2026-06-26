@@ -134,7 +134,7 @@ export function Hero() {
           >
             <MagneticButton
               onClick={() => scrollTo("#work", -10)}
-              className="group items-center gap-3 overflow-hidden rounded-full bg-fg px-7 py-4 text-sm font-medium text-bg"
+              className="btn-sheen group items-center gap-3 rounded-full bg-fg px-7 py-4 text-sm font-medium text-bg"
             >
               <span className="relative z-10">작업 보기</span>
               <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1">

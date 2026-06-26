@@ -122,7 +122,7 @@ export function Navbar() {
           <div className="hidden md:block">
             <MagneticButton
               href={`mailto:${site.email}`}
-              className="items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
+              className="btn-sheen items-center gap-2 rounded-full bg-fg px-5 py-2.5 text-sm font-medium text-bg transition-colors hover:bg-violet"
             >
               연락하기
             </MagneticButton>
