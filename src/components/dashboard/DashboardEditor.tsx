@@ -22,6 +22,8 @@ type EditProject = {
   g1: string;
   image: string;
 };
+
+type EditGroup = { title: string; items: string };
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
 type PortfolioRow = {
@@ -64,6 +66,21 @@ export function DashboardEditor({
   const [contactHeading, setContactHeading] = useState(d.contact?.heading ?? "");
   const [contactBody, setContactBody] = useState(d.contact?.body ?? "");
   const [contactCta, setContactCta] = useState(d.contact?.cta ?? "");
+  const [craftHeading, setCraftHeading] = useState(d.craft?.heading ?? "");
+  const [craftGroups, setCraftGroups] = useState<EditGroup[]>(
+    (d.craft?.groups ?? dft.craft.groups).map((g) => ({
+      title: g.title,
+      items: g.items.join(", "),
+    })),
+  );
+  const setGroup = (i: number, patch: Partial<EditGroup>) =>
+    setCraftGroups((gs) =>
+      gs.map((g, idx) => (idx === i ? { ...g, ...patch } : g)),
+    );
+  const addGroup = () =>
+    setCraftGroups((gs) => [...gs, { title: "새 그룹", items: "" }]);
+  const removeGroup = (i: number) =>
+    setCraftGroups((gs) => gs.filter((_, idx) => idx !== i));
   const [published, setPublished] = useState(portfolio?.published ?? false);
   const [projects, setProjects] = useState<EditProject[]>(
     (d.projects ?? dft.projects).map((p) => ({
@@ -168,6 +185,15 @@ export function DashboardEditor({
         ...(contactHeading.trim() && { heading: contactHeading.trim() }),
         ...(contactBody.trim() && { body: contactBody.trim() }),
         ...(contactCta.trim() && { cta: contactCta.trim() }),
+      },
+      craft: {
+        ...(craftHeading.trim() && { heading: craftHeading.trim() }),
+        groups: craftGroups
+          .map((g) => ({
+            title: g.title.trim(),
+            items: g.items.split(",").map((s) => s.trim()).filter(Boolean),
+          }))
+          .filter((g) => g.title || g.items.length),
       },
       about: {
         ...(aboutHeading && { heading: aboutHeading }),
@@ -551,6 +577,64 @@ export function DashboardEditor({
               placeholder={dft.contact.cta}
             />
           </div>
+        </div>
+      </section>
+
+      {/* Craft / skill groups */}
+      <section className="glass mt-6 rounded-2xl p-6">
+        <div className="mb-5 flex items-center justify-between">
+          <h2 className="font-display text-lg font-semibold">역량 섹션</h2>
+          <button
+            onClick={addGroup}
+            data-cursor="hover"
+            className="rounded-full border border-line-strong px-3 py-1.5 text-xs transition-colors hover:border-violet"
+          >
+            + 그룹 추가
+          </button>
+        </div>
+        <div className="mb-4">
+          <label className={label}>제목</label>
+          <input
+            className={field}
+            value={craftHeading}
+            onChange={(e) => setCraftHeading(e.target.value)}
+            placeholder={dft.craft.heading}
+          />
+        </div>
+        <div className="flex flex-col gap-3">
+          {craftGroups.map((g, i) => (
+            <div
+              key={i}
+              className="grid gap-3 rounded-xl border border-line p-4 sm:grid-cols-[1fr_2fr_auto]"
+            >
+              <input
+                aria-label="역량 그룹 제목"
+                className={field}
+                value={g.title}
+                onChange={(e) => setGroup(i, { title: e.target.value })}
+                placeholder="그룹명 (예: Engineering)"
+              />
+              <input
+                aria-label="역량 항목"
+                className={field}
+                value={g.items}
+                onChange={(e) => setGroup(i, { items: e.target.value })}
+                placeholder="항목 (쉼표로 구분)"
+              />
+              <button
+                onClick={() => removeGroup(i)}
+                data-cursor="hover"
+                className="self-center text-xs text-muted transition-colors hover:text-magenta"
+              >
+                삭제
+              </button>
+            </div>
+          ))}
+          {craftGroups.length === 0 && (
+            <p className="text-sm text-muted">
+              아직 역량 그룹이 없어요. &quot;그룹 추가&quot;로 시작하세요.
+            </p>
+          )}
         </div>
       </section>
 
