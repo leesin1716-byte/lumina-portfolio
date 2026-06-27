@@ -23,6 +23,7 @@ type EditProject = {
   g1: string;
   image: string;
   href: string;
+  highlights: string;
 };
 
 type EditGroup = { title: string; items: string };
@@ -136,6 +137,7 @@ export function DashboardEditor({
       g1: p.gradient[1],
       image: p.image ?? "",
       href: p.href ?? "",
+      highlights: (p.highlights ?? []).join("\n"),
     })),
   );
 
@@ -154,6 +156,7 @@ export function DashboardEditor({
         g1: "#4de2e2",
         image: "",
         href: "",
+        highlights: "",
       },
     ]);
   const removeProject = (i: number) =>
@@ -317,7 +320,10 @@ export function DashboardEditor({
         ...(p.href.trim() && { href: p.href.trim() }),
         role: p.category,
         overview: p.description,
-        highlights: [],
+        highlights: p.highlights
+          .split("\n")
+          .map((h) => h.trim())
+          .filter(Boolean),
       })),
       socials: socials
         .filter((s) => s.label && s.href)
@@ -1082,6 +1088,19 @@ export function DashboardEditor({
                     onChange={(e) => setProject(i, { href: e.target.value })}
                     placeholder="외부 링크 URL (선택 — '프로젝트 보기' 버튼)"
                   />
+                </div>
+                <div className="sm:col-span-2">
+                  <textarea
+                    aria-label="프로젝트 주요 성과"
+                    className={`${field} min-h-20 resize-y`}
+                    value={p.highlights}
+                    onChange={(e) => setProject(i, { highlights: e.target.value })}
+                    placeholder="주요 성과 (한 줄에 하나씩 — 상세 보기에 표시)"
+                  />
+                  <p className="mt-1 text-xs text-faint">
+                    프로젝트를 클릭하면 열리는 상세 보기의 “주요 성과” 목록에
+                    표시돼요. 한 줄에 하나씩 적어주세요.
+                  </p>
                 </div>
                 <div className="flex items-center gap-3 sm:col-span-2">
                   <span className="text-xs text-muted">커버 색상</span>

@@ -129,20 +129,24 @@ export function ProjectModal({ project, onClose }: Props) {
                     {project.overview}
                   </p>
 
-                  <h4 className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-violet">
-                    주요 성과
-                  </h4>
-                  <ul className="flex flex-col gap-2.5">
-                    {project.highlights.map((h) => (
-                      <li
-                        key={h}
-                        className="flex items-start gap-3 text-sm text-muted"
-                      >
-                        <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gradient-to-r from-violet to-cyan" />
-                        {h}
-                      </li>
-                    ))}
-                  </ul>
+                  {project.highlights.length > 0 && (
+                    <>
+                      <h4 className="mb-3 mt-8 font-mono text-xs uppercase tracking-[0.2em] text-violet">
+                        주요 성과
+                      </h4>
+                      <ul className="flex flex-col gap-2.5">
+                        {project.highlights.map((h) => (
+                          <li
+                            key={h}
+                            className="flex items-start gap-3 text-sm text-muted"
+                          >
+                            <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-gradient-to-r from-violet to-cyan" />
+                            {h}
+                          </li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-6">
