@@ -18,5 +18,9 @@ create policy "Owners read their own messages"
   on public.messages for select
   using (auth.uid() = owner_id);
 
+create policy "Owners delete their own messages"
+  on public.messages for delete
+  using (auth.uid() = owner_id);
+
 create index if not exists messages_owner_idx
   on public.messages (owner_id, created_at desc);

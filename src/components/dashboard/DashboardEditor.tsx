@@ -170,6 +170,17 @@ export function DashboardEditor({
   const [slug, setSlug] = useState(portfolio?.slug ?? "");
   const [linkCopied, setLinkCopied] = useState(false);
   const [cancelling, setCancelling] = useState(false);
+  const [inbox, setInbox] = useState<InboxMessage[]>(messages);
+
+  const deleteMessage = async (id: string) => {
+    if (!window.confirm("이 메시지를 삭제할까요?")) return;
+    setInbox((xs) => xs.filter((x) => x.id !== id));
+    try {
+      await createClient().from("messages").delete().eq("id", id);
+    } catch {
+      /* RLS/network — local removal already applied */
+    }
+  };
   const [hideBadge, setHideBadge] = useState<boolean>(d.hideBadge ?? false);
   const [accent, setAccent] = useState<PortfolioThemeKey>(d.accent ?? "iris");
 
@@ -526,20 +537,20 @@ export function DashboardEditor({
       <section className="glass mb-6 rounded-2xl p-6">
         <div className="mb-1 flex items-center gap-2">
           <h2 className="font-display text-lg font-semibold">받은 메시지</h2>
-          {messages.length > 0 && (
+          {inbox.length > 0 && (
             <span className="rounded-full bg-violet/15 px-2 py-0.5 text-xs font-semibold text-violet">
-              {messages.length}
+              {inbox.length}
             </span>
           )}
         </div>
-        {messages.length === 0 ? (
+        {inbox.length === 0 ? (
           <p className="mt-2 text-sm text-muted">
             아직 받은 메시지가 없어요. 공개 포트폴리오의 문의 폼으로 메시지가
             도착하면 여기에 표시됩니다.
           </p>
         ) : (
           <ul className="mt-3 flex flex-col divide-y divide-line">
-            {messages.map((m) => (
+            {inbox.map((m) => (
               <li key={m.id} className="py-4">
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <span className="text-sm font-medium">
@@ -553,8 +564,18 @@ export function DashboardEditor({
                       </a>
                     )}
                   </span>
-                  <span className="font-mono text-xs text-faint">
-                    {new Date(m.created_at).toLocaleString("ko-KR")}
+                  <span className="flex items-center gap-3">
+                    <span className="font-mono text-xs text-faint">
+                      {new Date(m.created_at).toLocaleString("ko-KR")}
+                    </span>
+                    <button
+                      onClick={() => deleteMessage(m.id)}
+                      data-cursor="hover"
+                      aria-label="메시지 삭제"
+                      className="text-xs text-muted transition-colors hover:text-magenta"
+                    >
+                      삭제
+                    </button>
                   </span>
                 </div>
                 <p className="mt-1.5 whitespace-pre-wrap text-pretty text-sm text-muted">
