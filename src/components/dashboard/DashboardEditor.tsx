@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -180,6 +180,13 @@ export function DashboardEditor({
   const [linkCopied, setLinkCopied] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [inbox, setInbox] = useState<InboxMessage[]>(messages);
+  const statusTimer = useRef<number | null>(null);
+  useEffect(
+    () => () => {
+      if (statusTimer.current) window.clearTimeout(statusTimer.current);
+    },
+    [],
+  );
 
   const deleteMessage = async (id: string) => {
     if (!window.confirm("이 메시지를 삭제할까요?")) return;
@@ -336,6 +343,8 @@ export function DashboardEditor({
     } else {
       if (cleanSlug && cleanSlug !== slug) setSlug(cleanSlug);
       setStatus({ kind: "ok", text: "저장되었습니다" });
+      if (statusTimer.current) window.clearTimeout(statusTimer.current);
+      statusTimer.current = window.setTimeout(() => setStatus(null), 3000);
     }
   };
 
