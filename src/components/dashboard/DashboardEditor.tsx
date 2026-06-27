@@ -400,6 +400,25 @@ export function DashboardEditor({
         </div>
       </header>
 
+      <nav className="mb-6 flex flex-wrap gap-2 text-xs">
+        {[
+          ["#s-inbox", "메시지"],
+          ["#s-basic", "기본 정보"],
+          ["#s-content", "콘텐츠"],
+          ["#s-projects", "프로젝트"],
+          ["#s-socials", "소셜"],
+        ].map(([href, label]) => (
+          <a
+            key={href}
+            href={href}
+            data-cursor="hover"
+            className="rounded-full border border-line px-3 py-1 text-muted transition-colors hover:border-violet hover:text-fg"
+          >
+            {label}
+          </a>
+        ))}
+      </nav>
+
       <div className="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
           <h1 className="font-display text-2xl font-bold tracking-tight">
@@ -574,7 +593,7 @@ export function DashboardEditor({
       {/* Inbox */}
       <section className="glass mb-6 rounded-2xl p-6">
         <div className="mb-1 flex items-center gap-2">
-          <h2 className="font-display text-lg font-semibold">받은 메시지</h2>
+          <h2 id="s-inbox" className="scroll-mt-6 font-display text-lg font-semibold">받은 메시지</h2>
           {inbox.length > 0 && (
             <span className="rounded-full bg-violet/15 px-2 py-0.5 text-xs font-semibold text-violet">
               {inbox.length}
@@ -716,7 +735,7 @@ export function DashboardEditor({
 
       {/* Identity */}
       <section className="glass rounded-2xl p-6">
-        <h2 className="mb-5 font-display text-lg font-semibold">기본 정보</h2>
+        <h2 id="s-basic" className="mb-5 scroll-mt-6 font-display text-lg font-semibold">기본 정보</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label className={label}>이름</label>
@@ -743,7 +762,7 @@ export function DashboardEditor({
 
       {/* Hero */}
       <section className="glass mt-6 rounded-2xl p-6">
-        <h2 className="mb-5 font-display text-lg font-semibold">히어로 섹션</h2>
+        <h2 id="s-content" className="mb-5 scroll-mt-6 font-display text-lg font-semibold">히어로 섹션</h2>
         <div className="flex flex-col gap-4">
           <div>
             <label className={label}>대형 문구 (한 줄에 하나씩, 최대 3줄 권장)</label>
@@ -947,7 +966,7 @@ export function DashboardEditor({
       {/* Projects */}
       <section className="glass mt-6 rounded-2xl p-6">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-display text-lg font-semibold">프로젝트</h2>
+          <h2 id="s-projects" className="scroll-mt-6 font-display text-lg font-semibold">프로젝트</h2>
           <button
             onClick={addProject}
             data-cursor="hover"
@@ -1047,7 +1066,7 @@ export function DashboardEditor({
       {/* Socials */}
       <section className="glass mt-6 rounded-2xl p-6">
         <div className="mb-5 flex items-center justify-between">
-          <h2 className="font-display text-lg font-semibold">소셜 링크</h2>
+          <h2 id="s-socials" className="scroll-mt-6 font-display text-lg font-semibold">소셜 링크</h2>
           <button
             onClick={addSocial}
             data-cursor="hover"
