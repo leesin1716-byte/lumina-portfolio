@@ -627,7 +627,10 @@ export function DashboardEditor({
         <div className="mb-1 flex items-center gap-2">
           <h2 id="s-inbox" className="scroll-mt-6 font-display text-lg font-semibold">받은 메시지</h2>
           {inbox.length > 0 && (
-            <span className="rounded-full bg-violet/15 px-2 py-0.5 text-xs font-semibold text-violet">
+            <span
+              aria-label={`메시지 ${inbox.length}개`}
+              className="rounded-full bg-violet/15 px-2 py-0.5 text-xs font-semibold text-violet"
+            >
               {inbox.length}
             </span>
           )}
