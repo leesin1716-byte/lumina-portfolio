@@ -380,6 +380,11 @@ export function DashboardEditor({
   ];
   const guideDone = guideSteps.filter((s) => s.done).length;
 
+  const since7 = new Date(Date.now() - 6 * 86400000).toISOString().slice(0, 10);
+  const weekViews = dailyViews
+    .filter((d) => d.day >= since7)
+    .reduce((a, b) => a + b.count, 0);
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       {/* Header */}
@@ -542,6 +547,16 @@ export function DashboardEditor({
               <span className="font-medium text-fg tabular-nums">
                 {views.toLocaleString()}
               </span>
+              {dailyViews.length > 0 && (
+                <>
+                  <span className="mx-2 text-faint">·</span>
+                  최근 7일{" "}
+                  <span className="font-medium text-fg tabular-nums">
+                    {weekViews.toLocaleString()}
+                  </span>
+                  회
+                </>
+              )}
             </p>
           </div>
           {plan === "pro" ? (
