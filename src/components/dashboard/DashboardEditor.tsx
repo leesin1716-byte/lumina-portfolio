@@ -637,7 +637,10 @@ export function DashboardEditor({
         ) : (
           <ul className="mt-3 flex flex-col divide-y divide-line">
             {inbox.map((m) => (
-              <li key={m.id} className="py-4">
+              <li
+                key={m.id}
+                className="-mx-2 rounded-lg px-2 py-4 transition-colors hover:bg-surface/40"
+              >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <span className="text-sm font-medium">
                     {m.name?.trim() || "익명"}
