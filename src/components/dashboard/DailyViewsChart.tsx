@@ -18,6 +18,14 @@ export function DailyViewsChart({
   const max = Math.max(1, ...days.map((d) => d.count));
   const total = days.reduce((a, b) => a + b.count, 0);
 
+  if (total === 0) {
+    return (
+      <p className="flex h-24 items-center justify-center rounded-lg border border-dashed border-line text-xs text-faint">
+        아직 방문 데이터가 없어요. 공개 후 방문이 쌓이면 여기에 표시됩니다.
+      </p>
+    );
+  }
+
   return (
     <div>
       <div className="flex h-24 items-end gap-1">
