@@ -10,7 +10,9 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
+  const [company, setCompany] = useState(""); // honeypot
   const [state, setState] = useState<State>("idle");
+  const [errText, setErrText] = useState("지금은 메시지를 보낼 수 없어요. 잠시 후 다시 시도해주세요.");
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,10 +22,11 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug, name, email, message }),
+        body: JSON.stringify({ slug, name, email, message, company }),
       });
       const data = (await res.json().catch(() => ({ ok: false }))) as {
         ok?: boolean;
+        error?: string;
       };
       if (data.ok) {
         setState("sent");
@@ -31,9 +34,17 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
         setEmail("");
         setMessage("");
       } else {
+        setErrText(
+          data.error === "invalid_email"
+            ? "이메일 형식을 확인해주세요."
+            : data.error === "rate_limited"
+              ? "메시지를 너무 자주 보냈어요. 잠시 후 다시 시도해주세요."
+              : "지금은 메시지를 보낼 수 없어요. 잠시 후 다시 시도해주세요.",
+        );
         setState("error");
       }
     } catch {
+      setErrText("지금은 메시지를 보낼 수 없어요. 잠시 후 다시 시도해주세요.");
       setState("error");
     }
   };
@@ -63,6 +74,19 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
           </p>
         ) : (
           <form onSubmit={submit} className="mt-6 flex flex-col gap-3">
+            {/* Honeypot — hidden from humans; bots that fill it are silently dropped. */}
+            <div aria-hidden className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden" >
+              <label>
+                회사
+                <input
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={company}
+                  onChange={(e) => setCompany(e.target.value)}
+                />
+              </label>
+            </div>
             <div className="grid gap-3 sm:grid-cols-2">
               <input
                 value={name}
@@ -95,9 +119,7 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
               </div>
             </div>
             {state === "error" && (
-              <p className="text-sm text-magenta">
-                지금은 메시지를 보낼 수 없어요. 잠시 후 다시 시도해주세요.
-              </p>
+              <p className="text-sm text-magenta">{errText}</p>
             )}
             <button
               type="submit"
