@@ -1,12 +1,23 @@
 import { ImageResponse } from "next/og";
 import { site } from "@/lib/content";
+import { loadKoreanFont } from "@/lib/og-font";
 
 export const runtime = "edge";
 export const alt = `${site.owner} — ${site.role}`;
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-export default function OpengraphImage() {
+export default async function OpengraphImage() {
+  const font = await loadKoreanFont();
+  // Korean when the typeface loads; a safe Latin line otherwise (Satori's
+  // built-in font has no Hangul, so we never paint Korean without the font).
+  const heading = font
+    ? "빛과 모션으로 빚어내는 몰입형 경험"
+    : "Immersive experiences in light, motion & code";
+  const sub = font ? site.tagline : "Crafted with WebGL, motion & interaction.";
+  const footer = font ? site.role : "Interactive experience designer";
+  const loc = font ? site.location : "Seoul, Korea";
+
   return new ImageResponse(
     (
       <div
@@ -21,7 +32,7 @@ export default function OpengraphImage() {
           backgroundImage:
             "radial-gradient(800px circle at 12% 18%, rgba(109,92,255,0.5), transparent 45%), radial-gradient(700px circle at 88% 30%, rgba(77,226,226,0.35), transparent 45%), radial-gradient(900px circle at 60% 100%, rgba(255,95,162,0.35), transparent 50%)",
           color: "#eef0fb",
-          fontFamily: "sans-serif",
+          fontFamily: font ? "KR" : "sans-serif",
         }}
       >
         <div
@@ -31,7 +42,6 @@ export default function OpengraphImage() {
             gap: "16px",
             fontSize: 28,
             letterSpacing: "0.3em",
-            textTransform: "uppercase",
             color: "#9aa0b9",
           }}
         >
@@ -47,19 +57,20 @@ export default function OpengraphImage() {
           {site.name}
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div
             style={{
-              fontSize: 104,
+              fontSize: 88,
               fontWeight: 700,
-              lineHeight: 1,
-              letterSpacing: "-0.03em",
+              lineHeight: 1.08,
+              letterSpacing: "-0.02em",
+              maxWidth: 1000,
             }}
           >
-            Creative Frontend Developer
+            {heading}
           </div>
-          <div style={{ fontSize: 34, color: "#9aa0b9", maxWidth: 820 }}>
-            Immersive interfaces where motion, light & code meet.
+          <div style={{ fontSize: 32, color: "#9aa0b9", maxWidth: 880 }}>
+            {sub}
           </div>
         </div>
 
@@ -71,11 +82,18 @@ export default function OpengraphImage() {
             color: "#5b6079",
           }}
         >
-          <div style={{ display: "flex" }}>Portfolio</div>
-          <div style={{ display: "flex" }}>{site.location}</div>
+          <div style={{ display: "flex" }}>{footer}</div>
+          <div style={{ display: "flex" }}>{loc}</div>
         </div>
       </div>
     ),
-    { ...size },
+    {
+      ...size,
+      ...(font && {
+        fonts: [
+          { name: "KR", data: font, weight: 700 as const, style: "normal" as const },
+        ],
+      }),
+    },
   );
 }
