@@ -353,6 +353,17 @@ export function DashboardEditor({
           <span className="font-display text-lg font-bold">대시보드</span>
         </Link>
         <div className="flex items-center gap-3">
+          {(slug || portfolio?.slug) && (
+            <a
+              href={`/p/${slug || portfolio?.slug}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cursor="hover"
+              className="hidden text-sm text-muted transition-colors hover:text-fg sm:inline"
+            >
+              미리보기 ↗
+            </a>
+          )}
           <span className="rounded-full border border-line px-3 py-1 text-xs uppercase text-muted">
             {plan === "pro" ? "PRO" : "FREE"}
           </span>
