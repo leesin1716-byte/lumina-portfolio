@@ -24,16 +24,16 @@ export const site = {
   name: "LUMINA",
   /** 실제 이름으로 교체하세요. */
   owner: "당신 이름",
-  role: "크리에이티브 프론트엔드 개발자",
+  role: "인터랙티브 경험 디자이너 · 개발자",
   /** 히어로 한 줄 소개. */
-  tagline: "모션과 빛, 그리고 코드가 만나는 몰입형 인터페이스를 만듭니다.",
-  location: "Seoul, KR",
+  tagline: "빛과 모션, 그리고 코드로 기억에 남는 순간을 빚습니다.",
+  location: "서울, 대한민국",
   /** 푸터의 실시간 현지 시각에 쓰이는 IANA 타임존. */
   timezone: "Asia/Seoul",
   email: "hello@lumina.dev",
   url: SITE_URL,
   description:
-    "크리에이티브 프론트엔드 개발자의 포트폴리오 — 몰입형 WebGL, 모션 디자인, 인터랙션 엔지니어링.",
+    "인터랙티브 경험을 만드는 디자이너이자 개발자의 포트폴리오 — 몰입형 WebGL, 모션 디자인, 인터랙션 설계.",
 } as const;
 
 export const nav = [
@@ -53,22 +53,22 @@ export const socials = [
 
 export const hero = {
   /** 키네틱하게 한 줄씩 등장. */
-  lines: ["크리에이티브", "프론트엔드", "개발자"],
-  /** 헤드라인 아래에서 순환 (기술 용어라 영문 유지). */
+  lines: ["빛과 모션으로", "빚어내는", "몰입형 경험"],
+  /** 헤드라인 아래에서 순환 (일부 기술 용어는 통용 표기 유지). */
   specialties: [
-    "WebGL & Shaders",
-    "Motion Design",
-    "Interaction",
-    "Design Systems",
-    "Real-time 3D",
+    "WebGL · 셰이더",
+    "모션 디자인",
+    "인터랙션 설계",
+    "디자인 시스템",
+    "실시간 3D",
   ],
   intro:
-    "웹에서 가장 표현력 있는 순간을 디자인하고 엔지니어링합니다 — 한 프레임, 한 셰이더, 하나의 인터랙션까지.",
-  scrollCue: "Scroll to explore",
+    "웹에서 가장 표현력 있는 순간을 디자인하고 구현합니다 — 한 프레임, 한 셰이더, 하나의 인터랙션까지 섬세하게.",
+  scrollCue: "스크롤하여 둘러보기",
 } as const;
 
 export const about = {
-  overline: "About",
+  overline: "소개",
   heading: "야심 찬 아이디어를, 사람들이 기억하는 인터페이스로.",
   body: [
     "저는 디자인과 엔지니어링의 경계에서 일하는 크리에이티브 개발자입니다. 살아 숨 쉬는 듯한 경험 — 유려한 모션, 실시간 3D, 밀리초 단위로 다듬은 디테일을 만듭니다.",
@@ -199,7 +199,7 @@ export type SkillGroup = {
 };
 
 export const craft = {
-  overline: "Craft",
+  overline: "역량",
   heading: "표현적 엔지니어링을 위해 다듬은 도구함.",
   groups: [
     {
@@ -222,7 +222,7 @@ export const craft = {
 } as const;
 
 export const contact = {
-  overline: "Contact",
+  overline: "연락",
   heading: "잊지 못할 무언가를\n함께 만들어요.",
   body: "마음에 둔 프로젝트가 있거나, 그냥 셰이더와 모션에 대해 이야기 나누고 싶으신가요? 제 메일함은 언제나 열려 있습니다.",
   cta: "대화 시작하기",

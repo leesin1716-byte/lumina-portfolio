@@ -70,7 +70,7 @@ export function Hero() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-lime opacity-75" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-lime" />
             </span>
-            Available for work
+            협업 가능
           </span>
           <span className="text-faint">/</span>
           <span>{site.location}</span>
@@ -111,7 +111,7 @@ export function Hero() {
           transition={{ delay: 0.42 }}
           className="mt-7 flex items-center gap-3 font-mono text-xs uppercase tracking-[0.2em] lg:max-w-[58%]"
         >
-          <span className="text-faint">Focused on</span>
+          <span className="text-faint">주력 분야</span>
           <span className="h-px w-8 bg-line-strong" />
           <RotatingText
             items={hero.specialties}

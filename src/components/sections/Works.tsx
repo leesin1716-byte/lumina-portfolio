@@ -51,7 +51,7 @@ export function Works() {
           <div>
             <div className="mb-5 flex items-center gap-4">
               <span className="font-mono text-xs uppercase tracking-[0.25em] text-violet">
-                Selected Work
+                선택한 작업
               </span>
             </div>
             <Parallax speed={0.08}>

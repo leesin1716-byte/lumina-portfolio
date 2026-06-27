@@ -48,7 +48,7 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
         className="glass rounded-3xl p-8 sm:p-10"
       >
         <p className="mb-3 font-mono text-xs uppercase tracking-[0.25em] text-violet">
-          Message
+          메시지
         </p>
         <h2 className="font-display text-2xl font-bold tracking-tight sm:text-3xl">
           메시지 보내기

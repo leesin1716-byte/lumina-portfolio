@@ -100,7 +100,7 @@ export function Preloader() {
             <span className="text-faint">%</span>
           </div>
           <div className="absolute bottom-8 left-8 font-mono text-xs uppercase tracking-widest text-faint">
-            Loading experience
+            경험을 불러오는 중
           </div>
         </motion.div>
       )}

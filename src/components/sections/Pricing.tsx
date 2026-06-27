@@ -61,7 +61,7 @@ export function Pricing() {
     <section className="relative mx-auto max-w-6xl px-6 py-28 sm:px-8">
       <div className="mb-14 text-center">
         <p className="mb-4 font-mono text-xs uppercase tracking-[0.25em] text-violet">
-          Pricing
+          요금제
         </p>
         <h1 className="font-display text-4xl font-bold tracking-tight sm:text-6xl">
           단순한 요금제
