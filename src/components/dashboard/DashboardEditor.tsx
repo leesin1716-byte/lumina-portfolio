@@ -45,6 +45,20 @@ type InboxMessage = {
 
 const dft = defaultContent;
 
+/** Friendly relative time for inbox messages (falls back to a date). */
+function relativeTime(iso: string) {
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return "";
+  const m = Math.floor((Date.now() - t) / 60000);
+  if (m < 1) return "방금 전";
+  if (m < 60) return `${m}분 전`;
+  const h = Math.floor(m / 60);
+  if (h < 24) return `${h}시간 전`;
+  const day = Math.floor(h / 24);
+  if (day < 7) return `${day}일 전`;
+  return new Date(iso).toLocaleDateString("ko-KR");
+}
+
 export function DashboardEditor({
   email,
   plan,
@@ -622,8 +636,11 @@ export function DashboardEditor({
                     )}
                   </span>
                   <span className="flex items-center gap-3">
-                    <span className="font-mono text-xs text-faint">
-                      {new Date(m.created_at).toLocaleString("ko-KR")}
+                    <span
+                      className="font-mono text-xs text-faint"
+                      title={new Date(m.created_at).toLocaleString("ko-KR")}
+                    >
+                      {relativeTime(m.created_at)}
                     </span>
                     <button
                       onClick={() => deleteMessage(m.id)}
