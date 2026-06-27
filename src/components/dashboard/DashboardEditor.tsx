@@ -195,6 +195,7 @@ export function DashboardEditor({
 
   const [slug, setSlug] = useState(portfolio?.slug ?? "");
   const [linkCopied, setLinkCopied] = useState(false);
+  const [ogPreview, setOgPreview] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [inbox, setInbox] = useState<InboxMessage[]>(messages);
   const statusTimer = useRef<number | null>(null);
@@ -777,7 +778,34 @@ export function DashboardEditor({
           >
             LinkedIn에 공유
           </button>
+          {(slug || portfolio?.slug) && (
+            <button
+              onClick={() => setOgPreview((v) => !v)}
+              data-cursor="hover"
+              className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
+            >
+              {ogPreview ? "카드 숨기기" : "공유 카드 미리보기"}
+            </button>
+          )}
         </div>
+        {ogPreview && (slug || portfolio?.slug) && (
+          <div className="mt-5">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={`/p/${slug || portfolio?.slug}/opengraph-image`}
+              alt="SNS 공유 시 표시되는 카드 미리보기"
+              width={1200}
+              height={630}
+              loading="lazy"
+              className="w-full max-w-md rounded-xl border border-line"
+            />
+            <p className="mt-2 text-xs text-faint">
+              카카오톡·X·LinkedIn 등에 링크를 붙여넣으면 이 카드가 표시돼요.
+              저장된 내용을 기준으로 만들어지니, 수정 후에는 저장하고 새로고침해
+              주세요.
+            </p>
+          </div>
+        )}
       </section>
 
       {/* Identity */}
