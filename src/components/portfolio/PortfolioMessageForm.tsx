@@ -80,14 +80,20 @@ export function PortfolioMessageForm({ slug }: { slug: string }) {
                 className="rounded-xl border border-line bg-bg/40 px-4 py-3 text-sm outline-none transition-colors focus:border-violet"
               />
             </div>
-            <textarea
-              required
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="메시지를 입력하세요"
-              aria-label="메시지"
-              className="min-h-32 resize-y rounded-xl border border-line bg-bg/40 px-4 py-3 text-sm outline-none transition-colors focus:border-violet"
-            />
+            <div>
+              <textarea
+                required
+                maxLength={2000}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                placeholder="메시지를 입력하세요"
+                aria-label="메시지"
+                className="min-h-32 w-full resize-y rounded-xl border border-line bg-bg/40 px-4 py-3 text-sm outline-none transition-colors focus:border-violet"
+              />
+              <div className="mt-1 text-right text-xs tabular-nums text-faint">
+                {message.length}/2000
+              </div>
+            </div>
             {state === "error" && (
               <p className="text-sm text-magenta">
                 지금은 메시지를 보낼 수 없어요. 잠시 후 다시 시도해주세요.
