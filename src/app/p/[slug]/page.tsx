@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { mergeContent, type PortfolioData } from "@/lib/content";
+import { portfolioJsonLd } from "@/lib/structured-data";
 import { isSupabaseConfigured } from "@/lib/supabase/client";
 import { PortfolioView } from "@/components/portfolio/PortfolioView";
 
@@ -67,12 +68,24 @@ export default async function PortfolioPage({
 }) {
   const { slug } = await params;
   const { data, branding } = await getPortfolio(slug);
+  const content = mergeContent(data);
+  const jsonLd = portfolioJsonLd(
+    content,
+    `${content.site.url.replace(/\/$/, "")}/p/${slug}`,
+  );
   return (
-    <PortfolioView
-      content={mergeContent(data)}
-      slug={slug}
-      branding={branding}
-      accent={data?.accent}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        // Server-rendered profile schema for SEO / rich results.
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <PortfolioView
+        content={content}
+        slug={slug}
+        branding={branding}
+        accent={data?.accent}
+      />
+    </>
   );
 }
