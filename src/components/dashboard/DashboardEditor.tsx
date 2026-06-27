@@ -10,6 +10,7 @@ import {
   type PortfolioData,
   type PortfolioThemeKey,
 } from "@/lib/content";
+import { starterTemplates, type StarterTemplate } from "@/lib/templates";
 import { SaveStatus, type SaveState } from "@/components/dashboard/SaveStatus";
 import { DailyViewsChart } from "@/components/dashboard/DailyViewsChart";
 
@@ -184,6 +185,33 @@ export function DashboardEditor({
     setSocials((ss) => ss.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
   const addSocial = () =>
     setSocials((ss) => [...ss, { label: "", href: "", handle: "" }]);
+
+  // Seed identity/hero/craft from a starter template (personal fields untouched).
+  const applyTemplate = (t: StarterTemplate) => {
+    if (
+      !window.confirm(
+        `"${t.label}" 템플릿을 적용할까요?\n역할·소개·역량 항목이 채워집니다. (이름·이메일·프로젝트·소셜은 그대로 유지)`,
+      )
+    )
+      return;
+    setRole(t.role);
+    setTagline(t.tagline);
+    setHeroLines(t.heroLines.join("\n"));
+    setSpecialties(t.specialties.join(", "));
+    setHeroIntro(t.heroIntro);
+    setAboutHeading(t.aboutHeading);
+    setAboutBody(t.aboutBody.join("\n\n"));
+    setCraftGroups(
+      t.craftGroups.map((g) => ({ title: g.title, items: g.items.join(", ") })),
+    );
+    setStatus({
+      kind: "ok",
+      text: `"${t.label}" 템플릿을 적용했어요. 내용을 다듬고 저장하세요.`,
+    });
+    if (statusTimer.current) window.clearTimeout(statusTimer.current);
+    statusTimer.current = window.setTimeout(() => setStatus(null), 4000);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
   const removeSocial = (i: number) =>
     setSocials((ss) => ss.filter((_, idx) => idx !== i));
   const moveSocial = (i: number, dir: -1 | 1) =>
@@ -543,6 +571,32 @@ export function DashboardEditor({
           </ul>
         </section>
       )}
+
+      {/* Quick-start templates */}
+      <section className="glass mb-6 rounded-2xl p-6">
+        <h2 className="font-display text-lg font-semibold">빠른 시작 템플릿</h2>
+        <p className="mb-4 mt-1 text-xs text-muted">
+          직군에 맞는 소개 문구와 역량을 한 번에 채워보세요. 이름·이메일·프로젝트·소셜은
+          그대로 유지돼요.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {starterTemplates.map((t) => (
+            <button
+              key={t.key}
+              type="button"
+              onClick={() => applyTemplate(t)}
+              data-cursor="hover"
+              className="group flex items-start gap-3 rounded-xl border border-line bg-bg/30 p-4 text-left transition-colors hover:border-violet"
+            >
+              <span className="text-xl leading-none">{t.emoji}</span>
+              <span>
+                <span className="block text-sm font-medium">{t.label}</span>
+                <span className="mt-0.5 block text-xs text-muted">{t.blurb}</span>
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
 
       {/* Account & billing */}
       <section className="glass mb-6 rounded-2xl p-6">
