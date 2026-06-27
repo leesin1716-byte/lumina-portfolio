@@ -68,6 +68,18 @@ export function DashboardEditor({
   const [aboutBody, setAboutBody] = useState(
     (d.about?.body ?? []).join("\n\n"),
   );
+  const [aboutStats, setAboutStats] = useState<{ value: string; label: string }[]>(
+    (d.about?.stats ?? dft.about.stats).map((s) => ({
+      value: s.value,
+      label: s.label,
+    })),
+  );
+  const setStat = (i: number, patch: Partial<{ value: string; label: string }>) =>
+    setAboutStats((ss) => ss.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
+  const addStat = () =>
+    setAboutStats((ss) => [...ss, { value: "", label: "" }]);
+  const removeStat = (i: number) =>
+    setAboutStats((ss) => ss.filter((_, idx) => idx !== i));
   const [heroLines, setHeroLines] = useState((d.hero?.lines ?? []).join("\n"));
   const [specialties, setSpecialties] = useState(
     (d.hero?.specialties ?? []).join(", "),
@@ -217,6 +229,11 @@ export function DashboardEditor({
         ...(aboutHeading && { heading: aboutHeading }),
         ...(aboutBody.trim() && {
           body: aboutBody.split(/\n\n+/).map((s) => s.trim()).filter(Boolean),
+        }),
+        ...(aboutStats.some((s) => s.value.trim() || s.label.trim()) && {
+          stats: aboutStats
+            .filter((s) => s.value.trim() || s.label.trim())
+            .map((s) => ({ value: s.value.trim(), label: s.label.trim() })),
         }),
       },
       projects: projects.map((p, i) => ({
@@ -648,6 +665,46 @@ export function DashboardEditor({
           <div>
             <label className={label}>본문 (빈 줄로 문단 구분)</label>
             <textarea className={`${field} min-h-32 resize-y`} value={aboutBody} onChange={(e) => setAboutBody(e.target.value)} placeholder={dft.about.body.join("\n\n")} />
+          </div>
+          <div>
+            <div className="mb-2 flex items-center justify-between">
+              <span className={label}>통계 (큰 숫자 + 설명)</span>
+              <button
+                onClick={addStat}
+                data-cursor="hover"
+                className="rounded-full border border-line-strong px-3 py-1 text-xs transition-colors hover:border-violet"
+              >
+                + 추가
+              </button>
+            </div>
+            <div className="flex flex-col gap-2">
+              {aboutStats.map((s, i) => (
+                <div key={i} className="flex items-center gap-2">
+                  <input
+                    aria-label="통계 값"
+                    className={`${field} w-24 shrink-0`}
+                    value={s.value}
+                    onChange={(e) => setStat(i, { value: e.target.value })}
+                    placeholder="예: 40+"
+                  />
+                  <input
+                    aria-label="통계 설명"
+                    className={field}
+                    value={s.label}
+                    onChange={(e) => setStat(i, { label: e.target.value })}
+                    placeholder="예: 출시한 프로젝트"
+                  />
+                  <button
+                    onClick={() => removeStat(i)}
+                    data-cursor="hover"
+                    aria-label="통계 삭제"
+                    className="shrink-0 text-xs text-muted transition-colors hover:text-magenta"
+                  >
+                    삭제
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
