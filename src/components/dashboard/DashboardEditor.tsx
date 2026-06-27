@@ -277,6 +277,14 @@ export function DashboardEditor({
     "w-full rounded-xl border border-line bg-bg/40 px-4 py-3 text-sm outline-none transition-colors focus:border-violet";
   const label = "mb-1.5 block text-xs font-medium text-muted";
 
+  // Getting-started checklist — reflects current edits; hides once complete.
+  const guideSteps = [
+    { label: "기본 정보 입력 (이름)", done: owner.trim().length > 0 },
+    { label: "프로젝트 1개 이상 추가", done: projects.length > 0 },
+    { label: "저장 후 공개 켜기", done: published },
+  ];
+  const guideDone = guideSteps.filter((s) => s.done).length;
+
   return (
     <div className="mx-auto max-w-3xl px-6 py-10">
       {/* Header */}
@@ -356,6 +364,42 @@ export function DashboardEditor({
             ✕
           </button>
         </div>
+      )}
+
+      {/* Getting-started checklist */}
+      {guideDone < guideSteps.length && (
+        <section className="glass mb-6 rounded-2xl p-6">
+          <div className="mb-3 flex items-center justify-between">
+            <h2 className="font-display text-lg font-semibold">시작 가이드</h2>
+            <span className="text-xs text-muted">
+              {guideDone}/{guideSteps.length} 완료
+            </span>
+          </div>
+          <div className="mb-4 h-1.5 overflow-hidden rounded-full bg-line">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-violet to-cyan transition-all duration-500"
+              style={{ width: `${(guideDone / guideSteps.length) * 100}%` }}
+            />
+          </div>
+          <ul className="flex flex-col gap-2.5">
+            {guideSteps.map((s) => (
+              <li key={s.label} className="flex items-center gap-3 text-sm">
+                <span
+                  className={`grid h-5 w-5 shrink-0 place-items-center rounded-full border text-[11px] ${
+                    s.done
+                      ? "border-lime/50 bg-lime/15 text-lime"
+                      : "border-line-strong text-faint"
+                  }`}
+                >
+                  {s.done ? "✓" : ""}
+                </span>
+                <span className={s.done ? "text-muted line-through" : "text-fg"}>
+                  {s.label}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
       )}
 
       {/* Account & billing */}
