@@ -419,7 +419,10 @@ export function DashboardEditor({
         </div>
       </header>
 
-      <nav className="mb-6 flex flex-wrap gap-2 text-xs">
+      <nav
+        aria-label="편집기 섹션 바로가기"
+        className="mb-6 flex flex-wrap gap-2 text-xs"
+      >
         {[
           ["#s-inbox", "메시지"],
           ["#s-basic", "기본 정보"],
