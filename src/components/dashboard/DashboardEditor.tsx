@@ -144,15 +144,28 @@ export function DashboardEditor({
       return next;
     });
 
-  const [socials, setSocials] = useState<{ label: string; href: string }[]>(
-    (d.socials ?? dft.socials).map((s) => ({ label: s.label, href: s.href })),
+  type EditSocial = { label: string; href: string; handle: string };
+  const [socials, setSocials] = useState<EditSocial[]>(
+    (d.socials ?? dft.socials).map((s) => ({
+      label: s.label,
+      href: s.href,
+      handle: s.handle ?? "",
+    })),
   );
-  const setSocial = (i: number, patch: Partial<{ label: string; href: string }>) =>
+  const setSocial = (i: number, patch: Partial<EditSocial>) =>
     setSocials((ss) => ss.map((s, idx) => (idx === i ? { ...s, ...patch } : s)));
   const addSocial = () =>
-    setSocials((ss) => [...ss, { label: "", href: "" }]);
+    setSocials((ss) => [...ss, { label: "", href: "", handle: "" }]);
   const removeSocial = (i: number) =>
     setSocials((ss) => ss.filter((_, idx) => idx !== i));
+  const moveSocial = (i: number, dir: -1 | 1) =>
+    setSocials((ss) => {
+      const j = i + dir;
+      if (j < 0 || j >= ss.length) return ss;
+      const next = [...ss];
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
 
   const [slug, setSlug] = useState(portfolio?.slug ?? "");
   const [linkCopied, setLinkCopied] = useState(false);
@@ -261,7 +274,13 @@ export function DashboardEditor({
         overview: p.description,
         highlights: [],
       })),
-      socials: socials.filter((s) => s.label && s.href),
+      socials: socials
+        .filter((s) => s.label && s.href)
+        .map((s) => ({
+          label: s.label,
+          href: s.href,
+          ...(s.handle.trim() && { handle: s.handle.trim() }),
+        })),
       hideBadge,
       accent,
     };
@@ -949,9 +968,29 @@ export function DashboardEditor({
         </div>
         <div className="flex flex-col gap-3">
           {socials.map((s, i) => (
-            <div key={i} className="flex items-center gap-3">
+            <div key={i} className="flex items-center gap-2">
+              <div className="flex shrink-0 flex-col">
+                <button
+                  onClick={() => moveSocial(i, -1)}
+                  disabled={i === 0}
+                  data-cursor="hover"
+                  aria-label="위로 이동"
+                  className="grid h-5 w-6 place-items-center rounded text-muted transition-colors hover:bg-surface hover:text-fg disabled:opacity-30"
+                >
+                  ↑
+                </button>
+                <button
+                  onClick={() => moveSocial(i, 1)}
+                  disabled={i === socials.length - 1}
+                  data-cursor="hover"
+                  aria-label="아래로 이동"
+                  className="grid h-5 w-6 place-items-center rounded text-muted transition-colors hover:bg-surface hover:text-fg disabled:opacity-30"
+                >
+                  ↓
+                </button>
+              </div>
               <input
-                className={`${field} w-32 shrink-0`}
+                className={`${field} w-28 shrink-0`}
                 value={s.label}
                 onChange={(e) => setSocial(i, { label: e.target.value })}
                 aria-label="소셜 이름"
@@ -963,6 +1002,13 @@ export function DashboardEditor({
                 onChange={(e) => setSocial(i, { href: e.target.value })}
                 aria-label="소셜 링크 URL"
                 placeholder="https://github.com/내아이디"
+              />
+              <input
+                className={`${field} w-32 shrink-0`}
+                value={s.handle}
+                onChange={(e) => setSocial(i, { handle: e.target.value })}
+                aria-label="소셜 핸들"
+                placeholder="@내아이디 (선택)"
               />
               <button
                 onClick={() => removeSocial(i)}
@@ -1001,7 +1047,7 @@ export function DashboardEditor({
       </div>
 
       <p className="mt-6 text-center text-xs text-faint">
-        프로젝트·소셜·테마 편집은 곧 추가됩니다. 더 많은 커스터마이즈는 Pro에서.
+        변경 후 &lsquo;저장&rsquo;을 누르면 공개 포트폴리오에 바로 반영돼요.
       </p>
     </div>
   );
