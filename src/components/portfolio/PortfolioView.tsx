@@ -48,11 +48,11 @@ export function PortfolioView({
 
   useEffect(() => {
     if (!slug) return;
-    // Fire-and-forget view tracking.
+    // Fire-and-forget view tracking (+ where the visit came from).
     fetch("/api/track", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ slug }),
+      body: JSON.stringify({ slug, referrer: document.referrer }),
       keepalive: true,
     }).catch(() => {});
   }, [slug]);

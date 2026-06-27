@@ -74,6 +74,14 @@ export default async function DashboardPage() {
     .gte("day", since)
     .order("day", { ascending: true });
 
+  // Top traffic sources — graceful empty if referrers.sql isn't run.
+  const { data: referrers } = await supabase
+    .from("portfolio_referrers")
+    .select("source, count")
+    .eq("owner_id", user.id)
+    .order("count", { ascending: false })
+    .limit(8);
+
   return (
     <DashboardEditor
       email={user.email ?? ""}
@@ -82,6 +90,7 @@ export default async function DashboardPage() {
       views={(portfolio as { views?: number } | null)?.views ?? 0}
       messages={messages ?? []}
       dailyViews={daily ?? []}
+      referrers={referrers ?? []}
     />
   );
 }

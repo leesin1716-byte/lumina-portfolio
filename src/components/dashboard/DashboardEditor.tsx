@@ -67,6 +67,7 @@ export function DashboardEditor({
   views,
   messages = [],
   dailyViews = [],
+  referrers = [],
 }: {
   email: string;
   plan: string;
@@ -74,6 +75,7 @@ export function DashboardEditor({
   views: number;
   messages?: InboxMessage[];
   dailyViews?: { day: string; count: number }[];
+  referrers?: { source: string; count: number }[];
 }) {
   const router = useRouter();
   const d = portfolio?.data ?? {};
@@ -626,6 +628,40 @@ export function DashboardEditor({
         <div className="mt-6 border-t border-line pt-5">
           <p className="mb-3 text-xs font-medium text-muted">방문 추이</p>
           <DailyViewsChart data={dailyViews} />
+        </div>
+
+        <div className="mt-6 border-t border-line pt-5">
+          <p className="mb-3 text-xs font-medium text-muted">유입 경로</p>
+          {referrers.length === 0 ? (
+            <p className="text-xs text-faint">
+              아직 유입 경로 데이터가 없어요. 포트폴리오가 공유되고 방문이
+              쌓이면 어디에서 왔는지 여기에 표시돼요.
+            </p>
+          ) : (
+            <ul className="flex flex-col gap-2">
+              {(() => {
+                const max = Math.max(...referrers.map((r) => r.count), 1);
+                const labelFor = (s: string) =>
+                  s === "direct" ? "직접 방문 / 북마크" : s;
+                return referrers.map((r) => (
+                  <li key={r.source} className="flex items-center gap-3">
+                    <span className="w-36 shrink-0 truncate text-xs text-muted">
+                      {labelFor(r.source)}
+                    </span>
+                    <span className="relative h-2 flex-1 overflow-hidden rounded-full bg-bg/50">
+                      <span
+                        className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-violet to-cyan"
+                        style={{ width: `${(r.count / max) * 100}%` }}
+                      />
+                    </span>
+                    <span className="w-10 shrink-0 text-right text-xs tabular-nums text-faint">
+                      {r.count.toLocaleString()}
+                    </span>
+                  </li>
+                ));
+              })()}
+            </ul>
+          )}
         </div>
       </section>
 
