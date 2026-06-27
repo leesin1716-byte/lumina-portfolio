@@ -15,6 +15,7 @@ import { Works } from "@/components/sections/Works";
 import { Craft } from "@/components/sections/Craft";
 import { Contact } from "@/components/sections/Contact";
 import { Footer } from "@/components/sections/Footer";
+import { PortfolioMessageForm } from "@/components/portfolio/PortfolioMessageForm";
 
 /** Renders a user's portfolio with the immersive design, fed by their data. */
 export function PortfolioView({
@@ -74,6 +75,7 @@ export function PortfolioView({
           <Works />
           <Craft />
           <Contact />
+          {slug && <PortfolioMessageForm slug={slug} />}
         </main>
         <Footer />
         <BackToTop />
