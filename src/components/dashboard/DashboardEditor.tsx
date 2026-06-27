@@ -123,6 +123,14 @@ export function DashboardEditor({
     ]);
   const removeProject = (i: number) =>
     setProjects((ps) => ps.filter((_, idx) => idx !== i));
+  const moveProject = (i: number, dir: -1 | 1) =>
+    setProjects((ps) => {
+      const j = i + dir;
+      if (j < 0 || j >= ps.length) return ps;
+      const next = [...ps];
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
 
   const [socials, setSocials] = useState<{ label: string; href: string }[]>(
     (d.socials ?? dft.socials).map((s) => ({ label: s.label, href: s.href })),
@@ -711,13 +719,33 @@ export function DashboardEditor({
                 <span className="font-mono text-xs text-faint">
                   0{i + 1}
                 </span>
-                <button
-                  onClick={() => removeProject(i)}
-                  data-cursor="hover"
-                  className="text-xs text-muted transition-colors hover:text-magenta"
-                >
-                  삭제
-                </button>
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => moveProject(i, -1)}
+                    disabled={i === 0}
+                    data-cursor="hover"
+                    aria-label="위로 이동"
+                    className="grid h-7 w-7 place-items-center rounded-md text-muted transition-colors hover:bg-surface hover:text-fg disabled:opacity-30"
+                  >
+                    ↑
+                  </button>
+                  <button
+                    onClick={() => moveProject(i, 1)}
+                    disabled={i === projects.length - 1}
+                    data-cursor="hover"
+                    aria-label="아래로 이동"
+                    className="grid h-7 w-7 place-items-center rounded-md text-muted transition-colors hover:bg-surface hover:text-fg disabled:opacity-30"
+                  >
+                    ↓
+                  </button>
+                  <button
+                    onClick={() => removeProject(i)}
+                    data-cursor="hover"
+                    className="ml-2 text-xs text-muted transition-colors hover:text-magenta"
+                  >
+                    삭제
+                  </button>
+                </div>
               </div>
               <div className="grid gap-3 sm:grid-cols-2">
                 <input aria-label="프로젝트 제목" className={field} value={p.title} onChange={(e) => setProject(i, { title: e.target.value })} placeholder="제목" />
