@@ -85,13 +85,22 @@ export function ProjectModal({ project, onClose }: Props) {
             exit={{ opacity: 0, y: 20, scale: 0.98 }}
             transition={{ duration: 0.5, ease: EASE }}
           >
-            {/* Banner */}
+            {/* Banner — user cover image when set, else procedural gradient */}
             <div
               className="relative h-44 shrink-0 overflow-hidden sm:h-56"
               style={{
                 background: `linear-gradient(120deg, ${project.gradient[0]}, ${project.gradient[1]})`,
               }}
             >
+              {project.image && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={project.image}
+                  alt=""
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              )}
               <div className="absolute inset-0 opacity-30 mix-blend-overlay [background:radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.85),transparent_55%)]" />
               <div className="absolute inset-0 bg-gradient-to-t from-bg-soft via-transparent to-transparent" />
               <div className="absolute bottom-5 left-6 right-6 flex items-end justify-between gap-4">

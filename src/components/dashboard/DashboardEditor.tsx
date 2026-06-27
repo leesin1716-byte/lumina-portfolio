@@ -20,6 +20,7 @@ type EditProject = {
   tags: string;
   g0: string;
   g1: string;
+  image: string;
 };
 import { ThemeToggle } from "@/components/ui/ThemeToggle";
 
@@ -73,6 +74,7 @@ export function DashboardEditor({
       tags: p.tags.join(", "),
       g0: p.gradient[0],
       g1: p.gradient[1],
+      image: p.image ?? "",
     })),
   );
 
@@ -89,6 +91,7 @@ export function DashboardEditor({
         tags: "",
         g0: "#6d5cff",
         g1: "#4de2e2",
+        image: "",
       },
     ]);
   const removeProject = (i: number) =>
@@ -180,6 +183,7 @@ export function DashboardEditor({
         description: p.description,
         tags: p.tags.split(",").map((t) => t.trim()).filter(Boolean),
         gradient: [p.g0, p.g1] as [string, string],
+        ...(p.image.trim() && { image: p.image.trim() }),
         role: p.category,
         overview: p.description,
         highlights: [],
@@ -583,6 +587,23 @@ export function DashboardEditor({
                 <input aria-label="프로젝트 연도" className={field} value={p.year} onChange={(e) => setProject(i, { year: e.target.value })} placeholder="연도" />
                 <input aria-label="프로젝트 태그" className={field} value={p.tags} onChange={(e) => setProject(i, { tags: e.target.value })} placeholder="태그 (쉼표로 구분)" />
                 <textarea aria-label="프로젝트 설명" className={`${field} min-h-20 resize-y sm:col-span-2`} value={p.description} onChange={(e) => setProject(i, { description: e.target.value })} placeholder="설명" />
+                <div className="flex items-center gap-3 sm:col-span-2">
+                  <input
+                    aria-label="프로젝트 커버 이미지 URL"
+                    className={field}
+                    value={p.image}
+                    onChange={(e) => setProject(i, { image: e.target.value })}
+                    placeholder="커버 이미지 URL (선택 — 비우면 색상 사용)"
+                  />
+                  {p.image.trim() && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.image}
+                      alt=""
+                      className="h-8 w-12 shrink-0 rounded-lg border border-line object-cover"
+                    />
+                  )}
+                </div>
                 <div className="flex items-center gap-3 sm:col-span-2">
                   <span className="text-xs text-muted">커버 색상</span>
                   <input type="color" value={p.g0} onChange={(e) => setProject(i, { g0: e.target.value })} className="h-8 w-12 cursor-pointer rounded border border-line bg-transparent" />

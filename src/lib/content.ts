@@ -91,6 +91,8 @@ export type Project = {
   tags: string[];
   /** 절차적 커버 아트에 쓰이는 2색 그라디언트. */
   gradient: [string, string];
+  /** 선택: 커버 이미지 URL. 있으면 그라디언트 대신 사용. */
+  image?: string;
   href?: string;
   /** 케이스 스터디 상세 (프로젝트 모달에 표시). */
   role: string;
