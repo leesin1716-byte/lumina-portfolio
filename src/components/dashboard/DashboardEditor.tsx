@@ -55,6 +55,14 @@ export function DashboardEditor({
   const [aboutBody, setAboutBody] = useState(
     (d.about?.body ?? []).join("\n\n"),
   );
+  const [heroLines, setHeroLines] = useState((d.hero?.lines ?? []).join("\n"));
+  const [specialties, setSpecialties] = useState(
+    (d.hero?.specialties ?? []).join(", "),
+  );
+  const [heroIntro, setHeroIntro] = useState(d.hero?.intro ?? "");
+  const [contactHeading, setContactHeading] = useState(d.contact?.heading ?? "");
+  const [contactBody, setContactBody] = useState(d.contact?.body ?? "");
+  const [contactCta, setContactCta] = useState(d.contact?.cta ?? "");
   const [published, setPublished] = useState(portfolio?.published ?? false);
   const [projects, setProjects] = useState<EditProject[]>(
     (d.projects ?? dft.projects).map((p) => ({
@@ -138,6 +146,8 @@ export function DashboardEditor({
     if (!portfolio) return;
     setSaving(true);
     setStatus(null);
+    const heroLinesArr = heroLines.split(/\n/).map((s) => s.trim()).filter(Boolean);
+    const specialtiesArr = specialties.split(",").map((s) => s.trim()).filter(Boolean);
     const data: PortfolioData = {
       site: {
         ...(owner && { owner }),
@@ -145,6 +155,16 @@ export function DashboardEditor({
         ...(tagline && { tagline }),
         ...(pEmail && { email: pEmail }),
         ...(location && { location }),
+      },
+      hero: {
+        ...(heroLinesArr.length && { lines: heroLinesArr }),
+        ...(specialtiesArr.length && { specialties: specialtiesArr }),
+        ...(heroIntro.trim() && { intro: heroIntro.trim() }),
+      },
+      contact: {
+        ...(contactHeading.trim() && { heading: contactHeading.trim() }),
+        ...(contactBody.trim() && { body: contactBody.trim() }),
+        ...(contactCta.trim() && { cta: contactCta.trim() }),
       },
       about: {
         ...(aboutHeading && { heading: aboutHeading }),
@@ -447,6 +467,40 @@ export function DashboardEditor({
         </div>
       </section>
 
+      {/* Hero */}
+      <section className="glass mt-6 rounded-2xl p-6">
+        <h2 className="mb-5 font-display text-lg font-semibold">히어로 섹션</h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className={label}>대형 문구 (한 줄에 하나씩, 최대 3줄 권장)</label>
+            <textarea
+              className={`${field} min-h-24 resize-y`}
+              value={heroLines}
+              onChange={(e) => setHeroLines(e.target.value)}
+              placeholder={dft.hero.lines.join("\n")}
+            />
+          </div>
+          <div>
+            <label className={label}>전문 분야 (쉼표로 구분, 순환 표시)</label>
+            <input
+              className={field}
+              value={specialties}
+              onChange={(e) => setSpecialties(e.target.value)}
+              placeholder={dft.hero.specialties.join(", ")}
+            />
+          </div>
+          <div>
+            <label className={label}>소개 문장</label>
+            <textarea
+              className={`${field} min-h-20 resize-y`}
+              value={heroIntro}
+              onChange={(e) => setHeroIntro(e.target.value)}
+              placeholder={dft.hero.intro}
+            />
+          </div>
+        </div>
+      </section>
+
       {/* About */}
       <section className="glass mt-6 rounded-2xl p-6">
         <h2 className="mb-5 font-display text-lg font-semibold">소개 섹션</h2>
@@ -458,6 +512,40 @@ export function DashboardEditor({
           <div>
             <label className={label}>본문 (빈 줄로 문단 구분)</label>
             <textarea className={`${field} min-h-32 resize-y`} value={aboutBody} onChange={(e) => setAboutBody(e.target.value)} placeholder={dft.about.body.join("\n\n")} />
+          </div>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section className="glass mt-6 rounded-2xl p-6">
+        <h2 className="mb-5 font-display text-lg font-semibold">연락 섹션</h2>
+        <div className="flex flex-col gap-4">
+          <div>
+            <label className={label}>제목</label>
+            <input
+              className={field}
+              value={contactHeading}
+              onChange={(e) => setContactHeading(e.target.value)}
+              placeholder={dft.contact.heading}
+            />
+          </div>
+          <div>
+            <label className={label}>본문</label>
+            <textarea
+              className={`${field} min-h-20 resize-y`}
+              value={contactBody}
+              onChange={(e) => setContactBody(e.target.value)}
+              placeholder={dft.contact.body}
+            />
+          </div>
+          <div>
+            <label className={label}>버튼 문구</label>
+            <input
+              className={field}
+              value={contactCta}
+              onChange={(e) => setContactCta(e.target.value)}
+              placeholder={dft.contact.cta}
+            />
           </div>
         </div>
       </section>
