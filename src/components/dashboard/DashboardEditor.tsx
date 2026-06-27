@@ -89,6 +89,9 @@ export function DashboardEditor({
     (d.hero?.specialties ?? []).join(", "),
   );
   const [heroIntro, setHeroIntro] = useState(d.hero?.intro ?? "");
+  const [heroScrollCue, setHeroScrollCue] = useState(d.hero?.scrollCue ?? "");
+  const [aboutOverline, setAboutOverline] = useState(d.about?.overline ?? "");
+  const [craftOverline, setCraftOverline] = useState(d.craft?.overline ?? "");
   const [contactHeading, setContactHeading] = useState(d.contact?.heading ?? "");
   const [contactBody, setContactBody] = useState(d.contact?.body ?? "");
   const [contactCta, setContactCta] = useState(d.contact?.cta ?? "");
@@ -252,6 +255,7 @@ export function DashboardEditor({
         ...(heroLinesArr.length && { lines: heroLinesArr }),
         ...(specialtiesArr.length && { specialties: specialtiesArr }),
         ...(heroIntro.trim() && { intro: heroIntro.trim() }),
+        ...(heroScrollCue.trim() && { scrollCue: heroScrollCue.trim() }),
       },
       contact: {
         ...(contactHeading.trim() && { heading: contactHeading.trim() }),
@@ -259,6 +263,7 @@ export function DashboardEditor({
         ...(contactCta.trim() && { cta: contactCta.trim() }),
       },
       craft: {
+        ...(craftOverline.trim() && { overline: craftOverline.trim() }),
         ...(craftHeading.trim() && { heading: craftHeading.trim() }),
         groups: craftGroups
           .map((g) => ({
@@ -268,6 +273,7 @@ export function DashboardEditor({
           .filter((g) => g.title || g.items.length),
       },
       about: {
+        ...(aboutOverline.trim() && { overline: aboutOverline.trim() }),
         ...(aboutHeading && { heading: aboutHeading }),
         ...(aboutBody.trim() && {
           body: aboutBody.split(/\n\n+/).map((s) => s.trim()).filter(Boolean),
@@ -757,6 +763,15 @@ export function DashboardEditor({
               placeholder={dft.hero.intro}
             />
           </div>
+          <div>
+            <label className={label}>스크롤 안내 문구</label>
+            <input
+              className={field}
+              value={heroScrollCue}
+              onChange={(e) => setHeroScrollCue(e.target.value)}
+              placeholder={dft.hero.scrollCue}
+            />
+          </div>
         </div>
       </section>
 
@@ -764,6 +779,10 @@ export function DashboardEditor({
       <section className="glass mt-6 rounded-2xl p-6">
         <h2 className="mb-5 font-display text-lg font-semibold">소개 섹션</h2>
         <div className="flex flex-col gap-4">
+          <div>
+            <label className={label}>오버라인 (소제목)</label>
+            <input className={field} value={aboutOverline} onChange={(e) => setAboutOverline(e.target.value)} placeholder={dft.about.overline} />
+          </div>
           <div>
             <label className={label}>제목</label>
             <input className={field} value={aboutHeading} onChange={(e) => setAboutHeading(e.target.value)} placeholder={dft.about.heading} />
@@ -860,6 +879,15 @@ export function DashboardEditor({
           >
             + 그룹 추가
           </button>
+        </div>
+        <div className="mb-4">
+          <label className={label}>오버라인 (소제목)</label>
+          <input
+            className={field}
+            value={craftOverline}
+            onChange={(e) => setCraftOverline(e.target.value)}
+            placeholder={dft.craft.overline}
+          />
         </div>
         <div className="mb-4">
           <label className={label}>제목</label>
