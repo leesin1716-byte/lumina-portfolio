@@ -6,7 +6,7 @@ import { useIsTouch } from "@/lib/hooks";
 import { useContent } from "@/components/providers/ContentProvider";
 import { AnimatedText } from "@/components/ui/AnimatedText";
 import { Parallax } from "@/components/ui/Parallax";
-import { WorksGLPreview } from "@/components/canvas/WorksGLPreview";
+import { WorksPreview } from "@/components/canvas/WorksPreview";
 import { ProjectModal } from "@/components/sections/ProjectModal";
 
 export function Works() {
@@ -121,7 +121,7 @@ export function Works() {
 
       {/* Floating shader preview (desktop, only while in view) */}
       {!isTouch && inView && (
-        <WorksGLPreview active={active} projects={projects} px={px} py={py} />
+        <WorksPreview active={active} projects={projects} px={px} py={py} />
       )}
 
       <ProjectModal
