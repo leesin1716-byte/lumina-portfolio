@@ -11,6 +11,8 @@ export async function POST(request: Request) {
     }
     const supabase = createAdminClient();
     await supabase.rpc("increment_portfolio_views", { p_slug: slug });
+    // Best-effort per-day count (no-op until daily-views.sql is migrated).
+    await supabase.rpc("increment_daily_view", { p_slug: slug });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ ok: false }, { status: 500 });

@@ -11,6 +11,7 @@ import {
   type PortfolioThemeKey,
 } from "@/lib/content";
 import { SaveStatus, type SaveState } from "@/components/dashboard/SaveStatus";
+import { DailyViewsChart } from "@/components/dashboard/DailyViewsChart";
 
 type EditProject = {
   title: string;
@@ -50,12 +51,14 @@ export function DashboardEditor({
   portfolio,
   views,
   messages = [],
+  dailyViews = [],
 }: {
   email: string;
   plan: string;
   portfolio: PortfolioRow | null;
   views: number;
   messages?: InboxMessage[];
+  dailyViews?: { day: string; count: number }[];
 }) {
   const router = useRouter();
   const d = portfolio?.data ?? {};
@@ -546,6 +549,11 @@ export function DashboardEditor({
             className="h-4 w-4 shrink-0 accent-violet disabled:cursor-not-allowed"
           />
         </label>
+
+        <div className="mt-6 border-t border-line pt-5">
+          <p className="mb-3 text-xs font-medium text-muted">방문 추이</p>
+          <DailyViewsChart data={dailyViews} />
+        </div>
       </section>
 
       {/* Inbox */}

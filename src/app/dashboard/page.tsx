@@ -65,6 +65,15 @@ export default async function DashboardPage() {
     .order("created_at", { ascending: false })
     .limit(50);
 
+  // Last 14 days of daily views — graceful empty if daily-views.sql isn't run.
+  const since = new Date(Date.now() - 13 * 86400000).toISOString().slice(0, 10);
+  const { data: daily } = await supabase
+    .from("portfolio_daily_views")
+    .select("day, count")
+    .eq("owner_id", user.id)
+    .gte("day", since)
+    .order("day", { ascending: true });
+
   return (
     <DashboardEditor
       email={user.email ?? ""}
@@ -72,6 +81,7 @@ export default async function DashboardPage() {
       portfolio={portfolio}
       views={(portfolio as { views?: number } | null)?.views ?? 0}
       messages={messages ?? []}
+      dailyViews={daily ?? []}
     />
   );
 }
