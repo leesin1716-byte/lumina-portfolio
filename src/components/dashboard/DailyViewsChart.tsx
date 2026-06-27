@@ -28,7 +28,11 @@ export function DailyViewsChart({
 
   return (
     <div>
-      <div className="flex h-24 items-end gap-1">
+      <div
+        role="img"
+        aria-label={`최근 14일 방문 추이 막대 차트, 합계 ${total}회`}
+        className="flex h-24 items-end gap-1"
+      >
         {days.map((d, i) => (
           <div
             key={i}
