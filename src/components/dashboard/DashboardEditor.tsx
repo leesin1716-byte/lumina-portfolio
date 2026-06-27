@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
-import { defaultContent, type PortfolioData } from "@/lib/content";
+import {
+  defaultContent,
+  portfolioThemes,
+  type PortfolioData,
+  type PortfolioThemeKey,
+} from "@/lib/content";
 import { SaveStatus, type SaveState } from "@/components/dashboard/SaveStatus";
 
 type EditProject = {
@@ -95,6 +100,7 @@ export function DashboardEditor({
   const [linkCopied, setLinkCopied] = useState(false);
   const [cancelling, setCancelling] = useState(false);
   const [hideBadge, setHideBadge] = useState<boolean>(d.hideBadge ?? false);
+  const [accent, setAccent] = useState<PortfolioThemeKey>(d.accent ?? "iris");
 
   const cancelPro = async () => {
     if (!window.confirm("정말 Pro 구독을 해지할까요?")) return;
@@ -160,6 +166,7 @@ export function DashboardEditor({
       })),
       socials: socials.filter((s) => s.label && s.href),
       hideBadge,
+      accent,
     };
     const cleanSlug = slug
       .toLowerCase()
@@ -353,6 +360,46 @@ export function DashboardEditor({
             className="h-4 w-4 shrink-0 accent-violet disabled:cursor-not-allowed"
           />
         </label>
+      </section>
+
+      {/* Accent theme */}
+      <section className="glass mb-6 rounded-2xl p-6">
+        <h2 className="font-display text-lg font-semibold">테마</h2>
+        <p className="mb-4 mt-1 text-xs text-muted">
+          공개 포트폴리오의 색감을 골라보세요. 저장하면 내 사이트에 바로 적용돼요.
+        </p>
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-5">
+          {(Object.keys(portfolioThemes) as PortfolioThemeKey[]).map((key) => {
+            const th = portfolioThemes[key];
+            const selected = accent === key;
+            return (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setAccent(key)}
+                data-cursor="hover"
+                aria-pressed={selected}
+                className={`rounded-xl border p-3 text-left transition-colors ${
+                  selected
+                    ? "border-violet bg-violet/10"
+                    : "border-line hover:border-line-strong"
+                }`}
+              >
+                <span
+                  aria-hidden
+                  className="block h-8 w-full rounded-md"
+                  style={{
+                    background: `linear-gradient(100deg, ${th.iris}, ${th.cyan} 50%, ${th.magenta})`,
+                  }}
+                />
+                <span className="mt-2 flex items-center justify-between text-xs font-medium">
+                  {th.label}
+                  {selected && <span className="text-violet">✓</span>}
+                </span>
+              </button>
+            );
+          })}
+        </div>
       </section>
 
       {/* Public address */}

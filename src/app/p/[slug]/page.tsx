@@ -67,5 +67,12 @@ export default async function PortfolioPage({
 }) {
   const { slug } = await params;
   const { data, branding } = await getPortfolio(slug);
-  return <PortfolioView content={mergeContent(data)} slug={slug} branding={branding} />;
+  return (
+    <PortfolioView
+      content={mergeContent(data)}
+      slug={slug}
+      branding={branding}
+      accent={data?.accent}
+    />
+  );
 }

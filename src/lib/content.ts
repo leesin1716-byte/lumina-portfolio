@@ -227,6 +227,21 @@ export const contact = {
 } as const;
 
 /* ============================================================================
+ * Portfolio accent themes — curated palettes a user can pick for their /p site.
+ * Each remaps the four brand color tokens (applied as CSS variable overrides on
+ * the public portfolio). 'iris' is the default look.
+ * ========================================================================== */
+export const portfolioThemes = {
+  iris: { label: "아이리스", iris: "#6d5cff", violet: "#8b7cff", cyan: "#4de2e2", magenta: "#ff5fa2" },
+  sunset: { label: "선셋", iris: "#ff6b3d", violet: "#ff8a5c", cyan: "#ffd166", magenta: "#ff5f6d" },
+  ocean: { label: "오션", iris: "#3b82f6", violet: "#6366f1", cyan: "#22d3ee", magenta: "#38bdf8" },
+  forest: { label: "포레스트", iris: "#10b981", violet: "#34d399", cyan: "#6ee7b7", magenta: "#84cc16" },
+  mono: { label: "모노", iris: "#9ca3af", violet: "#cbd5e1", cyan: "#e2e8f0", magenta: "#94a3b8" },
+} as const;
+
+export type PortfolioThemeKey = keyof typeof portfolioThemes;
+
+/* ============================================================================
  * Bundled content + per-user merge — powers the SaaS portfolio builder.
  * The default values above are the "demo"; each user stores partial overrides
  * (jsonb) that get merged on top to render their own immersive portfolio.
@@ -280,6 +295,8 @@ export type PortfolioData = Partial<{
   socials: { label: string; href: string; handle?: string }[];
   /** Pro 전용: 공개 포트폴리오의 "LUMINA로 제작" 배지를 숨깁니다. */
   hideBadge: boolean;
+  /** 공개 포트폴리오 액센트 테마 (없으면 기본 'iris'). */
+  accent: PortfolioThemeKey;
 }>;
 
 /** Merge a user's partial overrides over the defaults into a full Content. */

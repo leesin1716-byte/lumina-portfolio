@@ -2,7 +2,8 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import type { Content } from "@/lib/content";
+import type { Content, PortfolioThemeKey } from "@/lib/content";
+import { portfolioThemes } from "@/lib/content";
 import { ContentProvider } from "@/components/providers/ContentProvider";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Navbar } from "@/components/ui/Navbar";
@@ -20,11 +21,23 @@ export function PortfolioView({
   content,
   slug,
   branding = true,
+  accent,
 }: {
   content: Content;
   slug?: string;
   branding?: boolean;
+  accent?: PortfolioThemeKey;
 }) {
+  // Curated accent theme → CSS variable overrides scoped to this portfolio.
+  const t = accent && accent !== "iris" ? portfolioThemes[accent] : null;
+  const accentStyle = t
+    ? ({
+        "--color-iris": t.iris,
+        "--color-violet": t.violet,
+        "--color-cyan": t.cyan,
+        "--color-magenta": t.magenta,
+      } as React.CSSProperties)
+    : undefined;
   useEffect(() => {
     // The hero waits for a "ready" signal (normally from the preloader, which
     // public portfolios don't render). Signal immediately so it appears at once.
@@ -45,6 +58,7 @@ export function PortfolioView({
 
   return (
     <ContentProvider value={content}>
+      <div style={accentStyle}>
       <a
         href="#home"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[300] focus:rounded-full focus:bg-fg focus:px-5 focus:py-2.5 focus:text-sm focus:font-medium focus:text-bg"
@@ -75,6 +89,7 @@ export function PortfolioView({
           LUMINA로 제작
         </Link>
       )}
+      </div>
     </ContentProvider>
   );
 }
