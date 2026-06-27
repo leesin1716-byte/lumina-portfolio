@@ -21,6 +21,7 @@ type EditProject = {
   g0: string;
   g1: string;
   image: string;
+  href: string;
 };
 
 type EditGroup = { title: string; items: string };
@@ -114,6 +115,7 @@ export function DashboardEditor({
       g0: p.gradient[0],
       g1: p.gradient[1],
       image: p.image ?? "",
+      href: p.href ?? "",
     })),
   );
 
@@ -131,6 +133,7 @@ export function DashboardEditor({
         g0: "#6d5cff",
         g1: "#4de2e2",
         image: "",
+        href: "",
       },
     ]);
   const removeProject = (i: number) =>
@@ -281,6 +284,7 @@ export function DashboardEditor({
         tags: p.tags.split(",").map((t) => t.trim()).filter(Boolean),
         gradient: [p.g0, p.g1] as [string, string],
         ...(p.image.trim() && { image: p.image.trim() }),
+        ...(p.href.trim() && { href: p.href.trim() }),
         role: p.category,
         overview: p.description,
         highlights: [],
@@ -964,6 +968,15 @@ export function DashboardEditor({
                       className="h-8 w-12 shrink-0 rounded-lg border border-line object-cover"
                     />
                   )}
+                </div>
+                <div className="sm:col-span-2">
+                  <input
+                    aria-label="프로젝트 외부 링크"
+                    className={field}
+                    value={p.href}
+                    onChange={(e) => setProject(i, { href: e.target.value })}
+                    placeholder="외부 링크 URL (선택 — '프로젝트 보기' 버튼)"
+                  />
                 </div>
                 <div className="flex items-center gap-3 sm:col-span-2">
                   <span className="text-xs text-muted">커버 색상</span>
