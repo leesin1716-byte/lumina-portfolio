@@ -57,12 +57,21 @@ export default async function DashboardPage() {
     .eq("id", user.id)
     .maybeSingle();
 
+  // Inbox — graceful empty if the messages table isn't migrated yet.
+  const { data: messages } = await supabase
+    .from("messages")
+    .select("id, name, email, message, created_at")
+    .eq("owner_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(50);
+
   return (
     <DashboardEditor
       email={user.email ?? ""}
       plan={profile?.plan ?? "free"}
       portfolio={portfolio}
       views={(portfolio as { views?: number } | null)?.views ?? 0}
+      messages={messages ?? []}
     />
   );
 }

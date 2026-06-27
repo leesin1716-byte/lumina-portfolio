@@ -33,6 +33,14 @@ type PortfolioRow = {
   published: boolean;
 };
 
+type InboxMessage = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  message: string;
+  created_at: string;
+};
+
 const dft = defaultContent;
 
 export function DashboardEditor({
@@ -40,11 +48,13 @@ export function DashboardEditor({
   plan,
   portfolio,
   views,
+  messages = [],
 }: {
   email: string;
   plan: string;
   portfolio: PortfolioRow | null;
   views: number;
+  messages?: InboxMessage[];
 }) {
   const router = useRouter();
   const d = portfolio?.data ?? {};
@@ -410,6 +420,50 @@ export function DashboardEditor({
             className="h-4 w-4 shrink-0 accent-violet disabled:cursor-not-allowed"
           />
         </label>
+      </section>
+
+      {/* Inbox */}
+      <section className="glass mb-6 rounded-2xl p-6">
+        <div className="mb-1 flex items-center gap-2">
+          <h2 className="font-display text-lg font-semibold">받은 메시지</h2>
+          {messages.length > 0 && (
+            <span className="rounded-full bg-violet/15 px-2 py-0.5 text-xs font-semibold text-violet">
+              {messages.length}
+            </span>
+          )}
+        </div>
+        {messages.length === 0 ? (
+          <p className="mt-2 text-sm text-muted">
+            아직 받은 메시지가 없어요. 공개 포트폴리오의 문의 폼으로 메시지가
+            도착하면 여기에 표시됩니다.
+          </p>
+        ) : (
+          <ul className="mt-3 flex flex-col divide-y divide-line">
+            {messages.map((m) => (
+              <li key={m.id} className="py-4">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <span className="text-sm font-medium">
+                    {m.name?.trim() || "익명"}
+                    {m.email && (
+                      <a
+                        href={`mailto:${m.email}`}
+                        className="ml-2 text-xs font-normal text-violet hover:underline"
+                      >
+                        {m.email}
+                      </a>
+                    )}
+                  </span>
+                  <span className="font-mono text-xs text-faint">
+                    {new Date(m.created_at).toLocaleString("ko-KR")}
+                  </span>
+                </div>
+                <p className="mt-1.5 whitespace-pre-wrap text-pretty text-sm text-muted">
+                  {m.message}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
       </section>
 
       {/* Accent theme */}
