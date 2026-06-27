@@ -192,6 +192,18 @@ export function DashboardEditor({
     }
   };
 
+  const shareTo = (net: "x" | "linkedin") => {
+    const s = slug || portfolio?.slug;
+    if (!s || typeof window === "undefined") return;
+    const url = `${window.location.origin}/p/${s}`;
+    const text = `${owner.trim() || "제"} 포트폴리오를 확인해보세요`;
+    const href =
+      net === "x"
+        ? `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`
+        : `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`;
+    window.open(href, "_blank", "noopener,noreferrer");
+  };
+
   const onSave = async () => {
     if (!portfolio) return;
     setSaving(true);
@@ -590,6 +602,37 @@ export function DashboardEditor({
             placeholder="내이름"
             aria-label="공개 주소 (slug)"
           />
+        </div>
+      </section>
+
+      {/* Share */}
+      <section className="glass mb-6 rounded-2xl p-6">
+        <h2 className="font-display text-lg font-semibold">공유</h2>
+        <p className="mb-4 mt-1 text-xs text-muted">
+          공개 포트폴리오를 링크나 SNS로 널리 알려보세요.
+        </p>
+        <div className="flex flex-wrap gap-2">
+          <button
+            onClick={copyLink}
+            data-cursor="hover"
+            className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
+          >
+            {linkCopied ? "복사됨 ✓" : "링크 복사"}
+          </button>
+          <button
+            onClick={() => shareTo("x")}
+            data-cursor="hover"
+            className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
+          >
+            X에 공유
+          </button>
+          <button
+            onClick={() => shareTo("linkedin")}
+            data-cursor="hover"
+            className="rounded-full border border-line-strong px-4 py-2 text-sm transition-colors hover:border-violet"
+          >
+            LinkedIn에 공유
+          </button>
         </div>
       </section>
 
